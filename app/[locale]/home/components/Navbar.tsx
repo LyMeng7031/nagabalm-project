@@ -315,7 +315,7 @@ useEffect(() => {
       </div>
     </div>
 
-    <div className="absolute bottom-0 right-0 w-40 opacity-20">
+    {/* <div className="absolute bottom-0 right-0 w-40 opacity-20">
       <Image
         src="/images/Logo/Naga Balm__Brandmark_Fire.png"
         alt="Decoration"
@@ -323,7 +323,7 @@ useEffect(() => {
         width={200}
         height={200}
       />
-    </div>
+    </div> */}
   </div>
 </div>
     </>

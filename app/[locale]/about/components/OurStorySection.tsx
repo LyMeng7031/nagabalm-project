@@ -1,33 +1,50 @@
 "use client";
 
 import React from "react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { useTranslations } from 'next-intl';
 
 const OurStorySection = () => {
-  const t = useTranslations('about.ourStory');
-  
+  const t = useTranslations("about.ourStory");
+
   return (
     <section
       id="our-story"
-      className="w-full bg-[#D6F2F2] flex flex-col md:flex-row items-center justify-between py-16 sm:py-24 md:py-32 lg:py-40 xl:py-48 px-4 sm:px-6 md:px-12 lg:px-16 xl:px-20 gap-8 sm:gap-10 md:gap-12 relative overflow-hidden min-h-screen"
-      style={{
-        backgroundImage: "url('/images/about-grid/Mainposter.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        backgroundAttachment: "scroll"
-      }}
+      className="relative min-h-screen w-full bg-[#D6F2F2] flex flex-col md:flex-row items-center justify-between py-12 sm:py-16 md:py-20 lg:py-24 px-4 sm:px-6 md:px-8 gap-8 sm:gap-10 md:gap-12 overflow-hidden"
     >
-      <div className="flex-1 flex flex-col justify-center items-start max-w-xl z-10 text-center md:text-left px-2 sm:px-0 md:ml-12" style={{minHeight: '60vh'}}>
-        <h2 className="text-[#F9461C] text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 sm:mb-5 md:mb-6">{t('title')}</h2>
-        <p className="text-gray-700 text-base sm:text-lg md:text-xl mb-4 max-w-lg leading-relaxed whitespace-pre-line">
-          {t('description')}
+      {/* Desktop Background Image */}
+      <div className="absolute inset-0 z-0 hidden sm:block">
+        <Image
+          src="/images/about-grid/Mainposter.png"
+          alt="Our Story Background"
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
+
+      {/* Mobile Background Image */}
+      <div className="absolute inset-0 z-0 sm:hidden">
+        <Image
+          src="/images/about-grid/Mainposter.png"
+          alt="Our Story Mobile Background"
+          fill
+          className="w-full max-w-[500px] transform scale-125 object-contain"
+          priority
+        />
+      </div>
+
+      {/* Content */}
+      <div className="flex-1 flex flex-col justify-center items-center md:items-start text-center md:text-left z-10 px-4 sm:px-6 md:px-0 max-w-xl min-h-[60vh] sm:min-h-[50vh]">
+        <h2 className="text-[#F9461C] text-2xl sm:text-3xl md:text-4xl lg:text-[64px] font-extrabold leading-tight mb-4 sm:mb-6">
+          {t("title")}
+        </h2>
+        <p className="text-gray-700 text-sm sm:text-base md:text-lg lg:text-[20px] leading-relaxed whitespace-pre-line max-w-prose">
+          {t("description")}
         </p>
       </div>
-      {/* Decorative floating leaves could be added here if desired */}
     </section>
   );
 };
 
-export default OurStorySection; 
+export default OurStorySection;

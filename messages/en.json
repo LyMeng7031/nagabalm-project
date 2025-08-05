@@ -97,7 +97,7 @@
     },
     "ourStory": {
       "title": "OUR STORY",
-      "description": "Naga Balm began in 2013, born by the observation that while the traditional Preng Kola ointment is widely used, there was no petroleum-free, natural alternative available.\n\nPeople deserved a choice—one that combined the wisdom of tradition with modern, cleaner ingredients."
+      "description": "Naga Balm began in 2013, born by the observation that while the traditional Preng Kola ointment is widely used, there was no petroleum-free, natural alternative available.\n\nPeople deserved a choice—one that combined the wisdom of tradition with modern, cleaner ingredients.\nThe first batch of cold-pressed virgin coconut oil was extracted."
     },
     "valuesVisionMission": {
       "ourValues": {
@@ -349,10 +349,11 @@
   },
   "faq": {
     "hero": {
-      "title": "ANY QUESTIONS?",
-      "subtitle": "We got you.",
-      "description": "Find answers to commonly asked questions about Naga Balm. Can't find what you're looking for? Feel free to contact us."
-    },
+  "title": "ANY QUESTIONS?",
+  "subtitle": "We got you.",
+  "description": "Find answers to commonly asked questions about Naga Balm. Still can't find what you're looking for? Feel free to ",
+  "contactUs": "contact us"
+  },
     "questions": [
       {
         "question": "What is Naga Balm?",
@@ -418,14 +419,14 @@
       "title": "DISCOVER THE PERFECT\nSOLUTION FOR YOUR NEEDS.",
       "activeLifestyles": {
         "title": "FOR ACTIVE LIFESTYLES",
-        "subtitle": "Push harder. Recover faster.\nStay in motion.",
-        "description": "Whether you're an athlete or just\nalways on the move find relief that keeps up.",
+        "subtitle": "Push harder. Recover faster.Stay in motion.",
+        "description": "Whether you're an athlete or just \nalways on the move find relief that\nkeeps up.",
         "viewProducts": "VIEW PRODUCTS"
       },
       "everydayRelief": {
         "title": "FOR EVERYDAY RELIEF",
-        "subtitle": "Soothe tension. Ease the day.\nFeel good again.",
-        "description": "From desk strain to daily discomfort,\nchoose relief made for life's routines.",
+        "subtitle": "Soothe tension. Ease the day.Feel good \nagain.",
+        "description": "From desk strain to daily discomfort,\nchoose relief \nmade for life's routines.",
         "viewProducts": "VIEW PRODUCTS"
       }
     }
@@ -436,7 +437,7 @@
     },
     "form": {
       "title": "SEND US A MESSAGE",
-      "subtitle": "Reach out to us through any of these channels",
+      "subtitle": "We'd love to hear from you. Send us your questions or feedback.",
       "fields": {
         "fullName": "Full Name",
         "email": "Email",
@@ -448,10 +449,10 @@
     },
     "info": {
       "title": "HOW TO REACH US",
-      "subtitle": "Reach out to us through any of these channels",
+      "subtitle": "Get in touch with us through any of these channels",
       "address": {
         "title": "ADDRESS",
-        "text": "Naga Blam@ combines ancient Khmer healing tradition with modern innovation. Our premium"
+        "text": "Coco Khmer Co., Ltd.\n#1529, NR. 2, Chakangre Krom\nKhan Mean Chey, Phnom Penh\nCambodia"
       },
       "email": {
         "title": "EMAIL"
@@ -467,7 +468,7 @@
       "followUs": "FOLLOW US"
     },
     "visit": {
-      "title": "ADDRESS",
+      "title": "VISIT US",
       "address": "Coco Khmer Co., Ltd.\n#1529, NR. 2, Chakangre Krom\nKhan Mean Chey, Phnom Penh, Cambodia"
     },
     "discoverSolution": {
