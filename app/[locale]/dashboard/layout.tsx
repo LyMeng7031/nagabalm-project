@@ -1,13 +1,12 @@
+import { locales } from "@/i18n";
 import { notFound } from "next/navigation";
-import { locales } from "../../i18n";
 
 export default async function LocaleLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  // params: Promise<{locale: string}>;
-  params: { locale: string }; // ✅ Not a Promise!
+  params: Promise<{ locale: string }>;
 }) {
   // Attendre les paramètres
   const { locale } = await params;
@@ -17,5 +16,12 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  return children;
+  return (
+    <div>
+      
+      {children}
+    
+    </div>
+  );
 }
+//not token go to page loign auto
