@@ -348,11 +348,11 @@
   },
   "faq": {
     "hero": {
-  "title": "ANY QUESTIONS?",
-  "subtitle": "We got you.",
-  "description": "Find answers to commonly asked questions about Naga Balm. Can't find what you're looking for? Feel free to ",
-  "contactUs": "contact us"
-},
+      "title": "ANY QUESTIONS?",
+      "subtitle": "We got you.",
+      "description": "Find answers to commonly asked questions about Naga Balm. Can't find what you're looking for? Feel free to ",
+      "contactUs": "contact us"
+    },
     "questions": [
       {
         "question": "What is Naga Balm?",
@@ -415,21 +415,20 @@
       }
     ],
     "discoverSolution": {
-  "title": "DISCOVER THE PERFECT\nSOLUTION FOR YOUR NEEDS.",
-  "activeLifestyles": {
-    "title": "FOR ACTIVE LIFESTYLES",
-    "subtitle": "Push harder. Recover faster. Stay in motion.",
-    "description": "Whether you're an athlete or just\nalways on the move, find relief that\n keeps up.",
-    "viewProducts": "VIEW PRODUCTS"
-  },
-  "everydayRelief": {
-    "title": "FOR EVERYDAY RELIEF",
-    "subtitle": "Soothe tension. Ease the day.\nFeel good again.",
-    "description": "From desk strain to daily\ndiscomfort, choose relief made\n for life's routines.",
-    "viewProducts": "VIEW PRODUCTS"
-  }
-}
-
+      "title": "DISCOVER THE PERFECT\nSOLUTION FOR YOUR NEEDS.",
+      "activeLifestyles": {
+        "title": "FOR ACTIVE LIFESTYLES",
+        "subtitle": "Push harder. Recover faster. Stay in motion.",
+        "description": "Whether you're an athlete or just\nalways on the move, find relief that\n keeps up.",
+        "viewProducts": "VIEW PRODUCTS"
+      },
+      "everydayRelief": {
+        "title": "FOR EVERYDAY RELIEF",
+        "subtitle": "Soothe tension. Ease the day.\nFeel good again.",
+        "description": "From desk strain to daily\ndiscomfort, choose relief made\n for life's routines.",
+        "viewProducts": "VIEW PRODUCTS"
+      }
+    }
   },
   "contact": {
     "hero": {
@@ -437,7 +436,7 @@
     },
     "form": {
       "title": "SEND US A MESSAGE",
-      "subtitle": "Reach out to us through any of these channels",
+      "subtitle": "Get in touch with us through any of these channels",
       "fields": {
         "fullName": "Full Name",
         "email": "Email",
@@ -449,10 +448,10 @@
     },
     "info": {
       "title": "HOW TO REACH US",
-      "subtitle": "Reach out to us through any of these channels",
+      "subtitle": "Get in touch with us through any of these channels",
       "address": {
         "title": "ADDRESS",
-        "text": "Naga Blam@ combines ancient Khmer healing tradition with modern innovation. Our premium"
+        "text": "Coco Khmer Co., Ltd. #1529, NR. 2, Chakangre Krom Khan Mean Chey, Phnom Penh Cambodia"
       },
       "email": {
         "title": "EMAIL"

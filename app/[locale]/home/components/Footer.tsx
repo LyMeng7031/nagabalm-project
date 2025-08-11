@@ -11,12 +11,12 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col lg:flex-row justify-between gap-12">
         {/* Background Logo - responsive */}
         <div className="absolute right-[-15%] top-[1%] w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 xl:w-[500px] xl:h-[500px] 2xl:w-[600px] 2xl:h-[600px] opacity-50 pointer-events-none">
-          <Image
+          {/* <Image
             src="/images/Logo/Naga Balm__Brandmark_Fire.png"
             alt="Background Logo"
             fill={true}
             className="object-contain opacity-50"
-          />
+          /> */}
         </div>
         {/* Left Block */}
         <div className="lg:flex-[1.5] max-w-sm">

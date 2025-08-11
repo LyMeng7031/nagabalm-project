@@ -2,10 +2,10 @@
 
 import React from "react";
 import Image from "next/image";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 const WhereToFindHeroSection = () => {
-  const t = useTranslations('whereToFind.hero');
+  const t = useTranslations("whereToFind.hero");
 
   return (
     <section className="w-full bg-[#FFE6B0] flex flex-col items-center justify-center py-8 sm:py-12 md:py-16 lg:py-20 px-4 sm:px-6 md:px-8 relative overflow-hidden min-h-[50vh] sm:min-h-[55vh] md:min-h-[60vh]">
@@ -36,14 +36,14 @@ const WhereToFindHeroSection = () => {
 
       <div className="pt-16 sm:pt-20 md:pt-24 lg:pt-28 xl:pt-32 z-10 text-center max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-4xl mx-auto">
         <h1 className="text-[#F9461C] text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold text-center mb-3 sm:mb-4 md:mb-5 lg:mb-6 leading-tight px-2">
-          {t('title')}
+          {t("title")}
         </h1>
         <p className="text-black text-xs sm:text-sm md:text-base lg:text-lg text-center max-w-xs sm:max-w-lg md:max-w-2xl lg:max-w-3xl mx-auto leading-relaxed px-2 sm:px-4">
-          {t('description')}
+          {t("description")}
         </p>
       </div>
     </section>
   );
 };
 
-export default WhereToFindHeroSection; 
+export default WhereToFindHeroSection;
