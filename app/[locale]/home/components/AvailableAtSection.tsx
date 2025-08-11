@@ -48,6 +48,10 @@ const AvailableAtSection = () => {
         <h2 className={`text-[#F9461C] text-2xl sm:text-3xl lg:text-4xl font-bold text-center mb-8 ${locale === 'km' ? 'font-hanuman' : ''}`}>
           {t('title')}
         </h2>
+         <p className={`text-center text-gray-600 mb-8 sm:mb-12 text-sm sm:text-base ${locale === 'km' ? 'font-hanuman' : ''}`}>
+          {t('subtitle')}
+        </p>
+
 
         {/* Logo Carousel */}
         <div className="relative overflow-hidden">

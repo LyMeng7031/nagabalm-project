@@ -58,7 +58,7 @@
   },
   "whyNagaBalm": {
     "title": "WHY NAGA BALM",
-    "p": "this is my website naga balm is beacutiful is a good website",
+    "p": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diamnonummy nibh euismod",
     "about": "ABOUT",
     "cards": {
       "petroleumFree": {
@@ -415,20 +415,21 @@
       }
     ],
     "discoverSolution": {
-      "title": "DISCOVER THE PERFECT\nSOLUTION FOR YOUR NEEDS.",
-      "activeLifestyles": {
-        "title": "FOR ACTIVE LIFESTYLES",
-        "subtitle": "Push harder. Recover faster. Stay in motion.",
-        "description": "Whether you're an athlete or just\nalways on the move, find relief that\n keeps up.",
-        "viewProducts": "VIEW PRODUCTS"
-      },
-      "everydayRelief": {
-        "title": "FOR EVERYDAY RELIEF",
-        "subtitle": "Soothe tension. Ease the day.\nFeel good again.",
-        "description": "From desk strain to daily\ndiscomfort, choose relief made\n for life's routines.",
-        "viewProducts": "VIEW PRODUCTS"
-      }
-    }
+  "title": "DISCOVER THE PERFECT\nSOLUTION FOR YOUR NEEDS.",
+  "activeLifestyles": {
+    "title": "FOR ACTIVE LIFESTYLES",
+    "subtitle": "Push harder. Recover faster. Stay in motion.",
+    "description": "Whether you're an athlete or just\nalways on the move, find relief that\n keeps up.",
+    "viewProducts": "VIEW PRODUCTS"
+  },
+  "everydayRelief": {
+    "title": "FOR EVERYDAY RELIEF",
+    "subtitle": "Soothe tension. Ease the day.\nFeel good again.",
+    "description": "From desk strain to daily\ndiscomfort, choose relief made\n for life's routines.",
+    "viewProducts": "VIEW PRODUCTS"
+  }
+}
+
   },
   "contact": {
     "hero": {
