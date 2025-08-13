@@ -458,7 +458,7 @@ const ProductsGrid: React.FC = () => {
               </button>
               {isLoadingCategories ? (
                 <span className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-full text-gray-500 font-bold text-xs sm:text-sm">
-                  {t("products.grid.states.loadingCategories")}
+                  {t("products.grid.states.loadingProducts")}
                 </span>
               ) : (
                 categories.map((c) => (

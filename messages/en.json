@@ -144,8 +144,11 @@
         "BEYOND": {
           "title": "A Global Vision",
           "description": "In a world dominated by petroleum-based pain relief, Naga Balm offers something better: a safe, effective, and petroleum-free choice. Our vision is global—but our roots remain proudly Cambodian. Wherever pain travels, Naga Balm is there."
-        }
+        },
+        "seeLess": "See less",
+        "seeMore": "See more"
       }
+      
     },
     "theSpirit": {
       "title": "THE SPIRIT",
@@ -169,6 +172,7 @@
     "title": "Our Products",
     "subtitle": "Traditional Healing, Modern Solutions",
     "heroTitle": "DISCOVER THE PERFECT\nSOLUTION FOR YOUR NEEDS.",
+    "heroSubtitle": "Discover our carefully crafted solutions designed for every lifestyle and wellness need.",
     "activeLifestyles": {
       "title": "FOR ACTIVE LIFE STYLES",
       "subtitle": "Push harder. Recover faster.\nStay in motion.",

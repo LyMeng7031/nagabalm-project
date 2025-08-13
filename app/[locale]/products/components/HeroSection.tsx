@@ -2,6 +2,7 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { products as allProducts } from "../products";
@@ -74,8 +75,7 @@ const ProductsHeroSection = () => {
             {t("products.heroTitle")}
           </h1>
           <p className="text-[#2C5F7A] text-sm sm:text-base md:text-lg lg:text-xl font-medium max-w-3xl mx-auto leading-relaxed">
-            Discover our carefully crafted solutions designed for every
-            lifestyle and wellness need.
+            {t("products.heroSubtitle")}
           </p>
         </div>
 
@@ -112,9 +112,21 @@ const ProductsHeroSection = () => {
                     flex items-center gap-2 group-hover:bg-[#FFE6B0] border-2 border-transparent hover:border-white/20"
                 >
                   <span>{t("products.activeLifestyles.viewProducts")}</span>
-                  <span className="transition-transform group-hover:translate-x-1">
-                    &rarr;
-                  </span>
+                  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="lucide lucide-arrow-right"
+  >
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
+  </svg>
                 </button>
               </div>
 
@@ -162,9 +174,21 @@ const ProductsHeroSection = () => {
                     flex items-center gap-2 group-hover:bg-[#FFE6B0] border-2 border-transparent hover:border-white/20"
                 >
                   <span>{t("products.everydayRelief.viewProducts")}</span>
-                  <span className="transition-transform group-hover:translate-x-1">
-                    &rarr;
-                  </span>
+                  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="lucide lucide-arrow-right"
+  >
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
+  </svg>
                 </button>
               </div>
 
@@ -186,7 +210,25 @@ const ProductsHeroSection = () => {
         <div className="flex justify-center mt-8 sm:mt-12 md:mt-16">
           <div className="animate-bounce text-[#2C5F7A] opacity-60">
             <div className="w-6 h-6 sm:w-8 sm:h-8 flex items-center justify-center">
-              <span className="text-2xl">↓</span>
+              {/* <Link href="#CraftedCareSection">
+              <span className="text-2xl">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-arrow-down"
+                >
+                  <path d="M12 5v14" />
+                  <path d="m19 12-7 7-7-7" />
+                </svg>
+              </span>
+              </Link> */}
             </div>
           </div>
         </div>

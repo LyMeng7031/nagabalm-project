@@ -107,14 +107,8 @@ const OurJourneySection = () => {
               </div>
 
               {/* Description */}
-              <div className="text-gray-700 text-xs sm:text-sm text-center leading-tight">
+              <div className="text-gray-700 text-xs sm:text-sm leading-tight">
                 {t(`steps.${step.year}.description`)}
-                {step.year === "2013" && (
-                  <>
-                    <br />
-                    “The first batch of cold-pressed virgin coconut oil was extracted.”
-                  </>
-                )}
               </div>
             </div>
           ))}

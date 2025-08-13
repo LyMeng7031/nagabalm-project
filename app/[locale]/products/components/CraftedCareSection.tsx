@@ -17,7 +17,23 @@ const CraftedCareSection = () => {
         </h2>
         <Link href="/products/ingredients">
           <button className="bg-[#F9461C] hover:bg-[#d13a17] text-white font-bold py-3 px-10 rounded-full text-lg transition-colors flex items-center gap-2">
-            {t('products.craftedCare.seeIngredients')} <span className="ml-2">→</span>
+            {t('products.craftedCare.seeIngredients')} <span className="ml-2">
+              <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="lucide lucide-arrow-right"
+  >
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
+  </svg>
+            </span>
           </button>
         </Link>
       </div>
