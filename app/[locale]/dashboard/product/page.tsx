@@ -154,6 +154,7 @@ export default function ProductDashboardPage() {
     setFormOpen(true);
   }
 
+
   function openEdit(p: ApiProduct) {
     setForm({
       id: p.id,
@@ -241,6 +242,7 @@ export default function ProductDashboardPage() {
           />
         </div>
 
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {(loadingProducts ? Array.from({ length: 6 }) : filteredProducts).map(
             (p, idx) => (
@@ -327,6 +329,7 @@ export default function ProductDashboardPage() {
                 </button>
               </div>
 
+
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -407,6 +410,7 @@ export default function ProductDashboardPage() {
                     </label>
                   </div>
                 </div>
+
 
                 <div>
                   <label
@@ -505,6 +509,7 @@ export default function ProductDashboardPage() {
                                   size: e.target.value,
                                 },
                               },
+
                             })
                           }
                           className="w-full border rounded-md px-3 py-2"
@@ -596,6 +601,7 @@ export default function ProductDashboardPage() {
                                   usage: e.target.value
                                     .split("\n")
                                     .filter(Boolean),
+
                                 },
                               },
                             })
