@@ -10,10 +10,6 @@ import { loginSchema, LoginFormData } from "./validation";
 import { z } from "zod";
 import { setAuthTokens } from "@/lib/auth";
 
-// This is a React component for a login page using the Next.js framework.
-// It handles user authentication by sending an email and password to an API.
-// Upon successful login, it saves both the access and refresh tokens
-// to local storage and redirects the user to the dashboard.
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -45,16 +41,47 @@ const LoginPage = () => {
 
       return response.json();
     },
-    onSuccess: () => {
-      // Force a full reload to ensure middleware sees the new cookie immediately
-      window.location.assign(`/${locale}/dashboard`);
+    onSuccess: (data) => {
+      // Log the API response to debug
+      console.log("API Response:", data);
+
+      // Check if the response has the expected structure
+      if (
+        !data.success ||
+        !data.data ||
+        !data.data.accessToken ||
+        !data.data.refreshToken
+      ) {
+        setApiError(
+          "Login successful, but no tokens received. Please try again."
+        );
+        return;
+      }
+
+      // Store the complete auth payload (consistent with ProtectedRoute expectations)
+      localStorage.setItem("authPayload", JSON.stringify(data));
+
+      // Also store individual tokens for backward compatibility
+      setAuthTokens(data.data.accessToken, data.data.refreshToken);
+
+      // Check if there's a redirect path stored
+      const redirectPath = localStorage.getItem("redirectAfterLogin");
+      if (redirectPath) {
+        // Clear the stored redirect path
+        localStorage.removeItem("redirectAfterLogin");
+        // Navigate to the originally intended path
+        router.push(redirectPath);
+      } else {
+        // Default navigation to dashboard
+        router.push(`/${locale}/dashboard`);
+      }
     },
     onError: (error: Error) => {
       setApiError(error.message || "An error occurred during login");
     },
   });
 
-  // Handles the form submission for logging in.
+  // Handle form submission
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setApiError("");
@@ -63,11 +90,8 @@ const LoginPage = () => {
     // Validate form data with Zod
     try {
       const formData = loginSchema.parse({ email, password });
-
-      // If validation passes, proceed with login mutation
       loginMutation.mutate(formData);
     } catch (error) {
-      // Handle Zod validation errors
       if (error instanceof z.ZodError) {
         const errors: Partial<LoginFormData> = {};
         error.issues.forEach((issue) => {
@@ -91,9 +115,12 @@ const LoginPage = () => {
 
         {(apiError || formErrors.email || formErrors.password) && (
           <div className="mb-4 text-sm text-red-700 bg-red-100 border border-red-300 rounded-md p-3">
-            {apiError || formErrors.email || formErrors.password}
+            {apiError && <p>{apiError}</p>}
+            {formErrors.email && <p>{formErrors.email}</p>}
+            {formErrors.password && <p>{formErrors.password}</p>}
           </div>
         )}
+
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>

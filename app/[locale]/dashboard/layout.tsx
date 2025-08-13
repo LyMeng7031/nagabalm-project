@@ -1,7 +1,8 @@
 import { locales } from "@/i18n";
 import { notFound } from "next/navigation";
+import ProtectedRoute from "@/app/components/ProtectedRoute";
 
-export default async function LocaleLayout({
+export default async function DashboardLayout({
   children,
   params,
 }: {
@@ -16,12 +17,5 @@ export default async function LocaleLayout({
     notFound();
   }
 
-  return (
-    <div>
-      
-      {children}
-    
-    </div>
-  );
+  return <ProtectedRoute locale={locale}>{children}</ProtectedRoute>;
 }
-//not token go to page loign auto
