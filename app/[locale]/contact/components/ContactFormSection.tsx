@@ -85,12 +85,28 @@ const ContactFormSection = () => {
                 className="border-b border-[#00B388] bg-transparent py-2 px-1 focus:outline-none min-h-[200px] text-base resize-none"
               />
               <div className="flex justify-start">
-                <button
-                  type="submit"
-                  className="bg-[#F9461C] hover:bg-[#d13a17] text-white w-40 font-bold py-2 px-6 rounded-full text-base transition-colors"
-                >
-                  {tForm("button")} <span className="ml-2 m">→</span>
-                </button>
+               <button
+  type="submit"
+  className="bg-[#F9461C] hover:bg-[#d13a17] text-white w-40 font-bold py-2 px-6 rounded-full text-base transition-colors flex items-center justify-center gap-2"
+>
+  {tForm("button")}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="lucide lucide-arrow-right"
+  >
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
+  </svg>
+</button>
+
               </div>
             </div>
           </form>

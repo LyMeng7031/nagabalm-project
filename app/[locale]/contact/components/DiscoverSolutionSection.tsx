@@ -48,11 +48,27 @@ const DiscoverSolutionSection = () => {
           ))}
         </p>
         <button
-          onClick={() => handleCategoryClick('active')}
-          className="bg-[#FFE6B0] text-[#F9461C] font-bold py-2 px-6 rounded-full text-sm sm:text-base hover:bg-[#ffd580]"
-        >
-          {t('activeLifestyles.button')} →
-        </button>
+  onClick={() => handleCategoryClick('relief')}
+  className="bg-[#FFE6B0] text-[#F9461C] font-bold py-2 px-6 rounded-full text-sm sm:text-base hover:bg-[#ffd580] flex items-center gap-2"
+>
+  {t('everydayRelief.button')}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="lucide lucide-arrow-right"
+  >
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
+  </svg>
+</button>
+
       </div>
 
       {/* Card 2 */}
@@ -69,25 +85,27 @@ const DiscoverSolutionSection = () => {
           ))}
         </p>
         <button
-          onClick={() => handleCategoryClick('relief')}
-          className="bg-[#FFE6B0] text-[#F9461C] font-bold py-2 px-6 rounded-full text-sm sm:text-base hover:bg-[#ffd580]"
-        >
-          {t('everydayRelief.button')} <svg
-  xmlns="http://www.w3.org/2000/svg"
-  width="20"
-  height="20"
-  viewBox="0 0 24 24"
-  fill="none"
-  stroke="currentColor"
-  strokeWidth="2"
-  strokeLinecap="round"
-  strokeLinejoin="round"
-  className="lucide lucide-arrow-right-icon lucide-arrow-right"
+  onClick={() => handleCategoryClick('relief')}
+  className="bg-[#FFE6B0] text-[#F9461C] font-bold py-2 px-6 rounded-full text-sm sm:text-base hover:bg-[#ffd580] flex items-center gap-2"
 >
-  <path d="M5 12h14" />
-  <path d="m12 5 7 7-7 7" />
-</svg>
-        </button>
+  {t('everydayRelief.button')}
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="lucide lucide-arrow-right"
+  >
+    <path d="M5 12h14" />
+    <path d="m12 5 7 7-7 7" />
+  </svg>
+</button>
+
       </div>
     </div>
 
