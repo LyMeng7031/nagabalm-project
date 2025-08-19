@@ -71,15 +71,15 @@ const AboutHeroSection = () => {
 
         {/* Right side with the main logo */}
         <div className="flex-1 flex justify-center items-center relative order-1 lg:order-2 w-full lg:pl-4 xl:pl-8">
-          <div className="flex-1 flex justify-center items-center relative min-h-[250px] sm:min-h-[300px] md:min-h-[350px] lg:min-h-[380px] order-2 md:order-1">
-            <Image
-              src="/images/Logo/NagaInFiredefr.png"
-              alt="Naga Logo"
-              width={350}
-              height={350}
-              className="relative z-20 object-contain w-48 h-48 sm:w-64 sm:h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 xl:w-[350px] xl:h-[350px] translate-y-[20%] sm:translate-y-[30%] md:translate-y-[40%] scale-150 sm:scale-[1.6] md:scale-[1.7] lg:scale-180"
-            />
-          </div>
+          <div className="flex-1 flex justify-center items-center relative min-h-[300px] sm:min-h-[360px] md:min-h-[420px] lg:min-h-[460px] order-2 md:order-1">
+                    <Image
+                      src="/images/Logo/NagaInFiredefr.png"
+                      alt="Naga Logo"
+                      width={400}
+                      height={370}
+                      className="relative z-20 object-contain w-60 h-60 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 xl:w-[420px] xl:h-[420px] translate-y-[25%] sm:translate-y-[35%] md:translate-y-[45%] scale-[1.8] sm:scale-[2] md:scale-[2.2] lg:scale-[2.4]"
+                    />
+                  </div>
         </div>
 
       </div>

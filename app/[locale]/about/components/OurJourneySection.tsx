@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import Image from "next/image";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
 const OurJourneySection = () => {
   const t = useTranslations('about.ourJourney');
@@ -56,7 +56,9 @@ const OurJourneySection = () => {
           onClick={() => scrollBy(-260)}
           aria-label="Scroll left"
         >
-          <svg width="32" height="32" fill="none" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          <svg width="32" height="32" fill="none" viewBox="0 0 24 24">
+            <path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </button>
         {/* Right Arrow */}
         <button
@@ -64,21 +66,50 @@ const OurJourneySection = () => {
           onClick={() => scrollBy(260)}
           aria-label="Scroll right"
         >
-          <svg width="32" height="32" fill="none" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+          <svg width="32" height="32" fill="none" viewBox="0 0 24 24">
+            <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
         </button>
-        <div ref={carouselRef} className="flex flex-row overflow-x-auto gap-4 sm:gap-6 md:gap-8 w-full max-w-7xl justify-start items-stretch relative px-2 sm:px-4 scrollbar-hide pb-6 sm:pb-8 pt-12 sm:pt-14">
-          {/* Timeline line - positioned behind the cards with lower z-index */}
-          <div className="hidden md:block absolute left-0 right-0 top-1/2 h-0.5 bg-gray-300 -z-10" />
+
+        <div
+          ref={carouselRef}
+          className="flex flex-row overflow-x-auto gap-4 sm:gap-6 md:gap-8 w-full max-w-7xl justify-start items-stretch relative px-2 sm:px-4 scrollbar-hide pb-6 sm:pb-8 pt-12 sm:pt-14"
+        >
+          {/* Timeline line - positioned behind the year badges */}
+          <div className="hidden md:block absolute left-0 right-0 top-[2.5rem] h-0.5 bg-gray-300 -z-10" />
+
           {journeySteps.map((step, idx) => (
-            <div key={idx} className="flex flex-col items-center bg-white/60 card shadow-lg rounded-lg p-3 sm:p-4 min-w-[180px] sm:min-w-[200px] md:min-w-[220px] max-w-[200px] sm:max-w-[240px] md:max-w-[260px] flex-shrink-0 relative mt-2">
+            <div
+              key={idx}
+              className="flex flex-col items-center bg-white/60 card shadow-lg rounded-lg p-3 sm:p-4 min-w-[180px] sm:min-w-[200px] md:min-w-[220px] max-w-[200px] sm:max-w-[240px] md:max-w-[260px] flex-shrink-0 relative mt-2"
+            >
+              {/* Year badge */}
               <span className="absolute -top-12 sm:-top-14 left-1/2 -translate-x-1/2 bg-[#F9461C] text-white font-bold px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm z-10">
                 {step.year}
               </span>
+              {/* Vertical connector from badge to timeline line */}
+              <span className="absolute -top-6 left-1/2 -translate-x-1/2 w-[2px] h-6 bg-gray-300 z-0" />
+              
+              {/* Image */}
               <div className="w-full h-28 sm:h-32 md:h-36 mb-3 sm:mb-4 rounded-xl overflow-hidden relative bg-gray-100">
-                <Image src={step.img} alt={t(`steps.${step.year}.title`)} fill className="object-cover w-full h-full" unoptimized />
+                <Image
+                  src={step.img}
+                  alt={t(`steps.${step.year}.title`)}
+                  fill
+                  className="object-cover w-full h-full"
+                  unoptimized
+                />
               </div>
-              <div className="text-[#F9461C] font-extrabold text-sm sm:text-base md:text-lg mb-1 text-center">{t(`steps.${step.year}.title`)}</div>
-              <div className="text-gray-700 text-xs sm:text-sm text-center leading-tight">{t(`steps.${step.year}.description`)}</div>
+
+              {/* Title */}
+              <div className="text-[#F9461C] font-extrabold text-sm sm:text-base md:text-lg mb-1 text-center">
+                {t(`steps.${step.year}.title`)}
+              </div>
+
+              {/* Description */}
+              <div className="text-gray-700 text-xs sm:text-sm leading-tight">
+                {t(`steps.${step.year}.description`)}
+              </div>
             </div>
           ))}
         </div>
@@ -87,4 +118,4 @@ const OurJourneySection = () => {
   );
 };
 
-export default OurJourneySection; 
+export default OurJourneySection;

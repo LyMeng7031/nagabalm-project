@@ -57,7 +57,11 @@ export async function POST(request: Request) {
     });
 
     // Don't return the password or refresh token in the user object
-    const { password: _, refreshToken: __, ...userWithoutPasswordAndToken } = user;
+    const {
+      password: _,
+      refreshToken: __,
+      ...userWithoutPasswordAndToken
+    } = user;
 
     return NextResponse.json(
       {

@@ -1,20 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import Sidebar from '@/app/components/Sidebar';
-import Navbar from '@/app/components/Navbar';
+import Sidebar from "@/app/components/Sidebar";
+import Navbar from "@/app/components/Navbar";
 
 const Dashboard = () => {
-  const router = useRouter();
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      router.push('/login');
-    }
-  }, [router]);
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Sidebar />

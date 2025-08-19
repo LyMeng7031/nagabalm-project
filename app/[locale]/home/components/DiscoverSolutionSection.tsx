@@ -7,9 +7,8 @@ const DiscoverSolutionSection = () => {
   const t = useTranslations("discoverSolution");
   const locale = useLocale();
 
-
   return (
-     <section
+    <section
       className="w-full bg-[#F5F5F5] py-12 sm:py-16 lg:py-20 flex flex-col items-center relative overflow-hidden"
       style={{
         backgroundImage: "url('/images/about-grid/Mainposter.png')",
@@ -38,7 +37,7 @@ const DiscoverSolutionSection = () => {
             </h2>
             <div className="flex flex-col gap-8 sm:gap-12 lg:gap-16">
               {/* Active Lifestyles Card */}
-              <div className="bg-[#00B4D8] card p-4 sm:p-6 text-white w-full max-w-2xl flex flex-col sm:flex-row items-center relative min-h-[280px] sm:h-56 overflow-visible rounded-xl">
+              <div className="bg-[#00B4D8] card p-4 sm:p-6 text-white w-full max-w-3xl flex flex-col sm:flex-row items-center relative min-h-[280px] sm:h-56 overflow-visible rounded-xl">
                 <div className="flex-1 pr-32 pl-4">
                   <h3
                     className={`font-extrabold text-3xl mb-3 ${
@@ -47,9 +46,9 @@ const DiscoverSolutionSection = () => {
                   >
                     {t("activeLifestyles.title")}
                   </h3>
-                
+
                   <p
-                    className={`text-base mb-4 opacity-90 ${
+                    className={`text-base mb-4 opacity-90 mf-5 ${
                       locale === "km" ? "font-hanuman" : ""
                     }`}
                   >
@@ -62,26 +61,26 @@ const DiscoverSolutionSection = () => {
                           locale === "km" ? "font-hanuman" : ""
                         }`}
                       >
-                        {t("exploreProducts")}
+                        {t("activeLifestyles.viewProducts")}
                         <span className="text-xl">→</span>
                       </button>
                     </Link>
                   </div>
                 </div>
 
-               <div className="absolute right-[-40px] bottom-[-0px]">
-                           <Image 
-                             src="/images/History of CoCo Khmer 3/ActiveLifeStyle@4x.png"
-                             alt="Active Lifestyle"
-                             width={400}
-                             height={400}
-                             className="object-contain w-full max-w-[200px] sm:max-w-[250px]"
-                           />
-                         </div>
+                <div className="absolute right-[-40px] bottom-[-0px]">
+                  <Image
+                    src="/images/History of CoCo Khmer 3/ActiveLifeStyle@4x.png"
+                    alt="Active Lifestyle"
+                    width={400}
+                    height={400}
+                    className="object-contain w-full max-w-[500px] sm:max-w-[250px]"
+                  />
+                </div>
               </div>
 
               {/* Everyday Relief Card */}
-              <div className="bg-[#00A67E] card p-4 sm:p-6 text-white w-full max-w-2xl flex flex-col sm:flex-row items-center relative min-h-[280px] sm:h-56 overflow-visible rounded-xl">
+              <div className="bg-[#00A67E] card p-4 sm:p-6 text-white w-full max-w-3xl flex flex-col sm:flex-row items-center relative min-h-[280px] sm:h-56 overflow-visible rounded-xl">
                 <div className="flex-1 pr-32 pl-4">
                   <h3
                     className={`font-extrabold text-3xl mb-3  ${
@@ -90,9 +89,9 @@ const DiscoverSolutionSection = () => {
                   >
                     {t("everydayRelief.title")}
                   </h3>
-                
+
                   <p
-                    className={`text-base mb-4 opacity-90  ${
+                    className={`text-base mb-4 opacity-90 ${
                       locale === "km" ? "font-hanuman" : ""
                     }`}
                   >
@@ -111,14 +110,14 @@ const DiscoverSolutionSection = () => {
                     </Link>
                   </div>
                 </div>
-                 <div className="absolute right-[-20px] bottom-[-0px]">
-                        <Image
-                          src="/images/History of CoCo Khmer 3/DailyLifeStyle@4x.png"
-                          alt="Daily Lifestyle"
-                          width={400}
-                          height={400}
-                          className="object-contain w-full max-w-[200px] sm:max-w-[250px]"
-                        />
+                <div className="absolute right-[-20px] bottom-[-0px]">
+                  <Image
+                    src="/images/History of CoCo Khmer 3/DailyLifeStyle@4x.png"
+                    alt="Daily Lifestyle"
+                    width={400}
+                    height={400}
+                    className="object-contain w-full max-w-[500px] sm:max-w-[270px]"
+                  />
                 </div>
               </div>
             </div>

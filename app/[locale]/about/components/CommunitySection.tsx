@@ -1,10 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 
-// Selected community photos to display in the grid
 const communityImages = [
   "/images/Our Community/DSC06940.jpg",
   "/images/Our Community/DSC06989.jpg",
@@ -20,25 +19,51 @@ const communityImages = [
   "/images/Our Community/482193038_950912473882227_4785217563978755392_n.jpg",
 ];
 
-const CommunitySection = () => {
-  const t = useTranslations('about.community');
-  
+export default function CommunitySection() {
+  const t = useTranslations("about.community");
+
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const openLightbox = (index: React.SetStateAction<number>) => {
+    setCurrentIndex(index);
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = () => setLightboxOpen(false);
+
+  const showPrev = (e: { stopPropagation: () => void; }) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) =>
+      prev === 0 ? communityImages.length - 1 : prev - 1
+    );
+  };
+
+  const showNext = (e: { stopPropagation: () => void; }) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) =>
+      prev === communityImages.length - 1 ? 0 : prev + 1
+    );
+  };
+
   return (
     <section className="w-full flex flex-col items-center py-12 sm:py-16 bg-white px-4 sm:px-6">
-      <h2 className="text-[#F9461C] text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 sm:mb-4 text-center">{t('title')}</h2>
+      <h2 className="text-[#F9461C] text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 sm:mb-4 text-center">
+        {t("title")}
+      </h2>
       <p className="text-gray-700 text-base sm:text-lg mb-6 sm:mb-8 text-center max-w-2xl">
-        {t('subtitle')}
+        {t("subtitle")}
       </p>
-      
+
       <div className="w-full max-w-6xl">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3 md:gap-4">
           {communityImages.map((img, idx) => {
-            // La première image est grande en haut à gauche
             if (idx === 0) {
               return (
                 <div
                   key={idx}
-                  className={"col-span-2 row-span-2 overflow-hidden rounded-lg shadow-md group transition-all duration-300 hover:shadow-xl aspect-square"}
+                  onClick={() => openLightbox(idx)}
+                  className="col-span-2 row-span-2 overflow-hidden rounded-lg shadow-md group transition-all duration-300 hover:shadow-xl aspect-square cursor-pointer"
                 >
                   <Image
                     src={img}
@@ -51,12 +76,12 @@ const CommunitySection = () => {
                 </div>
               );
             }
-            // La dernière image est grande en bas à droite (col 5/6, row 2/3)
             if (idx === communityImages.length - 1) {
               return (
                 <div
                   key={idx}
-                  className={"col-span-2 row-span-2 col-start-5 row-start-2 overflow-hidden rounded-lg shadow-md group transition-all duration-300 hover:shadow-xl aspect-square"}
+                  onClick={() => openLightbox(idx)}
+                  className="col-span-2 row-span-2 col-start-5 row-start-2 overflow-hidden rounded-lg shadow-md group transition-all duration-300 hover:shadow-xl aspect-square cursor-pointer"
                 >
                   <Image
                     src={img}
@@ -69,11 +94,11 @@ const CommunitySection = () => {
                 </div>
               );
             }
-            // Les autres images sont normales
             return (
               <div
                 key={idx}
-                className="overflow-hidden rounded-lg shadow-md group transition-all duration-300 hover:shadow-xl aspect-square"
+                onClick={() => openLightbox(idx)}
+                className="overflow-hidden rounded-lg shadow-md group transition-all duration-300 hover:shadow-xl aspect-square cursor-pointer"
               >
                 <Image
                   src={img}
@@ -88,8 +113,41 @@ const CommunitySection = () => {
           })}
         </div>
       </div>
+
+      {/* Lightbox Modal */}
+      {lightboxOpen && (
+        <div
+          onClick={closeLightbox}
+          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
+        >
+          <button
+            onClick={showPrev}
+            className="absolute left-4 text-white text-3xl font-bold p-2 bg-black bg-opacity-40 rounded-full hover:bg-opacity-60"
+          >
+            ‹
+          </button>
+          <Image
+            src={communityImages[currentIndex]}
+            alt={`Full size ${currentIndex + 1}`}
+            width={900}
+            height={900}
+            className="max-h-[90vh] w-auto object-contain"
+            unoptimized
+          />
+          <button
+            onClick={showNext}
+            className="absolute right-4 text-white text-3xl font-bold p-2 bg-black bg-opacity-40 rounded-full hover:bg-opacity-60"
+          >
+            ›
+          </button>
+          <button
+            onClick={closeLightbox}
+            className="absolute top-4 right-4 text-white text-2xl font-bold p-2 bg-black bg-opacity-40 rounded-full hover:bg-opacity-60"
+          >
+            ✕
+          </button>
+        </div>
+      )}
     </section>
   );
-};
-
-export default CommunitySection; 
+}

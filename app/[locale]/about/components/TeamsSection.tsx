@@ -61,36 +61,50 @@ const TeamsSection = () => {
 
   return (
     <section className="w-full flex flex-col items-center py-12 sm:py-16 bg-white">
-      <h2 className="text-[#F9461C] text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-2 text-center px-4">{t('title')}</h2>
+      <h2 className="text-[#F9461C] text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-2 text-center px-4">
+        {t('title')}
+      </h2>
       <p className="text-gray-700 text-base sm:text-lg mb-6 sm:mb-8 text-center max-w-2xl px-4">
         {t('subtitle')}
       </p>
+
+      {/* Tabs */}
       <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6 sm:mb-8 px-4">
         {tabs.map((tab, idx) => (
           <button
             key={tab.label}
-            className={`px-4 sm:px-6 py-2 rounded-full font-bold border-2 text-sm sm:text-base transition-colors duration-200 w-full sm:w-auto text-center ${activeTab === idx ? 'bg-[#F9461C] text-white border-[#F9461C]' : 'bg-white text-[#F9461C] border-[#F9461C]'}`}
+            className={`px-4 sm:px-6 py-2 rounded-full font-bold border-2 text-sm sm:text-base transition-colors duration-200 w-full sm:w-auto text-center ${
+              activeTab === idx
+                ? 'bg-[#F9461C] text-white border-[#F9461C]'
+                : 'bg-white text-[#F9461C] border-[#F9461C]'
+            }`}
             onClick={() => setActiveTab(idx)}
           >
             {tab.label}
           </button>
         ))}
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 w-full max-w-5xl px-4 sm:px-6 lg:px-8">
+
+      {/* Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full max-w-6xl px-4 sm:px-6 lg:px-8">
         {tabs[activeTab].members.map((member, idx) => (
           <div key={idx} className="flex flex-col items-center">
-            <div className="rounded-xl overflow-hidden mb-4 mx-auto shadow-md relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-[200px] lg:h-[200px]">
+            <div className="rounded-xl overflow-hidden mb-3 mx-auto shadow-md relative w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-[180px] lg:h-[240px]">
               <Image 
                 src={member.img} 
                 alt={member.name} 
                 fill
                 className="object-cover object-center"
-                sizes="(max-width: 640px) 128px, (max-width: 768px) 160px, (max-width: 1024px) 192px, 200px"
+                sizes="(max-width: 600px) 100px, (max-width: 768px) 160px, (max-width: 1024px) 176px, 180px"
                 loading="lazy"
               />
             </div>
-            <div className="text-[#F9461C] font-bold text-sm sm:text-base text-center">{member.name}</div>
-            <div className="text-gray-700 text-xs sm:text-sm text-center">{member.role}</div>
+            <div className="text-[#F9461C] font-bold text-sm sm:text-base text-center">
+              {member.name}
+            </div>
+            <div className="text-gray-700 text-xs sm:text-sm text-center">
+              {member.role}
+            </div>
           </div>
         ))}
       </div>
@@ -98,4 +112,4 @@ const TeamsSection = () => {
   );
 };
 
-export default TeamsSection; 
+export default TeamsSection;
