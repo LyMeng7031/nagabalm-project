@@ -6,16 +6,14 @@ export default async function LocaleLayout({
   params,
 }: {
   children: React.ReactNode;
-  // params: Promise<{locale: string}>;
-  params: { locale: string }; // ✅ Not a Promise!
+  params: { locale: string };
 }) {
-  // Attendre les paramètres
-  const { locale } = await params;
+  const { locale } = params;
 
-  // Valider que la locale est supportée
+  // Validate that the locale is supported
   if (!locales.includes(locale as any)) {
     notFound();
   }
 
-  return children;
+  return <>{children}</>;
 }
