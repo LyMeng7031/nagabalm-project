@@ -24,9 +24,9 @@
     "viewAll": "VIEW ALL",
     "learnMore": "LEARN MORE",
     "products": {
-      "nagabalmGo": {
+      "nagaBalmGo": {
         "label": "ACTIVE LIFESTYLE",
-        "name": "NAGABALM Go",
+        "name": "NAGA BALM GO",
         "description": "NATURALLY ENERGIZING. Delivers relief with fast cooling and warming sensations. Like aspirin for your skin, it numbs the pain before delivering penetrating heat to the affected area.",
         "weight": "6g/20g"
       },
@@ -41,8 +41,8 @@
         "description": "EMBRACE LIFE, REPEL MOSQUITOES. Cambodia's first Picaridin Mosquito Repellent - an effective, DEET-free solution for the family. Because like it or not, mosquitoes are a pain.",
         "weight": "120mL"
       },
-      "nagabalmFire": {
-        "name": "NAGABALM Fire",
+      "nagaBalmFire": {
+        "name": "NAGA BALM FIRE",
         "description": "NATURALLY FIERY. Delivers deeper heat for deeper relief of muscle aches and fatigues, pulled muscles, stiff and chronic joint or nerve pain. Smooth but long-lasting!",
         "weight": "6g/20g"
       },
@@ -61,9 +61,9 @@
     "about": "ABOUT",
     "cards": {
       "petroleumFree": {
-        "title": "PETROLEUM-FREE, SAFE,AND EFECTIVE",
+        "title": "PETROLEUM-FREE, SAFE, AND EFFECTIVE",
         "subtitle": "Quality Without Compromise",
-        "description": "Our products are formulated to deliver relief without  Free from petrochemicals, harsh chemicals and filler additives. Naga Balm provides effective and safe pain relief. Every ingredient matters."
+        "description": "Our products are formulated to deliver relief without petrochemicals, harsh chemicals, or filler additives. Naga Balm provides effective and safe pain relief. Every ingredient matters."
       },
       "wideRange": {
         "title": "Wide Product Range",
@@ -97,12 +97,12 @@
     },
     "ourStory": {
       "title": "OUR STORY",
-      "description": "Naga Balm began in 2013, born by the observation that while the traditional Preng Kola ointment is widely used, there was no petroleum-free, natural alternative available.\nPeople deserved a choice—one that combined the wisdom of tradition with modern, cleaner ingredients."
+      "description": "Naga Balm began in 2013, born from the observation that while the traditional Preng Kola ointment is widely used, there was no petroleum-free, natural alternative available. People deserved a choice—one that combined the wisdom of tradition with modern, cleaner ingredients."
     },
     "valuesVisionMission": {
       "ourValues": {
         "title": "OUR VALUES",
-        "description": "Naga Balm began in 2013, born by the observation that while the traditional Preng Kola ointment is widely used, there was no petroleum-free, natural alternative available."
+        "description": "Naga Balm began in 2013, born from the observation that while the traditional Preng Kola ointment is widely used, there was no petroleum-free, natural alternative available."
       },
       "vision": {
         "title": "VISION",
@@ -115,11 +115,11 @@
     },
     "ourJourney": {
       "title": "OUR JOURNEY",
-      "subtitle": "Coco Khmer, maker of Naga Balm, was founded in Phnom Penh as Cambodia's first commercial producer of virgin coconut oil.From the beginning, we’ve been a triple bottom line social enterprise with a clear mission: create ethical employment, protect the planet, and build a future through natural, coconut-based wellness.",
+      "subtitle": "Coco Khmer, maker of Naga Balm, was founded in Phnom Penh as Cambodia's first commercial producer of virgin coconut oil. From the beginning, we’ve been a triple bottom line social enterprise with a clear mission: create ethical employment, protect the planet, and build a future through natural, coconut-based wellness.",
       "steps": {
         "2013": {
           "title": "The Beginning",
-          "description": "People deserved a choice—one that combined the wisdom of tradition with modern, cleaner ingredients.The first batch of cold-pressed virgin coconut oil was extracted."
+          "description": "People deserved a choice—one that combined the wisdom of tradition with modern, cleaner ingredients. The first batch of cold-pressed virgin coconut oil was extracted."
         },
         "2014": {
           "title": "The Birth of Naga Balm",
@@ -148,7 +148,6 @@
         "seeLess": "See less",
         "seeMore": "See more"
       }
-      
     },
     "theSpirit": {
       "title": "THE SPIRIT",
@@ -174,15 +173,15 @@
     "heroTitle": "DISCOVER THE PERFECT\nSOLUTION FOR YOUR NEEDS.",
     "heroSubtitle": "Discover our carefully crafted solutions designed for every lifestyle and wellness need.",
     "activeLifestyles": {
-      "title": "FOR ACTIVE LIFE STYLES",
+      "title": "FOR ACTIVE LIFESTYLES",
       "subtitle": "Push harder. Recover faster.\nStay in motion.",
-      "description": "Whether you're an athlete or just\n always on the move find relief that keeps up.",
+      "description": "Whether you're an athlete or just always on the move, find relief that keeps up.",
       "viewProducts": "VIEW PRODUCTS"
     },
     "everydayRelief": {
       "title": "FOR EVERYDAY RELIEF",
-      "subtitle": "Soothe tension. Ease the day.\n Feel good again.",
-      "description": "From desk strain to daily discomfort,\n choose relief made for life's routines.",
+      "subtitle": "Soothe tension. Ease the day.\nFeel good again.",
+      "description": "From desk strain to daily discomfort,\nchoose relief made for life's routines.",
       "viewProducts": "VIEW PRODUCTS"
     },
     "craftedCare": {
@@ -190,23 +189,24 @@
       "seeIngredients": "SEE INGREDIENTS"
     },
     "preview": {
-      "categories": {
-        "active": "Active Lifestyles",
-        "everyday": "Everyday Relief"
-      },
+      "loading": "Loading products...",
+      "error": "Failed to load products.",
+      "noProducts": "No products found in this category.",
       "navigation": {
-        "backToProducts": "← Back to Products",
-        "goToPrevious": "Go to {category} preview",
-        "goToNext": "Go to {category} preview"
+        "backToProducts": "← Back to Products"
       },
       "hero": {
-        "productsTitle": "{category} Products",
-        "subtitle": "Discover our curated selection for {category}."
+        "productsTitle": "Our {category} Products",
+        "subtitle": "Discover powerful formulas designed for {category} relief and wellness."
       },
       "modal": {
-        "activeIngredient": "ACTIVE INGREDIENT",
-        "usage": "USAGE",
-        "learnMore": "LEARN MORE"
+        "learnMore": "Learn More",
+        "activeIngredient": "Active Ingredient",
+        "usage": "Recommended For"
+      },
+      "categories": {
+        "active": "Active",
+        "everyday": "Everyday"
       }
     },
     "grid": {
@@ -229,6 +229,7 @@
       },
       "states": {
         "loadingProducts": "Loading products...",
+        "loadingCategories": "Loading categories...",
         "noProductsFound": "No products found",
         "tryAdjusting": "Try adjusting your search or filter criteria"
       },
@@ -314,44 +315,6 @@
     "learnMore": "Learn More",
     "shopNow": "Shop Now"
   },
-  "footer": {
-    "description": "Naga Balm - we blend tradition with modern innovation, delivering clean pain relief solutions to soothe, relieve, and heal.",
-    "madeInCambodia": "MADE IN CAMBODIA",
-    "company": "COMPANY",
-    "products": "PRODUCTS",
-    "ingredients": "INGREDIENTS",
-    "contactUs": "CONTACT US",
-    "email": "EMAIL",
-    "phone": "PHONE",
-    "followUs": "FOLLOW US",
-    "visitUs": "VISIT US",
-    "address": "Coco Khmer Co., Ltd.\n#1529, NR. 2, Chakangre Krom\nKhan Mean Chey, Phnom Penh\nCambodia",
-    "copyright": "© 2025 NAGA BALM®. ALL RIGHTS RESERVED."
-  },
-  "metadata": {
-    "title": "Naga Balm | Ancient Khmer Healing Traditions",
-    "description": "Ancient Khmer healing traditions meet modern innovation. Premium balms handcrafted in Cambodia, bringing traditional wellness to the modern world.",
-    "keywords": "Naga Balm, Khmer healing, traditional medicine, Cambodia, natural remedies, pain relief, wellness"
-  },
-  "common": {
-    "loading": "Loading...",
-    "error": "An error occurred",
-    "retry": "Try again"
-  },
-  "discoverSolution": {
-    "title": "DISCOVER THE PERFECT\nSOLUTION FOR YOUR NEEDS.",
-    "exploreProducts": "EXPLORE PRODUCTS",
-    "activeLifestyles": {
-      "title": "FOR THE ACTIVE LIFESTYLES",
-      "subtitle": "Perform, recover, and stay in motion. Whether you're an athlete, fitness enthusiast,or someone who loves staying active",
-      "viewProducts": "VIEW PRODUCTS"
-    },
-    "everydayRelief": {
-      "title": "FOR THE EVERYDAY  RELIEF",
-      "subtitle": "Perform, recover, and stay in motion.Whether you're an athlete, fitness enthusiast,or someone who loves staying active",
-      "viewProducts": "VIEW PRODUCTS"
-    }
-  },
   "faq": {
     "hero": {
       "title": "ANY QUESTIONS?",
@@ -399,7 +362,7 @@
       },
       {
         "question": "How Should I Store Naga Balm?",
-        "answer": "To maintain its quality, store Naga Balm® in a cool, dry place away from direct sunlight under 30°C (86°F ). Always keep products out of reach of children."
+        "answer": "To maintain its quality, store Naga Balm® in a cool, dry place away from direct sunlight under 30°C (86°F). Always keep products out of reach of children."
       },
       {
         "question": "Are There Any Side Effects?",
@@ -421,19 +384,18 @@
       }
     ],
     "discoverSolution": {
-  "title": "DISCOVER THE PERFECT\nSOLUTION FOR YOUR NEEDS.",
-  "activeLifestyles": {
-    "title": "FOR ACTIVE LIFESTYLES",
-    "subtitle": "Push harder. Recover faster.Stay in motion.Whether you're an athlete or justalways on the move find relief that keeps up.",
-    "viewProducts": "VIEW PRODUCTS"
-  },
-  "everydayRelief": {
-    "title": "FOR EVERYDAY RELIEF",
-    "subtitle": "Soothe tension. Ease the day.Feel good again.\nFrom desk strain to daily discomfort,choose relief made for life's routines.",
-    "viewProducts": "VIEW PRODUCTS"
-  }
-}
-
+      "title": "DISCOVER THE PERFECT\nSOLUTION FOR YOUR NEEDS.",
+      "activeLifestyles": {
+        "title": "FOR ACTIVE LIFESTYLES",
+        "subtitle": "Push harder. Recover faster. Stay in motion. Whether you're an athlete or just always on the move, find relief that keeps up.",
+        "viewProducts": "VIEW PRODUCTS"
+      },
+      "everydayRelief": {
+        "title": "FOR EVERYDAY RELIEF",
+        "subtitle": "Soothe tension. Ease the day. Feel good again.\nFrom desk strain to daily discomfort, choose relief made for life's routines.",
+        "viewProducts": "VIEW PRODUCTS"
+      }
+    }
   },
   "contact": {
     "hero": {
@@ -479,14 +441,14 @@
       "title": "DISCOVER THE PERFECT\nSOLUTION FOR YOUR NEEDS.",
       "activeLifestyles": {
         "title": "FOR ACTIVE LIFESTYLES",
-        "subtitle": "Soothe tension. Ease the day.\nFeel good again.",
-        "description": "From desk strain to daily discomfort,\nchoose relief made for life's routines.",
+        "subtitle": "Push harder. Recover faster. Stay in motion.",
+        "description": "Whether you're an athlete or just always on the move, find relief that keeps up.",
         "button": "VIEW PRODUCTS"
       },
       "everydayRelief": {
         "title": "FOR EVERYDAY RELIEF",
-        "subtitle": "Soothe tension. Ease the day.\nFeel good again.",
-        "description": "From desk strain to daily discomfort,\nchoose relief made for life's routines.",
+        "subtitle": "Soothe tension. Ease the day. Feel good again.",
+        "description": "From desk strain to daily discomfort, choose relief made for life's routines.",
         "button": "VIEW PRODUCTS"
       }
     }
@@ -504,5 +466,29 @@
         "specialtyStores": "SPECIALTY STORES"
       }
     }
+  },
+  "footer": {
+    "description": "Naga Balm - we blend tradition with modern innovation, delivering clean pain relief solutions to soothe, relieve, and heal.",
+    "madeInCambodia": "MADE IN CAMBODIA",
+    "company": "COMPANY",
+    "products": "PRODUCTS",
+    "ingredients": "INGREDIENTS",
+    "contactUs": "CONTACT US",
+    "email": "EMAIL",
+    "phone": "PHONE",
+    "followUs": "FOLLOW US",
+    "visitUs": "VISIT US",
+    "address": "Coco Khmer Co., Ltd.\n#1529, NR. 2, Chakangre Krom\nKhan Mean Chey, Phnom Penh\nCambodia",
+    "copyright": "© 2025 NAGA BALM®. ALL RIGHTS RESERVED."
+  },
+  "metadata": {
+    "title": "Naga Balm | Ancient Khmer Healing Traditions",
+    "description": "Ancient Khmer healing traditions meet modern innovation. Premium balms handcrafted in Cambodia, bringing traditional wellness to the modern world.",
+    "keywords": "Naga Balm, Khmer healing, traditional medicine, Cambodia, natural remedies, pain relief, wellness"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Try again"
   }
 }

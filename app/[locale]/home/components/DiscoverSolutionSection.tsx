@@ -7,9 +7,8 @@ const DiscoverSolutionSection = () => {
   const t = useTranslations("discoverSolution");
   const locale = useLocale();
 
-
   return (
-     <section
+    <section
       className="w-full bg-[#F5F5F5] py-12 sm:py-16 lg:py-20 flex flex-col items-center relative overflow-hidden"
       style={{
         backgroundImage: "url('/images/about-grid/Mainposter.png')",
@@ -47,7 +46,7 @@ const DiscoverSolutionSection = () => {
                   >
                     {t("activeLifestyles.title")}
                   </h3>
-                
+
                   <p
                     className={`text-base mb-4 opacity-90 mf-5 ${
                       locale === "km" ? "font-hanuman" : ""
@@ -62,22 +61,22 @@ const DiscoverSolutionSection = () => {
                           locale === "km" ? "font-hanuman" : ""
                         }`}
                       >
-                        {t("exploreProducts")}
+                        {t("activeLifestyles.viewProducts")}
                         <span className="text-xl">→</span>
                       </button>
                     </Link>
                   </div>
                 </div>
 
-               <div className="absolute right-[-40px] bottom-[-0px]">
-                           <Image 
-                             src="/images/History of CoCo Khmer 3/ActiveLifeStyle@4x.png"
-                             alt="Active Lifestyle"
-                             width={400}
-                             height={400}
-                             className="object-contain w-full max-w-[500px] sm:max-w-[250px]"
-                           />
-                         </div>
+                <div className="absolute right-[-40px] bottom-[-0px]">
+                  <Image
+                    src="/images/History of CoCo Khmer 3/ActiveLifeStyle@4x.png"
+                    alt="Active Lifestyle"
+                    width={400}
+                    height={400}
+                    className="object-contain w-full max-w-[500px] sm:max-w-[250px]"
+                  />
+                </div>
               </div>
 
               {/* Everyday Relief Card */}
@@ -90,7 +89,7 @@ const DiscoverSolutionSection = () => {
                   >
                     {t("everydayRelief.title")}
                   </h3>
-                
+
                   <p
                     className={`text-base mb-4 opacity-90 ${
                       locale === "km" ? "font-hanuman" : ""
@@ -111,14 +110,14 @@ const DiscoverSolutionSection = () => {
                     </Link>
                   </div>
                 </div>
-                 <div className="absolute right-[-20px] bottom-[-0px]">
-                        <Image
-                          src="/images/History of CoCo Khmer 3/DailyLifeStyle@4x.png"
-                          alt="Daily Lifestyle"
-                          width={400}
-                          height={400}
-                          className="object-contain w-full max-w-[500px] sm:max-w-[270px]"
-                        />
+                <div className="absolute right-[-20px] bottom-[-0px]">
+                  <Image
+                    src="/images/History of CoCo Khmer 3/DailyLifeStyle@4x.png"
+                    alt="Daily Lifestyle"
+                    width={400}
+                    height={400}
+                    className="object-contain w-full max-w-[500px] sm:max-w-[270px]"
+                  />
                 </div>
               </div>
             </div>

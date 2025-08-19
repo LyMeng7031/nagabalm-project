@@ -18,6 +18,7 @@ const ProductsHeroSection = () => {
   const everydayProducts = allProducts
     .filter((p: any) => p.useCase.type.includes("everyday"))
     .slice(0, 3);
+    
 
   return (
     <section className="w-full min-h-[100vh] bg-gradient-to-br from-[#C6E6F2] via-[#E0F4FF] to-[#F0F9FF] flex flex-col items-center relative overflow-hidden">
@@ -72,7 +73,7 @@ const ProductsHeroSection = () => {
         {/* Hero Title with improved responsive typography */}
         <div className="text-center mb-8 sm:mb-12 md:mb-16 lg:mb-20">
           <h1 className="text-[#F9461C] text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-tight mb-4 sm:mb-6 whitespace-pre-line drop-shadow-sm">
-            {t("products.heroTitle")}
+            {t("products.heroSubtitle")}
           </h1>
           <p className="text-[#2C5F7A] text-sm sm:text-base md:text-lg lg:text-xl font-medium max-w-3xl mx-auto leading-relaxed">
             {t("products.heroSubtitle")}
@@ -113,20 +114,20 @@ const ProductsHeroSection = () => {
                 >
                   <span>{t("products.activeLifestyles.viewProducts")}</span>
                   <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="lucide lucide-arrow-right"
-  >
-    <path d="M5 12h14" />
-    <path d="m12 5 7 7-7 7" />
-  </svg>
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-arrow-right"
+                  >
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
+                  </svg>
                 </button>
               </div>
 
@@ -175,20 +176,20 @@ const ProductsHeroSection = () => {
                 >
                   <span>{t("products.everydayRelief.viewProducts")}</span>
                   <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className="lucide lucide-arrow-right"
-  >
-    <path d="M5 12h14" />
-    <path d="m12 5 7 7-7 7" />
-  </svg>
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-arrow-right"
+                  >
+                    <path d="M5 12h14" />
+                    <path d="m12 5 7 7-7 7" />
+                  </svg>
                 </button>
               </div>
 
