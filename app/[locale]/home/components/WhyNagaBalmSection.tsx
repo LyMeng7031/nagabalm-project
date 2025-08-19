@@ -47,8 +47,15 @@ const WhyNagaBalmSection = () => {
         >
           {t("title")}
         </h3>
-      
-        <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 justify-center items-stretch w-full max-w-7xl px-4 sm:px-6 lg:px-8 mb-8 sm:mb-12 mt-10">
+        {/* Added the paragraph text */}
+        <p
+          className={`text-gray-700 text-sm sm:text-base lg:text-lg mb-8 sm:mb-12 lg:mb-16 text-center max-w-2xl px-4 font-bold p-4${
+            locale === "km" ? "font-hanuman" : ""
+          }`}
+        >
+          {t("p")}
+        </p>
+        <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 justify-center items-stretch w-full max-w-7xl px-4 sm:px-6 lg:px-8 mb-8 sm:mb-12">
           {cards.map((card, idx) => (
             <div
               key={idx}
@@ -94,7 +101,7 @@ const WhyNagaBalmSection = () => {
               locale === "km" ? "font-hanuman" : ""
             }`}
           >
-            {t('about')}
+            {t("about")}
           </button>
         </Link>
       </div>

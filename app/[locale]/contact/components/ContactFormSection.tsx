@@ -85,6 +85,14 @@ const ContactFormSection = () => {
                 className="border-b border-[#00B388] bg-transparent py-2 px-1 focus:outline-none min-h-[200px] text-base resize-none"
               />
               <div className="flex justify-start">
+<<<<<<< HEAD
+                <button
+                  type="submit"
+                  className="bg-[#F9461C] hover:bg-[#d13a17] text-white w-40 font-bold py-2 px-6 rounded-full text-base transition-colors"
+                >
+                  {tForm("button")} <span className="ml-2 m">→</span>
+                </button>
+=======
                <button
   type="submit"
   className="bg-[#F9461C] hover:bg-[#d13a17] text-white w-40 font-bold py-2 px-6 rounded-full text-base transition-colors flex items-center justify-center gap-2"
@@ -107,6 +115,7 @@ const ContactFormSection = () => {
   </svg>
 </button>
 
+>>>>>>> origin
               </div>
             </div>
           </form>
