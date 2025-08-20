@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useTranslations, useLocale } from "next-intl";
 
 const DiscoverSolutionSection = () => {
-  const t = useTranslations("discoverSolution");
+  const t = useTranslations("contact.discoverSolution");
   const locale = useLocale();
 
   return (
@@ -61,7 +61,7 @@ const DiscoverSolutionSection = () => {
                           locale === "km" ? "font-hanuman" : ""
                         }`}
                       >
-                        {t("activeLifestyles.viewProducts")}
+                        {t("activeLifestyles.button")}
                         <span className="text-xl">→</span>
                       </button>
                     </Link>
@@ -104,7 +104,7 @@ const DiscoverSolutionSection = () => {
                           locale === "km" ? "font-hanuman" : ""
                         }`}
                       >
-                        {t("exploreProducts")}
+                        {t("activeLifestyles.title")}
                         <span className="text-xl">→</span>
                       </button>
                     </Link>

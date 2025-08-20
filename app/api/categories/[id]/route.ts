@@ -7,48 +7,55 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   try {
-    const id = params.id;
-    
+    const id = await params.id;
+
     // Get category by ID
     const category = await prisma.category.findUnique({
       where: {
-        id: id
-      }
+        id: id,
+      },
+      include: {
+        products: true,
+      },
     });
 
     if (!category) {
       return NextResponse.json(
-        { 
+        {
           success: false,
-          error: "Category not found" 
+          error: "Category not found",
         },
         { status: 404 }
       );
     }
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       success: true,
-      data: category
+      data: category,
     });
   } catch (error) {
-    console.error('Error fetching category:', error);
-    
+    console.error("Error fetching category:", error);
+
     // Check if it's a database connection error
-    if (error instanceof Error && error.message.includes('authentication failed')) {
+    if (
+      error instanceof Error &&
+      error.message.includes("authentication failed")
+    ) {
       return NextResponse.json(
-        { 
+        {
           success: false,
-          error: "Database authentication failed. Please check your MongoDB credentials."
+          error:
+            "Database authentication failed. Please check your MongoDB credentials.",
         },
         { status: 503 }
       );
     }
-    
+
     return NextResponse.json(
-      { 
+      {
         success: false,
         error: "Failed to fetch category",
-        details: error instanceof Error ? error.message : "Unknown error"
+        details: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 }
     );
@@ -63,24 +70,24 @@ export async function PUT(
     const id = params.id;
     const body = await request.json();
     const { slug, translations } = body;
-    
+
     // Validate required fields
     if (!slug || !translations) {
       return NextResponse.json(
-        { 
+        {
           success: false,
-          error: "Missing required fields: slug, translations" 
+          error: "Missing required fields: slug, translations",
         },
         { status: 400 }
       );
     }
 
     // Validate translations object structure
-    if (typeof translations !== 'object' || translations === null) {
+    if (typeof translations !== "object" || translations === null) {
       return NextResponse.json(
-        { 
+        {
           success: false,
-          error: "Translations must be an object" 
+          error: "Translations must be an object",
         },
         { status: 400 }
       );
@@ -89,9 +96,9 @@ export async function PUT(
     // Validate that translations has required language keys
     if (!translations.en || !translations.km) {
       return NextResponse.json(
-        { 
+        {
           success: false,
-          error: "Translations must include both 'en' and 'km' language keys" 
+          error: "Translations must include both 'en' and 'km' language keys",
         },
         { status: 400 }
       );
@@ -99,22 +106,22 @@ export async function PUT(
 
     // Validate each language translation structure
     for (const [lang, translation] of Object.entries(translations)) {
-      if (typeof translation !== 'object' || translation === null) {
+      if (typeof translation !== "object" || translation === null) {
         return NextResponse.json(
-          { 
+          {
             success: false,
-            error: `Translation for '${lang}' must be an object` 
+            error: `Translation for '${lang}' must be an object`,
           },
           { status: 400 }
         );
       }
-      
+
       const trans = translation as any;
       if (!trans.name) {
         return NextResponse.json(
-          { 
+          {
             success: false,
-            error: `Translation for '${lang}' must have 'name' field` 
+            error: `Translation for '${lang}' must have 'name' field`,
           },
           { status: 400 }
         );
@@ -123,14 +130,14 @@ export async function PUT(
 
     // Check if category exists
     const existingCategory = await prisma.category.findUnique({
-      where: { id: id }
+      where: { id: id },
     });
 
     if (!existingCategory) {
       return NextResponse.json(
-        { 
+        {
           success: false,
-          error: "Category not found" 
+          error: "Category not found",
         },
         { status: 404 }
       );
@@ -141,34 +148,38 @@ export async function PUT(
       where: { id },
       data: {
         slug,
-        translations
-      }
+        translations,
+      },
     });
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       success: true,
       message: "Category updated successfully",
-      data: updatedCategory
+      data: updatedCategory,
     });
   } catch (error) {
-    console.error('Error updating category:', error);
-    
+    console.error("Error updating category:", error);
+
     // Check if it's a database connection error
-    if (error instanceof Error && error.message.includes('authentication failed')) {
+    if (
+      error instanceof Error &&
+      error.message.includes("authentication failed")
+    ) {
       return NextResponse.json(
-        { 
+        {
           success: false,
-          error: "Database authentication failed. Please check your MongoDB credentials."
+          error:
+            "Database authentication failed. Please check your MongoDB credentials.",
         },
         { status: 503 }
       );
     }
-    
+
     return NextResponse.json(
-      { 
+      {
         success: false,
         error: "Failed to update category",
-        details: error instanceof Error ? error.message : "Unknown error"
+        details: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 }
     );
@@ -181,21 +192,21 @@ export async function DELETE(
 ) {
   try {
     const id = params.id;
-    console.log('DELETE request received for category ID:', id);
-    
+    console.log("DELETE request received for category ID:", id);
+
     // Check if category exists and get its data
     const existingCategory = await prisma.category.findUnique({
-      where: { id: id }
+      where: { id: id },
     });
 
-    console.log('Existing category found:', existingCategory ? 'Yes' : 'No');
+    console.log("Existing category found:", existingCategory ? "Yes" : "No");
 
     if (!existingCategory) {
       return NextResponse.json(
         {
           success: false,
           error: "Category not found",
-          searchedId: id
+          searchedId: id,
         },
         { status: 404 }
       );
@@ -219,36 +230,40 @@ export async function DELETE(
     // Delete category by ID
     await prisma.category.delete({
       where: {
-        id: id
-      }
+        id: id,
+      },
     });
 
-    console.log('Category deleted successfully');
+    console.log("Category deleted successfully");
 
     return NextResponse.json({
       success: true,
       message: `Category deleted successfully`,
-      deletedCategory: existingCategory
+      deletedCategory: existingCategory,
     });
   } catch (error) {
-    console.error('Error deleting category:', error);
-    
+    console.error("Error deleting category:", error);
+
     // Check if it's a database connection error
-    if (error instanceof Error && error.message.includes('authentication failed')) {
+    if (
+      error instanceof Error &&
+      error.message.includes("authentication failed")
+    ) {
       return NextResponse.json(
         {
           success: false,
-          error: "Database authentication failed. Please check your MongoDB credentials."
+          error:
+            "Database authentication failed. Please check your MongoDB credentials.",
         },
         { status: 503 }
       );
     }
-    
+
     return NextResponse.json(
       {
         success: false,
         error: "Failed to delete category",
-        details: error instanceof Error ? error.message : "Unknown error"
+        details: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 }
     );

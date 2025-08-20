@@ -77,6 +77,7 @@ export default function ProductDashboardPage() {
   const [editingId, setEditingId] = useState<string | undefined>(undefined);
   const [form, setForm] = useState<ProductFormState>(emptyForm());
   const [search, setSearch] = useState("");
+  const [currentStep, setCurrentStep] = useState(1); // For multi-step form
 
   const { data: productsResp, isLoading: loadingProducts } = useQuery({
     queryKey: ["products"],
@@ -115,6 +116,7 @@ export default function ProductDashboardPage() {
       setFormOpen(false);
       setForm(emptyForm());
       setEditingId(undefined);
+      setCurrentStep(1);
     },
   });
 
@@ -135,6 +137,7 @@ export default function ProductDashboardPage() {
       setFormOpen(false);
       setForm(emptyForm());
       setEditingId(undefined);
+      setCurrentStep(1);
     },
   });
 
@@ -151,9 +154,9 @@ export default function ProductDashboardPage() {
   function openCreate() {
     setForm(emptyForm());
     setEditingId(undefined);
+    setCurrentStep(1);
     setFormOpen(true);
   }
-
 
   function openEdit(p: ApiProduct) {
     setForm({
@@ -183,6 +186,7 @@ export default function ProductDashboardPage() {
       categoryId: p.categoryId,
     });
     setEditingId(p.id);
+    setCurrentStep(1);
     setFormOpen(true);
   }
 
@@ -218,6 +222,18 @@ export default function ProductDashboardPage() {
 
   const saving = createMutation.isPending || updateMutation.isPending;
 
+  // Helper function to generate slug from product name
+  const generateSlug = (name: string) => {
+    return name
+      .toLowerCase()
+      .replace(/[^a-z0-9\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .trim();
+  };
+
+  const totalSteps = 4;
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Sidebar />
@@ -226,6 +242,7 @@ export default function ProductDashboardPage() {
         <div className="flex items-center justify-between mb-6">
           <h1 className="text-2xl font-bold text-gray-800">Products</h1>
           <button
+            type="button"
             onClick={openCreate}
             className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600"
           >
@@ -242,430 +259,864 @@ export default function ProductDashboardPage() {
           />
         </div>
 
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {(loadingProducts ? Array.from({ length: 6 }) : filteredProducts).map(
-            (p, idx) => (
-              <div
-                key={(p as any)?.id ?? idx}
-                className="bg-white rounded-lg shadow p-4"
-              >
-                {p ? (
-                  <>
-                    <div className="flex items-center justify-between mb-2">
-                      <h2
-                        className="text-lg font-semibold text-gray-800 truncate"
-                        title={(p as ApiProduct).slug}
+        {/* === Products Table === */}
+        <div className="overflow-x-auto bg-white rounded-lg shadow">
+          <table className="min-w-full border border-gray-200">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700 border-b">
+                  Product Name
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700 border-b">
+                  Price
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700 border-b">
+                  Images
+                </th>
+                <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700 border-b">
+                  Status
+                </th>
+                <th className="px-4 py-2 text-sm font-semibold text-gray-700 border-b text-right">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {(loadingProducts
+                ? Array.from({ length: 6 })
+                : filteredProducts
+              ).map((p, idx) =>
+                p ? (
+                  <tr
+                    key={(p as ApiProduct).id ?? idx}
+                    className="hover:bg-gray-50"
+                  >
+                    <td className="px-4 py-2 text-sm text-gray-800">
+                      {(p as ApiProduct).translations.en.name}
+                    </td>
+                    <td className="px-4 py-2 text-sm text-gray-600">
+                      ${(p as ApiProduct).price.toFixed(2)}
+                    </td>
+                    <td className="px-4 py-2">
+                      <div className="flex gap-2">
+                        {(p as ApiProduct).images?.slice(0, 3).map((img) => (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            key={img}
+                            src={img}
+                            alt="img"
+                            className="h-10 w-10 object-cover rounded"
+                          />
+                        ))}
+                      </div>
+                    </td>
+                    <td className="px-4 py-2">
+                      <span
+                        className={`px-2 py-1 rounded text-xs ${
+                          (p as ApiProduct).isTopSell
+                            ? "bg-green-100 text-green-700"
+                            : "bg-gray-100 text-gray-700"
+                        }`}
                       >
-                        {(p as ApiProduct).slug}
-                      </h2>
-                      <span className="text-sm text-gray-500">
-                        ${(p as ApiProduct).price.toFixed(2)}
-                      </span>
-                    </div>
-                    <div className="flex gap-2 overflow-x-auto mb-3">
-                      {(p as ApiProduct).images?.slice(0, 3).map((img) => (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          key={img}
-                          src={img}
-                          alt="img"
-                          className="h-14 w-14 object-cover rounded"
-                        />
-                      ))}
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-600 mb-3">
-                      <span className="px-2 py-0.5 rounded bg-gray-100">
                         {(p as ApiProduct).isTopSell ? "Top" : "Regular"}
                       </span>
-                      <span className="px-2 py-0.5 rounded bg-gray-100">
-                        {(p as ApiProduct).categoryId.slice(-6)}
-                      </span>
-                    </div>
-                    <div className="flex gap-2">
+                    </td>
+                    <td className="px-4 py-2 text-right">
                       <button
+                        type="button"
                         onClick={() => openEdit(p as ApiProduct)}
-                        className="px-3 py-1.5 text-sm rounded border border-gray-300 hover:bg-gray-50"
+                        className="px-3 py-1 text-sm rounded border border-gray-300 hover:bg-gray-50 mr-2"
                       >
                         Edit
                       </button>
                       <button
+                        type="button"
                         onClick={() => {
                           if (confirm("Delete this product?"))
                             deleteMutation.mutate((p as ApiProduct).id);
                         }}
-                        className="px-3 py-1.5 text-sm rounded border border-red-300 text-red-600 hover:bg-red-50"
+                        className="px-3 py-1 text-sm rounded border border-red-300 text-red-600 hover:bg-red-50"
                       >
                         Delete
                       </button>
-                    </div>
-                  </>
+                    </td>
+                  </tr>
                 ) : (
-                  <div className="animate-pulse h-40 bg-gray-100 rounded" />
-                )}
-              </div>
-            )
-          )}
+                  <tr key={idx}>
+                    <td colSpan={5} className="px-4 py-6">
+                      <div className="animate-pulse h-6 bg-gray-100 rounded" />
+                    </td>
+                  </tr>
+                )
+              )}
+            </tbody>
+          </table>
         </div>
 
+        {/* === Improved Product Form Modal === */}
         {formOpen && (
           <div
             className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
             onClick={() => setFormOpen(false)}
           >
             <div
-              className="bg-white w-full max-w-4xl rounded-lg p-4 md:p-6 overflow-y-auto max-h-[90vh]"
+              className="bg-white w-full max-w-5xl rounded-lg overflow-hidden max-h-[90vh] flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold">
-                  {editingId ? "Edit Product" : "Create Product"}
-                </h2>
-                <button
-                  onClick={() => setFormOpen(false)}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  ✕
-                </button>
-              </div>
-
-
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label
-                      htmlFor="slug"
-                      className="block text-sm font-medium mb-1"
-                    >
-                      Slug
-                    </label>
-                    <input
-                      id="slug"
-                      required
-                      placeholder="unique-product-slug"
-                      value={form.slug}
-                      onChange={(e) =>
-                        setForm({ ...form, slug: e.target.value })
-                      }
-                      className="w-full border rounded-md px-3 py-2"
-                    />
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="categoryId"
-                      className="block text-sm font-medium mb-1"
-                    >
-                      Category
-                    </label>
-                    <select
-                      id="categoryId"
-                      required
-                      value={form.categoryId}
-                      onChange={(e) =>
-                        setForm({ ...form, categoryId: e.target.value })
-                      }
-                      className="w-full border rounded-md px-3 py-2"
-                    >
-                      <option value="" disabled>
-                        Select a category
-                      </option>
-                      {categories.map((c: ApiCategory) => (
-                        <option key={c.id} value={c.id}>
-                          {c.slug} – {c.translations.en.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div>
-                    <label
-                      htmlFor="price"
-                      className="block text-sm font-medium mb-1"
-                    >
-                      Price
-                    </label>
-                    <input
-                      id="price"
-                      type="number"
-                      step="0.01"
-                      required
-                      placeholder="0.00"
-                      value={form.price}
-                      onChange={(e) =>
-                        setForm({ ...form, price: e.target.value })
-                      }
-                      className="w-full border rounded-md px-3 py-2"
-                    />
-                  </div>
-                  <div className="flex items-center gap-2 mt-6">
-                    <input
-                      id="isTopSell"
-                      type="checkbox"
-                      checked={form.isTopSell}
-                      onChange={(e) =>
-                        setForm({ ...form, isTopSell: e.target.checked })
-                      }
-                    />
-                    <label htmlFor="isTopSell" className="text-sm">
-                      Top Sell
-                    </label>
-                  </div>
-                </div>
-
-
-                <div>
-                  <label
-                    htmlFor="images"
-                    className="block text-sm font-medium mb-1"
-                  >
-                    Images
-                  </label>
-                  <input
-                    id="images"
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    onChange={(e) => handleUpload(e.target.files)}
-                  />
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {form.images.map((url) => (
-                      <div key={url} className="relative">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={url}
-                          alt=""
-                          className="h-16 w-16 object-cover rounded"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeImage(url)}
-                          className="absolute -top-2 -right-2 bg-black/70 text-white rounded-full w-6 h-6"
-                        >
-                          ×
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {(["en", "km"] as const).map((lang) => (
-                  <fieldset key={lang} className="border rounded-md p-3">
-                    <legend className="text-sm font-semibold">
-                      {lang.toUpperCase()} Translation
-                    </legend>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label
-                          htmlFor={`name-${lang}`}
-                          className="block text-sm font-medium mb-1"
-                        >
-                          Name
-                        </label>
-                        <input
-                          id={`name-${lang}`}
-                          required
-                          placeholder={
-                            lang === "en"
-                              ? "Product name (English)"
-                              : "ឈ្មោះ​ផលិតផល (ខ្មែរ)"
-                          }
-                          value={form.translations[lang].name}
-                          onChange={(e) =>
-                            setForm({
-                              ...form,
-                              translations: {
-                                ...form.translations,
-                                [lang]: {
-                                  ...form.translations[lang],
-                                  name: e.target.value,
-                                },
-                              },
-                            })
-                          }
-                          className="w-full border rounded-md px-3 py-2"
-                        />
-                      </div>
-                      <div>
-                        <label
-                          htmlFor={`size-${lang}`}
-                          className="block text-sm font-medium mb-1"
-                        >
-                          Size
-                        </label>
-                        <input
-                          id={`size-${lang}`}
-                          placeholder={
-                            lang === "en"
-                              ? "e.g., 7g / 80g"
-                              : "ឧ. ៧ក្រាម / ៨០ក្រាម"
-                          }
-                          value={form.translations[lang].size}
-                          onChange={(e) =>
-                            setForm({
-                              ...form,
-                              translations: {
-                                ...form.translations,
-                                [lang]: {
-                                  ...form.translations[lang],
-                                  size: e.target.value,
-                                },
-                              },
-
-                            })
-                          }
-                          className="w-full border rounded-md px-3 py-2"
-                        />
-                      </div>
-                      <div className="md:col-span-2">
-                        <label
-                          htmlFor={`description-${lang}`}
-                          className="block text-sm font-medium mb-1"
-                        >
-                          Description
-                        </label>
-                        <textarea
-                          id={`description-${lang}`}
-                          required
-                          placeholder={
-                            lang === "en"
-                              ? "Describe the product"
-                              : "ពិពណ៌នា​ពី​ផលិតផល"
-                          }
-                          value={form.translations[lang].description}
-                          onChange={(e) =>
-                            setForm({
-                              ...form,
-                              translations: {
-                                ...form.translations,
-                                [lang]: {
-                                  ...form.translations[lang],
-                                  description: e.target.value,
-                                },
-                              },
-                            })
-                          }
-                          className="w-full border rounded-md px-3 py-2 min-h-24"
-                        />
-                      </div>
-                      <div className="md:col-span-2">
-                        <label
-                          htmlFor={`activeIngredient-${lang}`}
-                          className="block text-sm font-medium mb-1"
-                        >
-                          Active Ingredient
-                        </label>
-                        <input
-                          id={`activeIngredient-${lang}`}
-                          placeholder={
-                            lang === "en"
-                              ? "e.g., Wintergreen Oil"
-                              : "ឧ. ប្រេង Wintergreen"
-                          }
-                          value={form.translations[lang].activeIngredient}
-                          onChange={(e) =>
-                            setForm({
-                              ...form,
-                              translations: {
-                                ...form.translations,
-                                [lang]: {
-                                  ...form.translations[lang],
-                                  activeIngredient: e.target.value,
-                                },
-                              },
-                            })
-                          }
-                          className="w-full border rounded-md px-3 py-2"
-                        />
-                      </div>
-                      <div className="md:col-span-2">
-                        <label
-                          htmlFor={`usage-${lang}`}
-                          className="block text-sm font-medium mb-1"
-                        >
-                          Usage (one per line)
-                        </label>
-                        <textarea
-                          id={`usage-${lang}`}
-                          placeholder={
-                            lang === "en"
-                              ? "One point per line"
-                              : "មួយចំណុចក្នុងមួយបន្ទាត់"
-                          }
-                          value={form.translations[lang].usage.join("\n")}
-                          onChange={(e) =>
-                            setForm({
-                              ...form,
-                              translations: {
-                                ...form.translations,
-                                [lang]: {
-                                  ...form.translations[lang],
-                                  usage: e.target.value
-                                    .split("\n")
-                                    .filter(Boolean),
-
-                                },
-                              },
-                            })
-                          }
-                          className="w-full border rounded-md px-3 py-2 min-h-24"
-                        />
-                      </div>
-                      <div className="md:col-span-2">
-                        <label
-                          htmlFor={`bestFor-${lang}`}
-                          className="block text-sm font-medium mb-1"
-                        >
-                          Best For Tags (comma separated)
-                        </label>
-                        <input
-                          id={`bestFor-${lang}`}
-                          placeholder={
-                            lang === "en"
-                              ? "tag1, tag2, tag3"
-                              : "ស្លាក១, ស្លាក២, ស្លាក៣"
-                          }
-                          value={form.translations[lang].bestForTags.join(", ")}
-                          onChange={(e) =>
-                            setForm({
-                              ...form,
-                              translations: {
-                                ...form.translations,
-                                [lang]: {
-                                  ...form.translations[lang],
-                                  bestForTags: e.target.value
-                                    .split(",")
-                                    .map((s) => s.trim())
-                                    .filter(Boolean),
-                                },
-                              },
-                            })
-                          }
-                          className="w-full border rounded-md px-3 py-2"
-                        />
-                      </div>
-                    </div>
-                  </fieldset>
-                ))}
-
-                <div className="flex items-center gap-3">
-                  <button
-                    type="submit"
-                    disabled={saving}
-                    className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 disabled:opacity-50"
-                  >
-                    {saving ? "Saving..." : editingId ? "Update" : "Create"}
-                  </button>
+              {/* Header with Progress */}
+              <div className="p-6 border-b bg-gray-50">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-2xl font-bold text-gray-900">
+                    {editingId ? "Edit Product" : "Create New Product"}
+                  </h2>
                   <button
                     type="button"
-                    onClick={() => {
-                      setFormOpen(false);
-                      setEditingId(undefined);
-                    }}
-                    className="px-4 py-2 border rounded-md"
+                    onClick={() => setFormOpen(false)}
+                    className="text-gray-400 hover:text-gray-600 text-2xl"
                   >
-                    Cancel
+                    ✕
                   </button>
                 </div>
-              </form>
+
+                {/* Progress Steps */}
+                <div className="flex items-center justify-between max-w-md">
+                  {[1, 2, 3, 4].map((step) => (
+                    <div key={step} className="flex items-center">
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                          step <= currentStep
+                            ? "bg-orange-500 text-white"
+                            : "bg-gray-200 text-gray-600"
+                        }`}
+                      >
+                        {step}
+                      </div>
+                      {step < 4 && (
+                        <div
+                          className={`w-12 h-1 mx-2 ${
+                            step < currentStep ? "bg-orange-500" : "bg-gray-200"
+                          }`}
+                        />
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-2 text-sm text-gray-600">
+                  Step {currentStep} of {totalSteps}:{" "}
+                  {currentStep === 1
+                    ? "Basic Information"
+                    : currentStep === 2
+                    ? "Images & Pricing"
+                    : currentStep === 3
+                    ? "English Content"
+                    : "Khmer Content"}
+                </div>
+              </div>
+
+              {/* Form Content */}
+              <div className="flex-1 overflow-y-auto p-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Step 1: Basic Information */}
+                  {currentStep === 1 && (
+                    <div className="space-y-6">
+                      <div className="bg-blue-50 border-l-4 border-blue-400 p-4">
+                        <div className="flex">
+                          <div className="ml-3">
+                            <p className="text-sm text-blue-700">
+                              <strong>Step 1:</strong> Let's start with the
+                              basic product information. Fill in the product
+                              name first, and we'll help generate a URL-friendly
+                              slug for you.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                          <label
+                            htmlFor="product-name"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            Product Name (English){" "}
+                            <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            id="product-name"
+                            required
+                            placeholder="e.g., Pain Relief Balm"
+                            value={form.translations.en.name}
+                            onChange={(e) => {
+                              const name = e.target.value;
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  en: { ...form.translations.en, name },
+                                },
+                                slug: generateSlug(name),
+                              });
+                            }}
+                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            This will be the main product name displayed to
+                            customers
+                          </p>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="slug"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            URL Slug <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            id="slug"
+                            required
+                            placeholder="pain-relief-balm"
+                            value={form.slug}
+                            onChange={(e) =>
+                              setForm({ ...form, slug: e.target.value })
+                            }
+                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            URL-friendly version (auto-generated from name, but
+                            you can edit)
+                          </p>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="categoryId"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            Category <span className="text-red-500">*</span>
+                          </label>
+                          <select
+                            id="categoryId"
+                            required
+                            value={form.categoryId}
+                            onChange={(e) =>
+                              setForm({ ...form, categoryId: e.target.value })
+                            }
+                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none"
+                          >
+                            <option value="">Choose a category</option>
+                            {categories.map((c: ApiCategory) => (
+                              <option key={c.id} value={c.id}>
+                                {c.translations.en.name}
+                              </option>
+                            ))}
+                          </select>
+                          <p className="text-xs text-gray-500 mt-1">
+                            Select the category this product belongs to
+                          </p>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="product-size"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            Product Size
+                          </label>
+                          <input
+                            id="product-size"
+                            placeholder="e.g., 7g, 80ml, 50 tablets"
+                            value={form.translations.en.size}
+                            onChange={(e) =>
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  en: {
+                                    ...form.translations.en,
+                                    size: e.target.value,
+                                  },
+                                },
+                              })
+                            }
+                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            Package size or quantity (optional)
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Step 2: Images & Pricing */}
+                  {currentStep === 2 && (
+                    <div className="space-y-6">
+                      <div className="bg-green-50 border-l-4 border-green-400 p-4">
+                        <div className="flex">
+                          <div className="ml-3">
+                            <p className="text-sm text-green-700">
+                              <strong>Step 2:</strong> Add product images and
+                              set the price. Good product images help customers
+                              make purchase decisions.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="md:col-span-2">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Product Images
+                          </label>
+                          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-orange-400 transition-colors">
+                            <label className="cursor-pointer">
+                              <div className="space-y-2">
+                                <div className="mx-auto w-12 h-12 text-gray-400">
+                                  <svg
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M12 4v16m8-8H4"
+                                    />
+                                  </svg>
+                                </div>
+                                <div className="text-gray-600">
+                                  <span className="font-medium text-orange-600">
+                                    Click to upload images
+                                  </span>{" "}
+                                  or drag and drop
+                                </div>
+                                <p className="text-sm text-gray-500">
+                                  PNG, JPG up to 10MB each
+                                </p>
+                              </div>
+                              <input
+                                type="file"
+                                multiple
+                                accept="image/*"
+                                className="hidden"
+                                onChange={(e) => handleUpload(e.target.files)}
+                              />
+                            </label>
+                          </div>
+
+                          {form.images.length > 0 && (
+                            <div className="mt-4">
+                              <p className="text-sm font-medium text-gray-700 mb-3">
+                                Uploaded Images:
+                              </p>
+                              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                {form.images.map((url, index) => (
+                                  <div key={url} className="relative group">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                      src={url}
+                                      alt={`Product image ${index + 1}`}
+                                      className="w-full h-24 object-cover rounded-lg border-2 border-gray-200"
+                                    />
+                                    <button
+                                      type="button"
+                                      onClick={() => removeImage(url)}
+                                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 text-xs hover:bg-red-600 opacity-0 group-hover:opacity-100 transition-opacity"
+                                    >
+                                      ×
+                                    </button>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="price"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            Price (USD) <span className="text-red-500">*</span>
+                          </label>
+                          <div className="relative">
+                            <span className="absolute left-3 top-3 text-gray-500">
+                              $
+                            </span>
+                            <input
+                              id="price"
+                              type="number"
+                              step="0.01"
+                              required
+                              placeholder="0.00"
+                              value={form.price}
+                              onChange={(e) =>
+                                setForm({ ...form, price: e.target.value })
+                              }
+                              className="w-full border-2 border-gray-200 rounded-lg pl-8 pr-4 py-3 focus:border-orange-500 focus:outline-none"
+                            />
+                          </div>
+                          <p className="text-xs text-gray-500 mt-1">
+                            Set the selling price for this product
+                          </p>
+                        </div>
+
+                        <div className="flex items-start space-x-3 pt-8">
+                          <input
+                            id="isTopSell"
+                            type="checkbox"
+                            checked={form.isTopSell}
+                            onChange={(e) =>
+                              setForm({ ...form, isTopSell: e.target.checked })
+                            }
+                            className="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500"
+                          />
+                          <div>
+                            <label
+                              htmlFor="isTopSell"
+                              className="text-sm font-medium text-gray-700"
+                            >
+                              Mark as Top Selling Product
+                            </label>
+                            <p className="text-xs text-gray-500">
+                              Top selling products get featured placement on the
+                              website
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Step 3: English Content */}
+                  {currentStep === 3 && (
+                    <div className="space-y-6">
+                      <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
+                        <div className="flex">
+                          <div className="ml-3">
+                            <p className="text-sm text-purple-700">
+                              <strong>Step 3:</strong> Add detailed product
+                              information in English. This content will be shown
+                              to English-speaking customers.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-6">
+                        <div>
+                          <label
+                            htmlFor="desc-en"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            Product Description{" "}
+                            <span className="text-red-500">*</span>
+                          </label>
+                          <textarea
+                            id="desc-en"
+                            required
+                            placeholder="Describe what this product does, its benefits, and why customers should buy it..."
+                            value={form.translations.en.description}
+                            onChange={(e) =>
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  en: {
+                                    ...form.translations.en,
+                                    description: e.target.value,
+                                  },
+                                },
+                              })
+                            }
+                            rows={5}
+                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none resize-none"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            Write a compelling description that highlights the
+                            product benefits
+                          </p>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="ingredient-en"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            Active Ingredients
+                          </label>
+                          <textarea
+                            id="ingredient-en"
+                            placeholder="List the main active ingredients and their benefits..."
+                            value={form.translations.en.activeIngredient}
+                            onChange={(e) =>
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  en: {
+                                    ...form.translations.en,
+                                    activeIngredient: e.target.value,
+                                  },
+                                },
+                              })
+                            }
+                            rows={4}
+                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none resize-none"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            List key ingredients that make this product
+                            effective
+                          </p>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="usage-en"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            How to Use
+                          </label>
+                          <textarea
+                            id="usage-en"
+                            placeholder="Step 1: Clean the affected area&#10;Step 2: Apply a small amount&#10;Step 3: Massage gently..."
+                            value={form.translations.en.usage.join("\n")}
+                            onChange={(e) =>
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  en: {
+                                    ...form.translations.en,
+                                    usage: e.target.value
+                                      .split("\n")
+                                      .filter(Boolean),
+                                  },
+                                },
+                              })
+                            }
+                            rows={5}
+                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none resize-none"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            Write each usage instruction on a new line. Press
+                            Enter to start a new line.
+                          </p>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="tags-en"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            Best For (Tags)
+                          </label>
+                          <input
+                            id="tags-en"
+                            placeholder="muscle pain, joint relief, sports injuries, headaches"
+                            value={form.translations.en.bestForTags.join(", ")}
+                            onChange={(e) =>
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  en: {
+                                    ...form.translations.en,
+                                    bestForTags: e.target.value
+                                      .split(",")
+                                      .map((s) => s.trim())
+                                      .filter(Boolean),
+                                  },
+                                },
+                              })
+                            }
+                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            Separate tags with commas. These help customers find
+                            your product.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Step 4: Khmer Content */}
+                  {currentStep === 4 && (
+                    <div className="space-y-6">
+                      <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                        <div className="flex">
+                          <div className="ml-3">
+                            <p className="text-sm text-yellow-700">
+                              <strong>Step 4:</strong> Add the same product
+                              information in Khmer language. This content will
+                              be shown to Khmer-speaking customers.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="space-y-6">
+                        <div>
+                          <label
+                            htmlFor="name-km"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            Product Name (Khmer){" "}
+                            <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            id="name-km"
+                            required
+                            placeholder="ឈ្មោះផលិតផល..."
+                            value={form.translations.km.name}
+                            onChange={(e) =>
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  km: {
+                                    ...form.translations.km,
+                                    name: e.target.value,
+                                  },
+                                },
+                              })
+                            }
+                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            ឈ្មោះផលិតផលជាភាសាខ្មែរ
+                          </p>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="size-km"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            Product Size (Khmer)
+                          </label>
+                          <input
+                            id="size-km"
+                            placeholder="ឧ. ៧ក្រាម, ៨០មីលីលីត្រ"
+                            value={form.translations.km.size}
+                            onChange={(e) =>
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  km: {
+                                    ...form.translations.km,
+                                    size: e.target.value,
+                                  },
+                                },
+                              })
+                            }
+                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            ទំហំឬបរិមាណផលិតផល
+                          </p>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="desc-km"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            Product Description (Khmer){" "}
+                            <span className="text-red-500">*</span>
+                          </label>
+                          <textarea
+                            id="desc-km"
+                            required
+                            placeholder="ពិពណ៌នាអំពីផលិតផលនេះ គុណប្រយោជន៍ និងហេតុផលដែលអតិថិជនគួរទិញ..."
+                            value={form.translations.km.description}
+                            onChange={(e) =>
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  km: {
+                                    ...form.translations.km,
+                                    description: e.target.value,
+                                  },
+                                },
+                              })
+                            }
+                            rows={5}
+                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none resize-none"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            សរសេរការពិពណ៌នាដែលបង្ហាញពីគុណប្រយោជន៍ផលិតផល
+                          </p>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="ingredient-km"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            Active Ingredients (Khmer)
+                          </label>
+                          <textarea
+                            id="ingredient-km"
+                            placeholder="រាយបញ្ជីសមាសធាតុសកម្ម និងគុណប្រយោជន៍របស់វា..."
+                            value={form.translations.km.activeIngredient}
+                            onChange={(e) =>
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  km: {
+                                    ...form.translations.km,
+                                    activeIngredient: e.target.value,
+                                  },
+                                },
+                              })
+                            }
+                            rows={4}
+                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none resize-none"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            រាយបញ្ជីសមាសធាតុសំខាន់ៗដែលធ្វើឱ្យផលិតផលនេះមានប្រសិទ្ធភាព
+                          </p>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="usage-km"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            How to Use (Khmer)
+                          </label>
+                          <textarea
+                            id="usage-km"
+                            placeholder="ជំហានទី១: សម្អាតកន្លែងដែលមានបញ្ហា&#10;ជំហានទី២: លាបបរិមាណតិចតួច&#10;ជំហានទី៣: ម៉ាសាហទន់ៗ..."
+                            value={form.translations.km.usage.join("\n")}
+                            onChange={(e) =>
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  km: {
+                                    ...form.translations.km,
+                                    usage: e.target.value
+                                      .split("\n")
+                                      .filter(Boolean),
+                                  },
+                                },
+                              })
+                            }
+                            rows={5}
+                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none resize-none"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            សរសេរការណែនាំការប្រើប្រាស់នីមួយៗនៅលើបន្ទាត់ថ្មី។ ចុច
+                            Enter ដើម្បីចាប់ផ្តើមបន្ទាត់ថ្មី។
+                          </p>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="tags-km"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            Best For Tags (Khmer)
+                          </label>
+                          <input
+                            id="tags-km"
+                            placeholder="ឈឺសាច់ដុំ, ឈឺសន្លាក់, របួសសកម្មភាព, ឈឺក្បាល"
+                            value={form.translations.km.bestForTags.join(", ")}
+                            onChange={(e) =>
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  km: {
+                                    ...form.translations.km,
+                                    bestForTags: e.target.value
+                                      .split(",")
+                                      .map((s) => s.trim())
+                                      .filter(Boolean),
+                                  },
+                                },
+                              })
+                            }
+                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            បំបែកស្លាកដោយសញ្ញាក្បៀស។
+                            ស្លាកទាំងនេះជួយអតិថិជនរកឃើញផលិតផលរបស់អ្នក។
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Navigation Buttons */}
+                  <div className="flex items-center justify-between pt-6 border-t">
+                    <div className="flex space-x-3">
+                      {currentStep > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => setCurrentStep(currentStep - 1)}
+                          className="px-6 py-2 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium"
+                        >
+                          ← Previous
+                        </button>
+                      )}
+                    </div>
+
+                    <div className="flex space-x-3">
+                      {currentStep < totalSteps ? (
+                        <button
+                          type="button"
+                          onClick={() => setCurrentStep(currentStep + 1)}
+                          className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 font-medium"
+                        >
+                          Next →
+                        </button>
+                      ) : (
+                        <div className="flex space-x-3">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFormOpen(false);
+                              setEditingId(undefined);
+                              setCurrentStep(1);
+                            }}
+                            className="px-6 py-2 border-2 border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            type="submit"
+                            disabled={saving}
+                            className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium flex items-center space-x-2"
+                          >
+                            {saving ? (
+                              <>
+                                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent"></div>
+                                <span>Saving...</span>
+                              </>
+                            ) : (
+                              <span>
+                                {editingId
+                                  ? "Update Product"
+                                  : "Create Product"}
+                              </span>
+                            )}
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
         )}

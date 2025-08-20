@@ -18,10 +18,6 @@ const ProductsHeroSection = () => {
   const everydayProducts = allProducts
     .filter((p: any) => p.useCase.type.includes("everyday"))
     .slice(0, 3);
-<<<<<<< HEAD
-=======
-    
->>>>>>> origin
 
   return (
     <section className="w-full min-h-[100vh] bg-gradient-to-br from-[#C6E6F2] via-[#E0F4FF] to-[#F0F9FF] flex flex-col items-center relative overflow-hidden">
@@ -76,18 +72,11 @@ const ProductsHeroSection = () => {
         {/* Hero Title with improved responsive typography */}
         <div className="text-center mb-8 sm:mb-12 md:mb-16 lg:mb-20">
           <h1 className="text-[#F9461C] text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold leading-tight mb-4 sm:mb-6 whitespace-pre-line drop-shadow-sm">
-<<<<<<< HEAD
             {t("products.heroTitle")}
           </h1>
           <p className="text-[#2C5F7A] text-sm sm:text-base md:text-lg lg:text-xl font-medium max-w-3xl mx-auto leading-relaxed">
             Discover our carefully crafted solutions designed for every
             lifestyle and wellness need.
-=======
-            {t("products.heroSubtitle")}
-          </h1>
-          <p className="text-[#2C5F7A] text-sm sm:text-base md:text-lg lg:text-xl font-medium max-w-3xl mx-auto leading-relaxed">
-            {t("products.heroSubtitle")}
->>>>>>> origin
           </p>
         </div>
 
@@ -124,27 +113,9 @@ const ProductsHeroSection = () => {
                     flex items-center gap-2 group-hover:bg-[#FFE6B0] border-2 border-transparent hover:border-white/20"
                 >
                   <span>{t("products.activeLifestyles.viewProducts")}</span>
-<<<<<<< HEAD
                   <span className="transition-transform group-hover:translate-x-1">
                     &rarr;
                   </span>
-=======
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-arrow-right"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="m12 5 7 7-7 7" />
-                  </svg>
->>>>>>> origin
                 </button>
               </div>
 
@@ -192,27 +163,9 @@ const ProductsHeroSection = () => {
                     flex items-center gap-2 group-hover:bg-[#FFE6B0] border-2 border-transparent hover:border-white/20"
                 >
                   <span>{t("products.everydayRelief.viewProducts")}</span>
-<<<<<<< HEAD
                   <span className="transition-transform group-hover:translate-x-1">
                     &rarr;
                   </span>
-=======
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="lucide lucide-arrow-right"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="m12 5 7 7-7 7" />
-                  </svg>
->>>>>>> origin
                 </button>
               </div>
 

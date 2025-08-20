@@ -1,17 +1,10 @@
 import type { Metadata } from "next";
 import { Karla, Hanuman } from "next/font/google";
 import "./globals.css";
-<<<<<<< HEAD
 import { defaultMetadata } from "./metadata";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import Providers from "./providers";
-=======
-import { defaultMetadata } from './metadata'
-import {NextIntlClientProvider} from 'next-intl';
-import {getLocale, getMessages} from 'next-intl/server';
-import { QueryClientProviderWrapper } from '@/lib/queryClientProvider';
->>>>>>> origin
 
 // English primary font
 const karla = Karla({
@@ -88,17 +81,9 @@ export default async function RootLayout({
           locale === "km" ? "font-hanuman" : "font-karla"
         }`}
       >
-<<<<<<< HEAD
         <NextIntlClientProvider messages={messages}>
           <Providers>{children}</Providers>
         </NextIntlClientProvider>
-=======
-        <QueryClientProviderWrapper>
-          <NextIntlClientProvider messages={messages}>
-            {children}
-          </NextIntlClientProvider>
-        </QueryClientProviderWrapper>
->>>>>>> origin
       </body>
     </html>
   );

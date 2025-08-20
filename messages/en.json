@@ -59,6 +59,7 @@
   "whyNagaBalm": {
     "title": "WHY NAGA BALM",
     "p": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diamnonummy nibh euismod",
+    "button": "Learn More",
     "about": "ABOUT",
     "cards": {
       "petroleumFree": {
@@ -194,7 +195,9 @@
       "error": "Failed to load products.",
       "noProducts": "No products found in this category.",
       "navigation": {
-        "backToProducts": "← Back to Products"
+        "backToProducts": "← Back to Products",
+        "goToPrevious": "Go to previous {category}",
+        "goToNext": "Go to next {category}"
       },
       "hero": {
         "productsTitle": "Our {category} Products",
@@ -207,7 +210,8 @@
       },
       "categories": {
         "active": "Active",
-        "everyday": "Everyday"
+        "everyday": "Everyday",
+        "balms": "Balms"
       }
     },
     "grid": {
@@ -385,36 +389,20 @@
       }
     ],
     "discoverSolution": {
-<<<<<<< HEAD
-  "title": "DISCOVER THE PERFECT\nSOLUTION FOR YOUR NEEDS.",
-  "activeLifestyles": {
-    "title": "FOR ACTIVE LIFESTYLES",
-    "subtitle": "Push harder. Recover faster. Stay in motion.",
-    "description": "Whether you're an athlete or just\nalways on the move, find relief that\n keeps up.",
-    "viewProducts": "VIEW PRODUCTS"
-  },
-  "everydayRelief": {
-    "title": "FOR EVERYDAY RELIEF",
-    "subtitle": "Soothe tension. Ease the day.\nFeel good again.",
-    "description": "From desk strain to daily\ndiscomfort, choose relief made\n for life's routines.",
-    "viewProducts": "VIEW PRODUCTS"
-  }
-}
-
-=======
       "title": "DISCOVER THE PERFECT\nSOLUTION FOR YOUR NEEDS.",
       "activeLifestyles": {
         "title": "FOR ACTIVE LIFESTYLES",
-        "subtitle": "Push harder. Recover faster. Stay in motion. Whether you're an athlete or just always on the move, find relief that keeps up.",
+        "subtitle": "Push harder. Recover faster. Stay in motion.",
+        "description": "Whether you're an athlete or just\nalways on the move, find relief that\n keeps up.",
         "viewProducts": "VIEW PRODUCTS"
       },
       "everydayRelief": {
         "title": "FOR EVERYDAY RELIEF",
-        "subtitle": "Soothe tension. Ease the day. Feel good again.\nFrom desk strain to daily discomfort, choose relief made for life's routines.",
+        "subtitle": "Soothe tension. Ease the day.\nFeel good again.",
+        "description": "From desk strain to daily\ndiscomfort, choose relief made\n for life's routines.",
         "viewProducts": "VIEW PRODUCTS"
       }
     }
->>>>>>> origin
   },
   "contact": {
     "hero": {

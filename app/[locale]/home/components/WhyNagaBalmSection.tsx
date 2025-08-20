@@ -101,7 +101,7 @@ const WhyNagaBalmSection = () => {
               locale === "km" ? "font-hanuman" : ""
             }`}
           >
-            {t("about")}
+            {t("button")}
           </button>
         </Link>
       </div>

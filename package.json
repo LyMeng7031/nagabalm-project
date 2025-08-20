@@ -14,16 +14,11 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@prisma/client": "^6.13.0",
-<<<<<<< HEAD
     "@tanstack/react-query": "^5.85.3",
-=======
-    "@radix-ui/react-popover": "^1.1.14",
-    "@tanstack/react-query": "^5.84.2",
-    "axios": "^1.11.0",
->>>>>>> origin
     "bcryptjs": "^3.0.2",
     "class-variance-authority": "^0.7.1",
     "cloudinary": "^2.7.0",
+    "cookies-next": "^6.1.0",
     "framer-motion": "^12.9.4",
     "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
@@ -34,12 +29,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-intersection-observer": "^9.16.0",
-<<<<<<< HEAD
-    "tailwind-merge": "^3.3.1"
-=======
     "tailwind-merge": "^3.3.1",
     "zod": "^4.0.17"
->>>>>>> origin
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -54,5 +45,3 @@
     "typescript": "5.8.3"
   }
 }
-
-
