@@ -140,12 +140,12 @@ const Navbar = () => {
         {/* Logo en arrière-plan avec opacité - hidden on mobile/tablet */}
         <div className="absolute left-0 top-0 h-full items-center pl-4 sm:pl-6 pointer-events-none hidden lg:flex">
           <div className="w-12 h-12 sm:w-16 sm:h-16 lg:w-[72px] lg:h-[72px] relative">
-            <Image
+            {/* <Image
               src="/images/Logo/Naga Balm__Brandmark_Fire.png"
               alt="Background Logo"
               fill
               className="object-contain opacity-30"
-            />
+            /> */}
           </div>
         </div>
 

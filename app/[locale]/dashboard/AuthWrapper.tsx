@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
+import { getValidToken, getCurrentUser } from "@/lib/auth";
+import { TokenPayload } from "@/lib/auth";
 
 interface AuthWrapperProps {
   children: React.ReactNode;
@@ -15,68 +17,60 @@ export default function AuthWrapper({ children }: AuthWrapperProps) {
   const locale = useLocale();
 
   useEffect(() => {
-    const checkAuthentication = () => {
+    let isMounted = true;
+
+    const checkAuth = async () => {
       try {
-        // Check for auth payload in localStorage
-        const authPayload = localStorage.getItem("authPayload");
-
-        if (!authPayload) {
-          console.log("No auth payload found, redirecting to login");
-          setIsAuthenticated(false);
-          router.replace(`/${locale}/login`);
+        // Get a valid token (will refresh if needed)
+        const token = await getValidToken();
+        
+        if (!token) {
+          console.log("No valid token available, redirecting to login");
+          if (isMounted) {
+            setIsAuthenticated(false);
+            setIsLoading(false);
+            router.replace(`/${locale}/login`);
+          }
           return;
         }
 
-        const parsedAuth = JSON.parse(authPayload);
-
-        // Check if the auth payload has the expected structure
-        if (!parsedAuth.success || !parsedAuth.data?.accessToken) {
-          console.log("Invalid auth payload structure, redirecting to login");
-          setIsAuthenticated(false);
-          localStorage.removeItem("authPayload");
-          router.replace(`/${locale}/login`);
-          return;
+        // Verify we have a valid user
+        const user = getCurrentUser();
+        if (!user) {
+          throw new Error('Invalid user data in token');
         }
 
-        // Optionally: Check if token is expired
-        const token = parsedAuth.data.accessToken;
-        if (isTokenExpired(token)) {
-          console.log("Token expired, redirecting to login");
-          setIsAuthenticated(false);
-          localStorage.removeItem("authPayload");
-          router.replace(`/${locale}/login`);
-          return;
+        if (isMounted) {
+          console.log("User authenticated successfully");
+          setIsAuthenticated(true);
         }
-
-        console.log("User authenticated successfully");
-        setIsAuthenticated(true);
       } catch (error) {
         console.error("Authentication check failed:", error);
-        setIsAuthenticated(false);
-        localStorage.removeItem("authPayload");
-        router.replace(`/${locale}/login`);
+        if (isMounted) {
+          setIsAuthenticated(false);
+          // Clear all auth related data
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          localStorage.removeItem("authPayload");
+          router.replace(`/${locale}/login`);
+        }
       } finally {
-        setIsLoading(false);
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
 
-    checkAuthentication();
+    checkAuth();
+
+    // Cleanup function
+    return () => {
+      isMounted = false;
+    };
   }, [router, locale]);
 
-  // Function to check if JWT token is expired
-  const isTokenExpired = (token: string): boolean => {
-    try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      const currentTime = Date.now() / 1000;
-      return payload.exp < currentTime;
-    } catch (error) {
-      console.error("Error parsing token:", error);
-      return true; // If we can't parse it, consider it expired
-    }
-  };
 
-  // Show loading spinner while checking authentication
-  if (isLoading) {
+  if (isLoading || isAuthenticated === null) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100">
         <div className="text-center">
@@ -87,18 +81,15 @@ export default function AuthWrapper({ children }: AuthWrapperProps) {
     );
   }
 
-  // Don't render children if not authenticated (redirect is in progress)
   if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-100">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Redirecting to login...</p>
-        </div>
-      </div>
-    );
+    // Don't render anything while redirecting to login
+    return null;
   }
 
-  // Render children if authenticated
-  return <>{children}</>;
+  // Only render children when fully authenticated
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {children}
+    </div>
+  );
 }

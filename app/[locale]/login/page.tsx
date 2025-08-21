@@ -9,78 +9,46 @@ import { useMutation } from "@tanstack/react-query";
 import { loginSchema, LoginFormData } from "./validation";
 import { z } from "zod";
 import { setAuthTokens } from "@/lib/auth";
+import api from "@/lib/axios";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   const [password, setPassword] = useState("");
   const [formErrors, setFormErrors] = useState<Partial<LoginFormData>>({});
   const [apiError, setApiError] = useState("");
   const router = useRouter();
   const locale = useLocale();
 
-  // Mutation for login
+  
   const loginMutation = useMutation({
     mutationFn: async (credentials: LoginFormData) => {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(credentials),
-      });
-
-      if (!response.ok) {
-        let errorMsg = "Login failed";
-        try {
-          const errorData = await response.json();
-          errorMsg = errorData.error || errorData.message || errorMsg;
-        } catch {}
-        throw new Error(errorMsg);
-      }
-
-      return response.json();
+      setIsLoading(true);
+      const response = await api.post("/auth/login", credentials);
+      return response.data;
     },
     onSuccess: (data) => {
-      // Log the API response to debug
-      console.log("API Response:", data);
-
-      // Check if the response has the expected structure
-      if (
-        !data.success ||
-        !data.data ||
-        !data.data.accessToken ||
-        !data.data.refreshToken
-      ) {
-        setApiError(
-          "Login successful, but no tokens received. Please try again."
-        );
+      if (!data?.success || !data.data?.accessToken || !data.data?.refreshToken) {
+        setApiError("Login successful, but no tokens received. Please try again.");
+        setIsLoading(false);
         return;
       }
 
-      // Store the complete auth payload (consistent with ProtectedRoute expectations)
-      localStorage.setItem("authPayload", JSON.stringify(data));
+// Clear any existing tokens first
+localStorage.removeItem('authPayload');
+setAuthTokens(data.data.accessToken, data.data.refreshToken);
+localStorage.setItem("authPayload", JSON.stringify(data));
 
-      // Also store individual tokens for backward compatibility
-      setAuthTokens(data.data.accessToken, data.data.refreshToken);
-
-      // Check if there's a redirect path stored
-      const redirectPath = localStorage.getItem("redirectAfterLogin");
-      if (redirectPath) {
-        // Clear the stored redirect path
-        localStorage.removeItem("redirectAfterLogin");
-        // Navigate to the originally intended path
-        router.push(redirectPath);
-      } else {
-        // Default navigation to dashboard
-        router.push(`/${locale}/dashboard`);
-      }
-    },
-    onError: (error: Error) => {
-      setApiError(error.message || "An error occurred during login");
-    },
-  });
-
+const redirectPath = localStorage.getItem("redirectAfterLogin") || `/${locale}/dashboard`;
+localStorage.removeItem("redirectAfterLogin");
+router.push(redirectPath);
+},
+onError: (error: Error) => {
+setApiError(error.message || "An error occurred during login");
+setIsLoading(false);
+}
+});
   // Handle form submission
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -168,16 +136,13 @@ const LoginPage = () => {
               Forgot password?
             </Link>
           </div>
-
           <button
-            type="submit"
-            disabled={loginMutation.isPending}
-            className={`w-full py-2 px-4 rounded-md text-white bg-orange-600 hover:bg-orange-700 transition text-sm font-medium focus:outline-none focus:ring-2 focus:ring-orange-500 ${
-              loginMutation.isPending ? "opacity-70 cursor-not-allowed" : ""
-            }`}
-          >
-            {loginMutation.isPending ? "Signing in..." : "Sign In"}
-          </button>
+               type="submit"
+              disabled={isLoading}
+               className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 ${isLoading ? 'opacity-70 cursor-not-allowed' : ''}`}
+                  >
+          {isLoading ? 'Signing in...' : 'Sign in'}
+      </button>
         </form>
       </div>
     </div>
