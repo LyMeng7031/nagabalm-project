@@ -15,13 +15,13 @@ const WhyNagaBalmSection = () => {
       logo: "/images/Logo/Naga Balm__Brandmark_Fire.png",
     },
     {
-      key: "petroleumFree", // Set to "petroleumFree" to match the image content
+      key: "wideRange", // Set to "petroleumFree" to match the image content
       color: "bg-[#00B4D8]",
       textColor: "text-white",
       logo: "/images/Logo/Naga Balm__Brandmark_White.png",
     },
     {
-      key: "petroleumFree", // Set to "petroleumFree" to match the image content
+      key: "handcrafted", // Set to "petroleumFree" to match the image content
       color: "bg-[#FF4500]",
       textColor: "text-white",
       logo: "/images/Logo/Naga Balm__Brandmark_Gambodge.png",
@@ -53,7 +53,7 @@ const WhyNagaBalmSection = () => {
             locale === "km" ? "font-hanuman" : ""
           }`}
         >
-          {t("p")}
+          
         </p>
         <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 justify-center items-stretch w-full max-w-7xl px-4 sm:px-6 lg:px-8 mb-8 sm:mb-12">
           {cards.map((card, idx) => (
@@ -101,7 +101,7 @@ const WhyNagaBalmSection = () => {
               locale === "km" ? "font-hanuman" : ""
             }`}
           >
-            {t("button")}
+            {t("about")}
           </button>
         </Link>
       </div>

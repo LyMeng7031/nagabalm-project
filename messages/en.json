@@ -68,7 +68,7 @@
         "description": "Our products are formulated to deliver relief without petrochemicals, harsh chemicals, or filler additives. Naga Balm provides effective and safe pain relief. Every ingredient matters."
       },
       "wideRange": {
-        "title": "Wide Product Range",
+        "title": "WIDE PRODUCT RANGE",
         "subtitle": "Versatile Solutions",
         "description": "Naga Balm offers options for athletes, professionals, seniors, family, and everyday users - different formats and use cases, same effectiveness."
       },
@@ -180,10 +180,9 @@
       "description": "Whether you're an athlete or just always on the move, find relief that keeps up.",
       "viewProducts": "VIEW PRODUCTS"
     },
-    "everydayRelief": {
+    "everydayReliefs": {
       "title": "FOR EVERYDAY RELIEF",
-      "subtitle": "Soothe tension. Ease the day.\nFeel good again.",
-      "description": "From desk strain to daily discomfort,\nchoose relief made for life's routines.",
+      "descriptions": "Soothe tension. Ease the day.\nFeel good again.\n From desk strain to daily discomfort,\nchoose relief made for life's routines.",
       "viewProducts": "VIEW PRODUCTS"
     },
     "craftedCare": {
@@ -317,7 +316,7 @@
       "description": "Cooling comfort for inflammation and swelling",
       "benefits": "• Anti-inflammatory\n• Cooling sensation\n• Rapid relief"
     },
-    "learnMore": "Learn More",
+    "about": "ABOUT",
     "shopNow": "Shop Now"
   },
   "faq": {
@@ -410,7 +409,7 @@
     },
     "form": {
       "title": "SEND US A MESSAGE",
-      "subtitle": "Get in touch with us through any of these channels",
+      "subtitle": "We'd love to hear from you. Send us your questions or feedback.",
       "fields": {
         "fullName": "Full Name",
         "email": "Email",
@@ -479,7 +478,12 @@
     "madeInCambodia": "MADE IN CAMBODIA",
     "company": "COMPANY",
     "products": "PRODUCTS",
+    "home": "HOME",
+    "about": "ABOUT",
+    "faq": "FAQ",
     "ingredients": "INGREDIENTS",
+    "contact": "CONTACT",
+    "findUsAt": "WHERE TO FIND",
     "contactUs": "CONTACT US",
     "email": "EMAIL",
     "phone": "PHONE",
@@ -487,6 +491,7 @@
     "visitUs": "VISIT US",
     "address": "Coco Khmer Co., Ltd.\n#1529, NR. 2, Chakangre Krom\nKhan Mean Chey, Phnom Penh\nCambodia",
     "copyright": "© 2025 NAGA BALM®. ALL RIGHTS RESERVED."
+    
   },
   "metadata": {
     "title": "Naga Balm | Ancient Khmer Healing Traditions",
