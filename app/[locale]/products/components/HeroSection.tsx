@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { products as allProducts } from "../products";
+import { products as allProducts, products } from "../products";
 
 const ProductsHeroSection = () => {
   const router = useRouter();
@@ -75,8 +75,7 @@ const ProductsHeroSection = () => {
             {t("products.heroTitle")}
           </h1>
           <p className="text-[#2C5F7A] text-sm sm:text-base md:text-lg lg:text-xl font-medium max-w-3xl mx-auto leading-relaxed">
-            Discover our carefully crafted solutions designed for every
-            lifestyle and wellness need.
+            {t("products.heroSubtitle")}
           </p>
         </div>
 
@@ -96,10 +95,11 @@ const ProductsHeroSection = () => {
                 <h3 className="font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-3 sm:mb-4 leading-tight">
                   {t("products.activeLifestyles.title")}
                 </h3>
-                <p className="text-base sm:text-lg md:text-xl mb-3 sm:mb-4 whitespace-pre-line font-medium leading-relaxed">
+                {/* <p className="text-base sm:text-lg md:text-xl mb-3 sm:mb-4 whitespace-pre-line font-medium leading-relaxed">
                   {t("products.activeLifestyles.subtitle")}
-                </p>
+                </p> */}
                 <p className="text-sm sm:text-base md:text-lg mb-6 sm:mb-8 opacity-90 whitespace-pre-line leading-relaxed">
+                  {t("products.activeLifestyles.subtitle")}
                   {t("products.activeLifestyles.description")}
                 </p>
               </div>
@@ -144,13 +144,13 @@ const ProductsHeroSection = () => {
               {/* Text Content */}
               <div className="flex-1 pr-4 sm:pr-8 md:pr-16 lg:pr-24 xl:pr-32 relative z-10">
                 <h3 className="font-extrabold text-xl sm:text-2xl md:text-3xl lg:text-4xl mb-3 sm:mb-4 leading-tight">
-                  {t("products.everydayRelief.title")}
+                  {t("products.everydayReliefs.title")}
                 </h3>
-                <p className="text-base sm:text-lg md:text-xl mb-3 sm:mb-4 whitespace-pre-line font-medium leading-relaxed">
+                {/* <p className="text-base sm:text-lg md:text-xl mb-3 sm:mb-4 whitespace-pre-line font-medium leading-relaxed">
                   {t("products.everydayRelief.subtitle")}
-                </p>
+                </p> */}
                 <p className="text-sm sm:text-base md:text-lg mb-6 sm:mb-8 opacity-90 whitespace-pre-line leading-relaxed">
-                  {t("products.everydayRelief.description")}
+                  {t("products.everydayReliefs.descriptions")}
                 </p>
               </div>
 
@@ -162,7 +162,7 @@ const ProductsHeroSection = () => {
                     shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 transition-all duration-300 
                     flex items-center gap-2 group-hover:bg-[#FFE6B0] border-2 border-transparent hover:border-white/20"
                 >
-                  <span>{t("products.everydayRelief.viewProducts")}</span>
+                  <span>{t("products.everydayReliefs.viewProducts")}</span>
                   <span className="transition-transform group-hover:translate-x-1">
                     &rarr;
                   </span>
