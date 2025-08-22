@@ -72,9 +72,16 @@ const ChipsInput: React.FC<{
     <div>
       <div className="flex flex-wrap gap-2 mb-2">
         {(value || []).map((chip, i) => (
-          <span key={i} className="bg-gray-100 px-2 py-1 rounded-full text-sm flex items-center gap-2">
+          <span
+            key={i}
+            className="bg-gray-100 px-2 py-1 rounded-full text-sm flex items-center gap-2"
+          >
             {chip}
-            <button type="button" className="text-red-500" onClick={() => removeChip(i)}>
+            <button
+              type="button"
+              className="text-red-500"
+              onClick={() => removeChip(i)}
+            >
               ×
             </button>
           </span>
@@ -93,7 +100,11 @@ const ChipsInput: React.FC<{
             }
           }}
         />
-        <button type="button" className="px-3 py-2 bg-gray-200 rounded" onClick={addChip}>
+        <button
+          type="button"
+          className="px-3 py-2 bg-gray-200 rounded"
+          onClick={addChip}
+        >
           +
         </button>
       </div>
@@ -125,8 +136,10 @@ const DashboardProductsManager: React.FC = () => {
       ]);
       const pJson = await pRes.json();
       const cJson = await cRes.json();
-      if (!pJson.success) throw new Error(pJson.error || "Failed to fetch products");
-      if (!cJson.success) throw new Error(cJson.error || "Failed to fetch categories");
+      if (!pJson.success)
+        throw new Error(pJson.error || "Failed to fetch products");
+      if (!cJson.success)
+        throw new Error(cJson.error || "Failed to fetch categories");
       setProducts(pJson.data || []);
       setCategories(cJson.data || []);
       setError(null);
@@ -144,10 +157,11 @@ const DashboardProductsManager: React.FC = () => {
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return products;
-    return products.filter((p) =>
-      p.slug.toLowerCase().includes(q) ||
-      p.translations.en.name.toLowerCase().includes(q) ||
-      p.translations.km.name.toLowerCase().includes(q)
+    return products.filter(
+      (p) =>
+        p.slug.toLowerCase().includes(q) ||
+        p.translations.en.name.toLowerCase().includes(q) ||
+        p.translations.km.name.toLowerCase().includes(q)
     );
   }, [products, query]);
 
@@ -172,11 +186,17 @@ const DashboardProductsManager: React.FC = () => {
     try {
       const formData = new FormData();
       Array.from(files).forEach((f) => formData.append("images", f));
-      const res = await fetch("/api/upload", { method: "POST", body: formData });
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
       const json = await res.json();
       if (!json.success) throw new Error(json.error || "Upload failed");
       const urls: string[] = json.data?.urls || [];
-      setForm((prev) => ({ ...prev, images: [...(prev.images || []), ...urls] }));
+      setForm((prev) => ({
+        ...prev,
+        images: [...(prev.images || []), ...urls],
+      }));
     } catch (e: any) {
       alert(e?.message || "Failed to upload");
     } finally {
@@ -200,7 +220,9 @@ const DashboardProductsManager: React.FC = () => {
       setOpen(false);
       // notify public page to refresh
       if (typeof window !== "undefined" && "BroadcastChannel" in window) {
-        new BroadcastChannel("products-updates").postMessage("refresh-products");
+        new BroadcastChannel("products-updates").postMessage(
+          "refresh-products"
+        );
       }
     } catch (e: any) {
       alert(e?.message || "Failed to save");
@@ -214,13 +236,17 @@ const DashboardProductsManager: React.FC = () => {
   const deleteProduct = useCallback(async () => {
     if (!deletingId) return;
     try {
-      const res = await fetch(`/api/products/${deletingId}`, { method: "DELETE" });
+      const res = await fetch(`/api/products/${deletingId}`, {
+        method: "DELETE",
+      });
       const json = await res.json();
       if (!json.success) throw new Error(json.error || "Delete failed");
       await fetchAll();
       setDeletingId(null);
       if (typeof window !== "undefined" && "BroadcastChannel" in window) {
-        new BroadcastChannel("products-updates").postMessage("refresh-products");
+        new BroadcastChannel("products-updates").postMessage(
+          "refresh-products"
+        );
       }
     } catch (e: any) {
       alert(e?.message || "Failed to delete");
@@ -228,14 +254,20 @@ const DashboardProductsManager: React.FC = () => {
   }, [deletingId, fetchAll]);
 
   const removeImage = useCallback((idx: number) => {
-    setForm((prev) => ({ ...prev, images: prev.images.filter((_, i) => i !== idx) }));
+    setForm((prev) => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== idx),
+    }));
   }, []);
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div className="text-xl font-semibold">Manage Products</div>
-        <button onClick={openCreate} className="bg-[#F9461C] text-white px-4 py-2 rounded-lg hover:opacity-90">
+        <button
+          onClick={openCreate}
+          className="bg-[#F9461C] text-white px-4 py-2 rounded-lg hover:opacity-90"
+        >
           New Product
         </button>
       </div>
@@ -247,7 +279,9 @@ const DashboardProductsManager: React.FC = () => {
           placeholder="Search by slug or name"
           className="w-full md:w-96 border border-gray-300 rounded-lg px-3 py-2"
         />
-        <button onClick={fetchAll} className="px-4 py-2 border rounded-lg">Refresh</button>
+        <button onClick={fetchAll} className="px-4 py-2 border rounded-lg">
+          Refresh
+        </button>
       </div>
 
       {loading ? (
@@ -257,20 +291,46 @@ const DashboardProductsManager: React.FC = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((p) => (
-            <div key={p.id} className="bg-white rounded-lg shadow p-4 flex flex-col">
+            <div
+              key={p.id}
+              className="bg-white rounded-lg shadow p-4 flex flex-col"
+            >
               <div className="relative w-full aspect-video bg-gray-50 rounded mb-3 overflow-hidden">
                 {p.images?.[0] ? (
-                  <Image src={p.images[0]} alt={p.slug} fill className="object-contain" />
+                  <Image
+                    src={p.images[0]}
+                    alt={p.slug}
+                    fill
+                    className="object-contain"
+                  />
                 ) : (
-                  <div className="w-full h-full flex items-center justify-center text-gray-400">No image</div>
+                  <div className="w-full h-full flex items-center justify-center text-gray-400">
+                    No image
+                  </div>
                 )}
               </div>
-              <div className="font-bold">{p.translations.en.name || p.slug}</div>
-              <div className="text-sm text-gray-500">{p.translations.km.name}</div>
-              <div className="mt-2 text-sm">${p.price.toFixed(2)} {p.isTopSell ? " • Top" : ""}</div>
+              <div className="font-bold">
+                {p.translations.en.name || p.slug}
+              </div>
+              <div className="text-sm text-gray-500">
+                {p.translations.km.name}
+              </div>
+              <div className="mt-2 text-sm">
+                ${p.price.toFixed(2)} {p.isTopSell ? " • Top" : ""}
+              </div>
               <div className="mt-3 flex gap-2">
-                <button className="px-3 py-2 border rounded" onClick={() => openEdit(p)}>Edit</button>
-                <button className="px-3 py-2 border rounded text-red-600" onClick={() => confirmDelete(p.id)}>Delete</button>
+                <button
+                  className="px-3 py-2 border rounded"
+                  onClick={() => openEdit(p)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="px-3 py-2 border rounded text-red-600"
+                  onClick={() => confirmDelete(p.id)}
+                >
+                  Delete
+                </button>
               </div>
             </div>
           ))}
@@ -279,25 +339,41 @@ const DashboardProductsManager: React.FC = () => {
 
       {/* Modal */}
       {open && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={closeModal}>
-          <div className="bg-white rounded-xl max-w-4xl w-full p-4 sm:p-6 overflow-y-auto max-h-[90vh]" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          onClick={closeModal}
+        >
+          <div
+            className="bg-white rounded-xl max-w-4xl w-full p-4 sm:p-6 overflow-y-auto max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="flex items-center justify-between mb-4">
-              <div className="text-lg font-semibold">{editingId ? "Edit Product" : "New Product"}</div>
-              <button onClick={closeModal} className="text-2xl">×</button>
+              <div className="text-lg font-semibold">
+                {editingId ? "Edit Product" : "New Product"}
+              </div>
+              <button onClick={closeModal} className="text-2xl">
+                ×
+              </button>
             </div>
 
             {/* Basic */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm mb-1">Slug</label>
-                <input className="w-full border rounded px-3 py-2" value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} />
+                <input
+                  className="w-full border rounded px-3 py-2"
+                  value={form.slug}
+                  onChange={(e) => setForm({ ...form, slug: e.target.value })}
+                />
               </div>
               <div>
                 <label className="block text-sm mb-1">Category</label>
                 <select
                   className="w-full border rounded px-3 py-2"
                   value={form.categoryId}
-                  onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
+                  onChange={(e) =>
+                    setForm({ ...form, categoryId: e.target.value })
+                  }
                 >
                   <option value="">Select category</option>
                   {categories.map((c) => (
@@ -309,10 +385,25 @@ const DashboardProductsManager: React.FC = () => {
               </div>
               <div>
                 <label className="block text-sm mb-1">Price (USD)</label>
-                <input type="number" step="0.01" className="w-full border rounded px-3 py-2" value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} />
+                <input
+                  type="number"
+                  step="0.01"
+                  className="w-full border rounded px-3 py-2"
+                  value={form.price}
+                  onChange={(e) =>
+                    setForm({ ...form, price: Number(e.target.value) })
+                  }
+                />
               </div>
               <div className="flex items-center gap-2">
-                <input id="topsell" type="checkbox" checked={form.isTopSell} onChange={(e) => setForm({ ...form, isTopSell: e.target.checked })} />
+                <input
+                  id="topsell"
+                  type="checkbox"
+                  checked={form.isTopSell}
+                  onChange={(e) =>
+                    setForm({ ...form, isTopSell: e.target.checked })
+                  }
+                />
                 <label htmlFor="topsell">Top Sell</label>
               </div>
             </div>
@@ -322,15 +413,35 @@ const DashboardProductsManager: React.FC = () => {
               <label className="block text-sm mb-2">Images</label>
               <div className="flex flex-wrap gap-3 mb-3">
                 {(form.images || []).map((url, i) => (
-                  <div key={i} className="relative w-28 h-28 bg-gray-50 rounded overflow-hidden">
-                    <Image src={url} alt={`img-${i}`} fill className="object-cover" />
-                    <button type="button" className="absolute top-1 right-1 bg-white/80 rounded px-1 text-red-600" onClick={() => removeImage(i)}>×</button>
+                  <div
+                    key={i}
+                    className="relative w-28 h-28 bg-gray-50 rounded overflow-hidden"
+                  >
+                    <Image
+                      src={url}
+                      alt={`img-${i}`}
+                      fill
+                      className="object-cover"
+                    />
+                    <button
+                      type="button"
+                      className="absolute top-1 right-1 bg-white/80 rounded px-1 text-red-600"
+                      onClick={() => removeImage(i)}
+                    >
+                      ×
+                    </button>
                   </div>
                 ))}
               </div>
               <div className="flex items-center gap-3">
-                <input type="file" multiple onChange={(e) => handleUploadImages(e.target.files)} />
-                {uploading && <span className="text-sm text-gray-500">Uploading…</span>}
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) => handleUploadImages(e.target.files)}
+                />
+                {uploading && (
+                  <span className="text-sm text-gray-500">Uploading…</span>
+                )}
               </div>
             </div>
 
@@ -338,48 +449,113 @@ const DashboardProductsManager: React.FC = () => {
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
               {(["en", "km"] as const).map((lng) => (
                 <div key={lng} className="border rounded-lg p-4">
-                  <div className="font-semibold mb-3">{lng.toUpperCase()} Translation</div>
-
+                  <div className="font-semibold mb-3">
+                    {lng.toUpperCase()} Translation
+                  </div>
                   <label className="block text-sm mb-1">Name</label>
                   <input
                     className="w-full border rounded px-3 py-2 mb-3"
                     value={form.translations[lng].name}
-                    onChange={(e) => setForm({ ...form, translations: { ...form.translations, [lng]: { ...form.translations[lng], name: e.target.value } } })}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        translations: {
+                          ...form.translations,
+                          [lng]: {
+                            ...form.translations[lng],
+                            name: e.target.value,
+                          },
+                        },
+                      })
+                    }
                   />
-
                   <label className="block text-sm mb-1">Description</label>
                   <textarea
                     className="w-full border rounded px-3 py-2 mb-3"
                     rows={4}
                     value={form.translations[lng].description}
-                    onChange={(e) => setForm({ ...form, translations: { ...form.translations, [lng]: { ...form.translations[lng], description: e.target.value } } })}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        translations: {
+                          ...form.translations,
+                          [lng]: {
+                            ...form.translations[lng],
+                            description: e.target.value,
+                          },
+                        },
+                      })
+                    }
                   />
-
                   <label className="block text-sm mb-1">Size</label>
                   <input
                     className="w-full border rounded px-3 py-2 mb-3"
                     value={form.translations[lng].size || ""}
-                    onChange={(e) => setForm({ ...form, translations: { ...form.translations, [lng]: { ...form.translations[lng], size: e.target.value } } })}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        translations: {
+                          ...form.translations,
+                          [lng]: {
+                            ...form.translations[lng],
+                            size: e.target.value,
+                          },
+                        },
+                      })
+                    }
                   />
-
-                  <label className="block text-sm mb-1">Active Ingredient</label>
+                  login
+                  <label className="block text-sm mb-1">
+                    Active Ingredientlogin
+                  </label>
+                  login
                   <input
                     className="w-full border rounded px-3 py-2 mb-3"
                     value={form.translations[lng].activeIngredient || ""}
-                    onChange={(e) => setForm({ ...form, translations: { ...form.translations, [lng]: { ...form.translations[lng], activeIngredient: e.target.value } } })}
+                    onChange={(e) =>
+                      setForm({
+                        ...form,
+                        translations: {
+                          ...form.translations,
+                          [lng]: {
+                            ...form.translations[lng],
+                            activeIngredient: e.target.value,
+                          },
+                        },
+                      })
+                    }
                   />
-
                   <label className="block text-sm mb-1">Usage (bullets)</label>
                   <ChipsInput
                     value={form.translations[lng].usage || []}
-                    onChange={(arr) => setForm({ ...form, translations: { ...form.translations, [lng]: { ...form.translations[lng], usage: arr } } })}
+                    onChange={(arr) =>
+                      setForm({
+                        ...form,
+                        translations: {
+                          ...form.translations,
+                          [lng]: { ...form.translations[lng], usage: arr },
+                        },
+                      })
+                    }
                     placeholder="Add usage item"
                   />
-
-                  <label className="block text-sm mb-1 mt-3">Best For Tags</label>
+                  <label className="block text-sm mb-1 mt-3">
+                    Best For Tags
+                  </label>
                   <ChipsInput
                     value={form.translations[lng].bestForTags || []}
-                    onChange={(arr) => setForm({ ...form, translations: { ...form.translations, [lng]: { ...form.translations[lng], bestForTags: arr } } })}
+                    onChange={(arr) =>
+                      setForm({
+                        ...form,
+                        translations: {
+                          ...form.translations,
+                          [lng]: {
+                            ...form.translations[lng],
+                            bestForTags: arr,
+                          },
+                        },
+                      })
+                    }
                     placeholder="Add tag"
                   />
                 </div>
@@ -388,7 +564,11 @@ const DashboardProductsManager: React.FC = () => {
 
             {/* Actions */}
             <div className="mt-6 flex items-center justify-end gap-3">
-              <button className="px-4 py-2 border rounded" onClick={closeModal} disabled={saving}>
+              <button
+                className="px-4 py-2 border rounded"
+                onClick={closeModal}
+                disabled={saving}
+              >
                 Cancel
               </button>
               <button
@@ -405,13 +585,32 @@ const DashboardProductsManager: React.FC = () => {
 
       {/* Delete dialog */}
       {deletingId && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={() => setDeletingId(null)}>
-          <div className="bg-white rounded-xl max-w-md w-full p-6" onClick={(e) => e.stopPropagation()}>
+        <div
+          className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+          onClick={() => setDeletingId(null)}
+        >
+          <div
+            className="bg-white rounded-xl max-w-md w-full p-6"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="text-lg font-semibold mb-2">Delete Product</div>
-            <p className="text-sm text-gray-600 mb-4">Are you sure you want to delete this product? This action cannot be undone.</p>
+            <p className="text-sm text-gray-600 mb-4">
+              Are you sure you want to delete this product? This action cannot
+              be undone.
+            </p>
             <div className="flex justify-end gap-3">
-              <button className="px-4 py-2 border rounded" onClick={() => setDeletingId(null)}>Cancel</button>
-              <button className="px-4 py-2 bg-red-600 text-white rounded" onClick={deleteProduct}>Delete</button>
+              <button
+                className="px-4 py-2 border rounded"
+                onClick={() => setDeletingId(null)}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-red-600 text-white rounded"
+                onClick={deleteProduct}
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>

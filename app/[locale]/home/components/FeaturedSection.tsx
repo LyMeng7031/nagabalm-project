@@ -5,56 +5,58 @@ import React, { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { useTranslations, useLocale } from "next-intl";
 import { useQuery } from "@tanstack/react-query";
-
-interface Product {
-  key: string;
-  name: string;
-  label?: string;
-  img: string;
-  bgColor?: string;
-  textColor?: string;
-  isLastCard?: boolean;
-  price?: number;
-  isTopSell?: boolean; // Add isTopSell property
-  // Add price property
-  translations: {
-    en: {
-      name: string;
-      description?: string; // Optionally add description if used
-    };
-    km: {
-      name: string;
-      description?: string; // Optionally add description if used
-    };
-  }; // Optionally add description if used
-  id?: string | number; // Optionally add id if used as key/href
-  images: string[]; // Optionally add image if used for src
-}
+import {
+  apiGetProducts,
+  // apiGetCategories,
+  ApiProduct,
+  ApiCategory,
+} from "@/lib/api"; // adjust import path
 
 const FeaturedSection = () => {
   const t = useTranslations("featured");
   const locale = useLocale();
-  console.log("Current locale:", locale);
   const containerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
 
-  // ✅ Fetch products from API
+  // Fetch products
   const {
-    data: featuredProducts = [],
+    data: productsData,
     isLoading,
     isError,
-  } = useQuery<Product[]>({
-    queryKey: ["featuredProducts"],
+  } = useQuery({
+    queryKey: ["featured-products"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:3000/api/products");
-      if (!res.ok) throw new Error("Failed to fetch products");
-      const json = await res.json();
-
-      // Adjust this depending on your API shape
-      return Array.isArray(json) ? json : json.data || json.products || [];
+      const res = await apiGetProducts();
+      return res.data.filter((p) => p.isTopSell);
     },
   });
+
+  // Fetch categories
+  // const { data: categoriesData } = useQuery({
+  //   queryKey: ["categories"],
+  //   queryFn: async () => {
+  //     const res = await apiGetCategories();
+  //     return res.data;
+  //   },
+  // });
+
+  // Map categoryId to category name
+  // const getCategoryName = (categoryId: string) => {
+  //   if (!categoriesData) return "";
+  //   const category = categoriesData.find((c) => c.id === categoryId);
+  //   return category ? category.translations[locale as "en" | "km"].name : "";
+  // };
+  function getTopSellLabel(isTopSell: boolean, locale: string) {
+    if (!isTopSell) return ""; // or null if you want to hide it completely
+
+    const labels = {
+      en: "Top Sell",
+      km: "ទំនិញលក់ល្អ",
+    };
+
+    return labels[locale as "en" | "km"] || labels.en;
+  }
 
   const checkScrollButtons = () => {
     if (containerRef.current) {
@@ -97,22 +99,6 @@ const FeaturedSection = () => {
     }
   }, []);
 
-  if (isLoading) {
-    return (
-      <section className="py-12 text-center">
-        <p className="text-gray-500">Loading products...</p>
-      </section>
-    );
-  }
-
-  if (isError) {
-    return (
-      <section className="py-12 text-center">
-        <p className="text-red-500">Failed to load products.</p>
-      </section>
-    );
-  }
-
   return (
     <section className="bg-white w-full py-12 sm:py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -132,15 +118,13 @@ const FeaturedSection = () => {
             }`}
           >
             {t("viewAll")}
-            <span className="text-xl transition-transform duration-300 group-hover:translate-x-1">
-              →
-            </span>
+            <span className="text-xl">→</span>
           </Link>
         </div>
 
-        {/* Carousel Container */}
+        {/* Carousel */}
         <div className="relative">
-          {/* Navigation Arrows */}
+          {/* Left Arrow */}
           <button
             onClick={scrollLeft}
             className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 ${
@@ -148,7 +132,6 @@ const FeaturedSection = () => {
                 ? "opacity-100 pointer-events-auto"
                 : "opacity-0 pointer-events-none"
             }`}
-            aria-label="Scroll left"
           >
             <svg
               className="w-5 h-5 sm:w-6 sm:h-6 text-[#F9461C]"
@@ -165,6 +148,7 @@ const FeaturedSection = () => {
             </svg>
           </button>
 
+          {/* Right Arrow */}
           <button
             onClick={scrollRight}
             className={`absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 sm:w-12 sm:h-12 bg-white/90 hover:bg-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 ${
@@ -172,7 +156,6 @@ const FeaturedSection = () => {
                 ? "opacity-100 pointer-events-auto"
                 : "opacity-0 pointer-events-none"
             }`}
-            aria-label="Scroll right"
           >
             <svg
               className="w-5 h-5 sm:w-6 sm:h-6 text-[#F9461C]"
@@ -189,51 +172,35 @@ const FeaturedSection = () => {
             </svg>
           </button>
 
-          {/* Product Carousel */}
+          {/* Products */}
           <div
             ref={containerRef}
             className="flex gap-4 sm:gap-6 lg:gap-8 overflow-x-auto scrollbar-hide snap-x snap-mandatory pb-4"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-            onScroll={checkScrollButtons}
           >
-            {featuredProducts.map((product, idx) => (
+            {isLoading && <p>Loading...</p>}
+            {isError && <p>Error loading products</p>}
+            {productsData?.map((product) => (
               <div
-                key={product.id ?? idx}
+                key={product.id}
                 className="flex flex-col flex-shrink-0 w-64 sm:w-72 lg:w-80 snap-start"
               >
-                {/* Top Sell Badge */}
+                <div className="card relative aspect-square mb-4 sm:mb-6 bg-white overflow-hidden rounded-[10px]">
+                  <Image
+                    src={product.images[0]}
+                    alt={product.translations[locale as "en" | "km"].name}
+                    fill
+                    className="object-contain"
+                  />
+                  {getTopSellLabel(product.isTopSell, locale) && (
+                    <span className="absolute top-3 left-3 px-2 py-1 rounded-full text-xs font-bold bg-white text-[#F9461C] border border-[#F9461C]">
+                      {getTopSellLabel(product.isTopSell, locale)}
+                    </span>
+                  )}
 
-                {/* Image Container */}
-                <div className="card relative aspect-square mb-4 sm:mb-6 bg-white overflow-hidden">
-                  <div className="absolute inset-0 w-full h-full rounded-[10px] overflow-hidden">
-                    {product.isTopSell && (
-                      <span className="absolute top-2 left-2 bg-[#F9461C] text-white text-xs font-bold px-3 py-1 rounded-full z-20">
-                        Top Seller
-                      </span>
-                    )}
-                    <Image
-                      src={
-                        product?.images[0]
-                          ? product?.images[0]
-                          : "/images/placeholder.jpg"
-                      }
-                      alt={product.name || "Product image"}
-                      fill
-                      className="object-contain"
-                      sizes="(max-width: 640px) 256px, (max-width: 1024px) 288px, 320px"
-                    />
-                    {/* <img
-                      src={
-                        product?.images[0]
-                          ? product?.images[0]
-                          : "/images/placeholder.jpg"
-                      }
-                      alt=""
-                    /> */}
-                  </div>
+                  {/* <span className="absolute top-3 left-3 px-2 py-1 rounded-full text-xs font-bold bg-white text-[#F9461C] border border-[#F9461C]">
+                    {getCategoryName(product.categoryId)}
+                  </span> */}
                 </div>
-
-                {/* Product Info */}
                 <div className="flex flex-col flex-grow text-[#F9461C]">
                   <div className="flex justify-between items-start mb-2">
                     <h3
@@ -241,32 +208,25 @@ const FeaturedSection = () => {
                         locale === "km" ? "font-hanuman" : ""
                       }`}
                     >
-                      {product.name}
+                      {product.translations[locale as "en" | "km"].name}
                     </h3>
-                    <span>${product.price}</span>
+                    <span className="text-xs sm:text-sm font-bold opacity-75">
+                      {product.translations[locale as "en" | "km"].size}
+                    </span>
                   </div>
-                  <p>
-                    {product?.translations[locale as "en" | "km"]?.description}
+                  <p className="text-sm text-black mb-3 sm:mb-4 min-h-[48px]">
+                    {product.translations[locale as "en" | "km"].description}
                   </p>
-
                   <Link
+                    // href={`/${locale}/products/${product.slug}`}
                     href={`/${locale}/products`}
-                    className={`mt-auto w-full py-2.5 sm:py-3 px-6 sm:px-8 rounded-full font-bold text-sm transition-colors duration-300 border border-current hover:bg-[#F9461C] hover:text-white text-center ${
-                      locale === "km" ? "font-hanuman" : ""
-                    }`}
+                    className="mt-auto w-full py-2.5 sm:py-3 px-6 sm:px-8 rounded-full font-bold text-sm border border-current hover:bg-[#F9461C] hover:text-white text-center"
                   >
                     {t("learnMore")}
                   </Link>
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Mobile scroll indicator */}
-        <div className="flex justify-center mt-4 sm:hidden">
-          <div className="text-xs text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
-            Swipe to see more
           </div>
         </div>
       </div>

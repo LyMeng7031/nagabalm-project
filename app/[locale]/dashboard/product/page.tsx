@@ -30,6 +30,7 @@ interface ProductFormState {
       activeIngredient: string;
       usage: string[];
       bestForTags: string[];
+      Slug: string;
     };
     km: {
       name: string;
@@ -38,6 +39,7 @@ interface ProductFormState {
       activeIngredient: string;
       usage: string[];
       bestForTags: string[];
+      Slug: string;
     };
   };
   categoryId: string;
@@ -57,6 +59,7 @@ function emptyForm(): ProductFormState {
         activeIngredient: "",
         usage: [],
         bestForTags: [],
+        Slug: "",
       },
       km: {
         name: "",
@@ -65,6 +68,7 @@ function emptyForm(): ProductFormState {
         activeIngredient: "",
         usage: [],
         bestForTags: [],
+        Slug: "",
       },
     },
     categoryId: "",
@@ -173,6 +177,7 @@ export default function ProductDashboardPage() {
           activeIngredient: p.translations.en.activeIngredient || "",
           usage: p.translations.en.usage || [],
           bestForTags: p.translations.en.bestForTags || [],
+          Slug: p.translations.en.Slug || "",
         },
         km: {
           name: p.translations.km.name || "",
@@ -181,6 +186,7 @@ export default function ProductDashboardPage() {
           activeIngredient: p.translations.km.activeIngredient || "",
           usage: p.translations.km.usage || [],
           bestForTags: p.translations.km.bestForTags || [],
+          Slug: p.translations.km.Slug || "",
         },
       },
       categoryId: p.categoryId,
@@ -192,8 +198,12 @@ export default function ProductDashboardPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    
+    // Generate main slug from English name
+    const mainSlug = generateSlug(form.translations.en.name);
+    
     const payload = {
-      slug: form.slug,
+      slug: mainSlug,
       images: form.images,
       price: parseFloat(form.price),
       isTopSell: form.isTopSell,
@@ -232,6 +242,77 @@ export default function ProductDashboardPage() {
       .trim();
   };
 
+  // Validation functions for each step - ALL required fields must be filled
+  const validateStep1 = () => {
+    return (
+      form.translations.en.name.trim() !== "" &&
+      form.translations.km.name.trim() !== "" &&
+      form.translations.en.Slug.trim() !== "" &&
+      form.translations.km.Slug.trim() !== "" &&
+      form.categoryId.trim() !== ""
+    );
+  };
+
+  const validateStep2 = () => {
+    return form.price.trim() !== "" && parseFloat(form.price) > 0;
+  };
+
+  const validateStep3 = () => {
+    return form.translations.en.description.trim() !== "";
+  };
+
+  const validateStep4 = () => {
+    return form.translations.km.description.trim() !== "";
+  };
+
+  // Get validation status for current step
+  const isCurrentStepValid = () => {
+    switch (currentStep) {
+      case 1:
+        return validateStep1();
+      case 2:
+        return validateStep2();
+      case 3:
+        return validateStep3();
+      case 4:
+        return validateStep4();
+      default:
+        return false;
+    }
+  };
+
+  // Get missing fields for current step
+  const getMissingFields = () => {
+    const missing: string[] = [];
+
+    switch (currentStep) {
+      case 1:
+        if (!form.translations.en.name.trim())
+          missing.push("Product Name (English)");
+        if (!form.translations.km.name.trim())
+          missing.push("Product Name (Khmer)");
+        if (!form.translations.en.Slug.trim())
+          missing.push("URL Slug (English)");
+        if (!form.translations.km.Slug.trim()) missing.push("URL Slug (Khmer)");
+        if (!form.categoryId.trim()) missing.push("Category");
+        break;
+      case 2:
+        if (!form.price.trim() || parseFloat(form.price) <= 0)
+          missing.push("Price");
+        break;
+      case 3:
+        if (!form.translations.en.description.trim())
+          missing.push("Product Description (English)");
+        break;
+      case 4:
+        if (!form.translations.km.description.trim())
+          missing.push("Product Description (Khmer)");
+        break;
+    }
+
+    return missing;
+  };
+
   const totalSteps = 4;
 
   return (
@@ -254,7 +335,7 @@ export default function ProductDashboardPage() {
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by slug or name..."
+            placeholder="Search by Product or name..."
             className="w-full md:w-96 border rounded-md px-3 py-2"
           />
         </div>
@@ -356,34 +437,34 @@ export default function ProductDashboardPage() {
         {/* === Improved Product Form Modal === */}
         {formOpen && (
           <div
-            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-2 sm:p-4"
             onClick={() => setFormOpen(false)}
           >
             <div
-              className="bg-white w-full max-w-5xl rounded-lg overflow-hidden max-h-[90vh] flex flex-col"
+              className="bg-white w-full max-w-sm sm:max-w-md md:max-w-3xl lg:max-w-5xl rounded-lg overflow-hidden max-h-[95vh] flex flex-col"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header with Progress */}
-              <div className="p-6 border-b bg-gray-50">
+              <div className="p-3 sm:p-4 md:p-6 border-b bg-gray-50">
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-2xl font-bold text-gray-900">
+                  <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
                     {editingId ? "Edit Product" : "Create New Product"}
                   </h2>
                   <button
                     type="button"
                     onClick={() => setFormOpen(false)}
-                    className="text-gray-400 hover:text-gray-600 text-2xl"
+                    className="text-gray-400 hover:text-gray-600 text-xl sm:text-2xl"
                   >
                     ✕
                   </button>
                 </div>
 
                 {/* Progress Steps */}
-                <div className="flex items-center justify-between max-w-md">
+                <div className="flex items-center justify-between max-w-xs sm:max-w-sm md:max-w-md">
                   {[1, 2, 3, 4].map((step) => (
                     <div key={step} className="flex items-center">
                       <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                        className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${
                           step <= currentStep
                             ? "bg-orange-500 text-white"
                             : "bg-gray-200 text-gray-600"
@@ -393,7 +474,7 @@ export default function ProductDashboardPage() {
                       </div>
                       {step < 4 && (
                         <div
-                          className={`w-12 h-1 mx-2 ${
+                          className={`w-6 sm:w-8 md:w-12 h-1 mx-1 sm:mx-2 ${
                             step < currentStep ? "bg-orange-500" : "bg-gray-200"
                           }`}
                         />
@@ -402,20 +483,23 @@ export default function ProductDashboardPage() {
                   ))}
                 </div>
 
-                <div className="mt-2 text-sm text-gray-600">
+                <div className="mt-2 text-xs sm:text-sm text-gray-600">
                   Step {currentStep} of {totalSteps}:{" "}
                   {currentStep === 1
                     ? "Basic Information"
                     : currentStep === 2
                     ? "Images & Pricing"
                     : currentStep === 3
-                    ? "English Content"
-                    : "Khmer Content"}
+                    ? "Product Details (English)"
+                    : "Product Details (Khmer)"}
                 </div>
               </div>
 
               {/* Form Content */}
-              <div className="flex-1 overflow-y-auto p-6">
+              <div
+                className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6"
+                style={{ maxHeight: "calc(95vh - 120px)" }}
+              >
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Step 1: Basic Information */}
                   {currentStep === 1 && (
@@ -433,32 +517,34 @@ export default function ProductDashboardPage() {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                        {/* Product Name (English) */}
                         <div>
                           <label
-                            htmlFor="product-name"
+                            htmlFor="product-name-en"
                             className="block text-sm font-medium text-gray-700 mb-2"
                           >
                             Product Name (English){" "}
                             <span className="text-red-500">*</span>
                           </label>
                           <input
-                            id="product-name"
+                            id="product-name-en"
                             required
                             placeholder="e.g., Pain Relief Balm"
                             value={form.translations.en.name}
-                            onChange={(e) => {
-                              const name = e.target.value;
+                            onChange={(e) =>
                               setForm({
                                 ...form,
                                 translations: {
                                   ...form.translations,
-                                  en: { ...form.translations.en, name },
+                                  en: {
+                                    ...form.translations.en,
+                                    name: e.target.value,
+                                  },
                                 },
-                                slug: generateSlug(name),
-                              });
-                            }}
-                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none"
+                              })
+                            }
+                            className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base"
                           />
                           <p className="text-xs text-gray-500 mt-1">
                             This will be the main product name displayed to
@@ -466,26 +552,162 @@ export default function ProductDashboardPage() {
                           </p>
                         </div>
 
+                        {/* Product Name (Khmer) */}
                         <div>
                           <label
-                            htmlFor="slug"
+                            htmlFor="product-name-kh"
                             className="block text-sm font-medium text-gray-700 mb-2"
                           >
-                            URL Slug <span className="text-red-500">*</span>
+                            ឈ្មោះផលិតផល (ភាសាខ្មែរ){" "}
+                            <span className="text-red-500">*</span>
                           </label>
                           <input
-                            id="slug"
+                            id="product-name-kh"
                             required
-                            placeholder="pain-relief-balm"
-                            value={form.slug}
+                            placeholder="ឧ. ថ្នាំបំបាត់ការឈឺចាប់"
+                            value={form.translations.km.name}
                             onChange={(e) =>
-                              setForm({ ...form, slug: e.target.value })
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  km: {
+                                    ...form.translations.km,
+                                    name: e.target.value,
+                                  },
+                                },
+                              })
                             }
-                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none"
+                            className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base"
                           />
                           <p className="text-xs text-gray-500 mt-1">
-                            URL-friendly version (auto-generated from name, but
-                            you can edit)
+                            នេះនឹងជាឈ្មោះផលិតផលចម្បងដែលបង្ហាញដល់អតិថិជន
+                          </p>
+                        </div>
+
+                        {/* URL Slug (English) */}
+                        <div>
+                          <label
+                            htmlFor="slug-en"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            URL Slug (English){" "}
+                            <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            id="slug-en"
+                            required
+                            placeholder="pain-relief-balm"
+                            value={form.translations.en.Slug}
+                            onChange={(e) =>
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  en: {
+                                    ...form.translations.en,
+                                    Slug: e.target.value,
+                                  },
+                                },
+                              })
+                            }
+                            className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            URL-friendly version (you must enter it manually)
+                          </p>
+                        </div>
+
+                        {/* URL Slug (Khmer) */}
+                        <div>
+                          <label
+                            htmlFor="slug-kh"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            URL ស្លាក់ (ភាសាខ្មែរ){" "}
+                            <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            id="slug-kh"
+                            required
+                            placeholder="ឧ. ថ្នាំ-បំបាត់-ការឈឺចាប់"
+                            value={form.translations.km.Slug}
+                            onChange={(e) =>
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  km: {
+                                    ...form.translations.km,
+                                    Slug: e.target.value,
+                                  },
+                                },
+                              })
+                            }
+                            className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            ជា URL ដែលអ្នកត្រូវបញ្ចូលដោយដៃ
+                          </p>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="product-size-en"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            Product Size
+                          </label>
+                          <input
+                            id="product-size-en"
+                            placeholder="e.g., 7g, 80ml, 50 tablets"
+                            value={form.translations.en.size || ""}
+                            onChange={(e) =>
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  en: {
+                                    ...form.translations.en,
+                                    size: e.target.value,
+                                  },
+                                },
+                              })
+                            }
+                            className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            Package size or quantity (optional)
+                          </p>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="product-size-kh"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            ទំហំផលិតផល
+                          </label>
+                          <input
+                            id="product-size-kh"
+                            placeholder="ឧ. 7g, 80ml, 50 គ្រាប់ថ្នាំ"
+                            value={form.translations.km.size || ""}
+                            onChange={(e) =>
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  km: {
+                                    ...form.translations.km,
+                                    size: e.target.value,
+                                  },
+                                },
+                              })
+                            }
+                            className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base"
+                          />
+                          <p className="text-xs text-gray-500 mt-1">
+                            ទំហំឬបរិមាណកញ្ចប់ (មិនចាំបាច់)
                           </p>
                         </div>
 
@@ -503,7 +725,7 @@ export default function ProductDashboardPage() {
                             onChange={(e) =>
                               setForm({ ...form, categoryId: e.target.value })
                             }
-                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none"
+                            className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base"
                           >
                             <option value="">Choose a category</option>
                             {categories.map((c: ApiCategory) => (
@@ -514,36 +736,6 @@ export default function ProductDashboardPage() {
                           </select>
                           <p className="text-xs text-gray-500 mt-1">
                             Select the category this product belongs to
-                          </p>
-                        </div>
-
-                        <div>
-                          <label
-                            htmlFor="product-size"
-                            className="block text-sm font-medium text-gray-700 mb-2"
-                          >
-                            Product Size
-                          </label>
-                          <input
-                            id="product-size"
-                            placeholder="e.g., 7g, 80ml, 50 tablets"
-                            value={form.translations.en.size}
-                            onChange={(e) =>
-                              setForm({
-                                ...form,
-                                translations: {
-                                  ...form.translations,
-                                  en: {
-                                    ...form.translations.en,
-                                    size: e.target.value,
-                                  },
-                                },
-                              })
-                            }
-                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none"
-                          />
-                          <p className="text-xs text-gray-500 mt-1">
-                            Package size or quantity (optional)
                           </p>
                         </div>
                       </div>
@@ -565,8 +757,8 @@ export default function ProductDashboardPage() {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div className="md:col-span-2">
+                      <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                        <div className="sm:col-span-1 md:col-span-2">
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             Product Images
                           </label>
@@ -612,7 +804,7 @@ export default function ProductDashboardPage() {
                               <p className="text-sm font-medium text-gray-700 mb-3">
                                 Uploaded Images:
                               </p>
-                              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-4">
                                 {form.images.map((url, index) => (
                                   <div key={url} className="relative group">
                                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -656,7 +848,7 @@ export default function ProductDashboardPage() {
                               onChange={(e) =>
                                 setForm({ ...form, price: e.target.value })
                               }
-                              className="w-full border-2 border-gray-200 rounded-lg pl-8 pr-4 py-3 focus:border-orange-500 focus:outline-none"
+                              className="w-full border-2 border-gray-200 rounded-lg pl-6 sm:pl-8 pr-3 sm:pr-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base"
                             />
                           </div>
                           <p className="text-xs text-gray-500 mt-1">
@@ -691,7 +883,7 @@ export default function ProductDashboardPage() {
                     </div>
                   )}
 
-                  {/* Step 3: English Content */}
+                  {/* Step 3: Product Details (English) */}
                   {currentStep === 3 && (
                     <div className="space-y-6">
                       <div className="bg-purple-50 border-l-4 border-purple-400 p-4">
@@ -699,8 +891,8 @@ export default function ProductDashboardPage() {
                           <div className="ml-3">
                             <p className="text-sm text-purple-700">
                               <strong>Step 3:</strong> Add detailed product
-                              information in English. This content will be shown
-                              to English-speaking customers.
+                              information in English. Include description,
+                              ingredients, usage instructions, and tags.
                             </p>
                           </div>
                         </div>
@@ -712,7 +904,7 @@ export default function ProductDashboardPage() {
                             htmlFor="desc-en"
                             className="block text-sm font-medium text-gray-700 mb-2"
                           >
-                            Product Description{" "}
+                            Product Description (English){" "}
                             <span className="text-red-500">*</span>
                           </label>
                           <textarea
@@ -733,7 +925,7 @@ export default function ProductDashboardPage() {
                               })
                             }
                             rows={5}
-                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none resize-none"
+                            className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none resize-none text-sm sm:text-base"
                           />
                           <p className="text-xs text-gray-500 mt-1">
                             Write a compelling description that highlights the
@@ -746,7 +938,7 @@ export default function ProductDashboardPage() {
                             htmlFor="ingredient-en"
                             className="block text-sm font-medium text-gray-700 mb-2"
                           >
-                            Active Ingredients
+                            Active Ingredients (English)
                           </label>
                           <textarea
                             id="ingredient-en"
@@ -765,7 +957,7 @@ export default function ProductDashboardPage() {
                               })
                             }
                             rows={4}
-                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none resize-none"
+                            className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none resize-none text-sm sm:text-base"
                           />
                           <p className="text-xs text-gray-500 mt-1">
                             List key ingredients that make this product
@@ -778,7 +970,7 @@ export default function ProductDashboardPage() {
                             htmlFor="usage-en"
                             className="block text-sm font-medium text-gray-700 mb-2"
                           >
-                            How to Use
+                            How to Use (English)
                           </label>
                           <textarea
                             id="usage-en"
@@ -799,7 +991,7 @@ export default function ProductDashboardPage() {
                               })
                             }
                             rows={5}
-                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none resize-none"
+                            className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none resize-none text-sm sm:text-base"
                           />
                           <p className="text-xs text-gray-500 mt-1">
                             Write each usage instruction on a new line. Press
@@ -814,37 +1006,186 @@ export default function ProductDashboardPage() {
                           >
                             Best For (Tags)
                           </label>
-                          <input
-                            id="tags-en"
-                            placeholder="muscle pain, joint relief, sports injuries, headaches"
-                            value={form.translations.en.bestForTags.join(", ")}
-                            onChange={(e) =>
+
+                          <div className="space-y-2">
+                            {form.translations.en.bestForTags.map(
+                              (tag, index) => (
+                                <div key={index} className="flex gap-2">
+                                  <input
+                                    type="text"
+                                    placeholder="Enter a tag"
+                                    value={tag}
+                                    onChange={(e) => {
+                                      const newTags = [
+                                        ...form.translations.en.bestForTags,
+                                      ];
+                                      newTags[index] = e.target.value;
+                                      setForm({
+                                        ...form,
+                                        translations: {
+                                          ...form.translations,
+                                          en: {
+                                            ...form.translations.en,
+                                            bestForTags: newTags,
+                                          },
+                                        },
+                                      });
+                                    }}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 focus:border-orange-500 focus:outline-none text-sm sm:text-base"
+                                  />
+                                  {form.translations.en.bestForTags.length >
+                                    1 && (
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        const newTags =
+                                          form.translations.en.bestForTags.filter(
+                                            (_, i) => i !== index
+                                          );
+                                        setForm({
+                                          ...form,
+                                          translations: {
+                                            ...form.translations,
+                                            en: {
+                                              ...form.translations.en,
+                                              bestForTags: newTags,
+                                            },
+                                          },
+                                        });
+                                      }}
+                                      className="px-3 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600"
+                                    >
+                                      ✕
+                                    </button>
+                                  )}
+                                </div>
+                              )
+                            )}
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => {
                               setForm({
                                 ...form,
                                 translations: {
                                   ...form.translations,
                                   en: {
                                     ...form.translations.en,
-                                    bestForTags: e.target.value
-                                      .split(",")
-                                      .map((s) => s.trim())
-                                      .filter(Boolean),
+                                    bestForTags: [
+                                      ...form.translations.en.bestForTags,
+                                      "",
+                                    ],
                                   },
                                 },
-                              })
-                            }
-                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none"
-                          />
-                          <p className="text-xs text-gray-500 mt-1">
-                            Separate tags with commas. These help customers find
-                            your product.
+                              });
+                            }}
+                            className="mt-3 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
+                          >
+                            ➕ Add Box
+                          </button>
+
+                          <p className="text-xs text-gray-500 mt-2">
+                            Each box represents one tag. Add or remove as
+                            needed.
+                          </p>
+                        </div>
+                        <div>
+                          <label
+                            htmlFor="tags-km"
+                            className="block text-sm font-medium text-gray-700 mb-2"
+                          >
+                            ល្អបំផុតសម្រាប់ (ស្លាក)
+                          </label>
+
+                          <div className="space-y-2">
+                            {form.translations.km.bestForTags.map(
+                              (tag, index) => (
+                                <div key={index} className="flex gap-2">
+                                  <input
+                                    type="text"
+                                    placeholder="បញ្ចូលស្លាក"
+                                    value={tag}
+                                    onChange={(e) => {
+                                      const newTags = [
+                                        ...form.translations.km.bestForTags,
+                                      ];
+                                      newTags[index] = e.target.value;
+                                      setForm({
+                                        ...form,
+                                        translations: {
+                                          ...form.translations,
+                                          km: {
+                                            ...form.translations.km,
+                                            bestForTags: newTags,
+                                          },
+                                        },
+                                      });
+                                    }}
+                                    className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 focus:border-orange-500 focus:outline-none text-sm sm:text-base"
+                                  />
+                                  {form.translations.km.bestForTags.length >
+                                    1 && (
+                                    <button
+                                      type="button"
+                                      onClick={() => {
+                                        const newTags =
+                                          form.translations.km.bestForTags.filter(
+                                            (_, i) => i !== index
+                                          );
+                                        setForm({
+                                          ...form,
+                                          translations: {
+                                            ...form.translations,
+                                            km: {
+                                              ...form.translations.km,
+                                              bestForTags: newTags,
+                                            },
+                                          },
+                                        });
+                                      }}
+                                      className="px-3 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600"
+                                    >
+                                      ✕
+                                    </button>
+                                  )}
+                                </div>
+                              )
+                            )}
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setForm({
+                                ...form,
+                                translations: {
+                                  ...form.translations,
+                                  km: {
+                                    ...form.translations.km,
+                                    bestForTags: [
+                                      ...form.translations.km.bestForTags,
+                                      "",
+                                    ],
+                                  },
+                                },
+                              });
+                            }}
+                            className="mt-3 px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
+                          >
+                            ➕ បន្ថែមប្រអប់
+                          </button>
+
+                          <p className="text-xs text-gray-500 mt-2">
+                            ប្រអប់នីមួយៗតំណាងឲ្យស្លាកមួយ។ អ្នកអាចបន្ថែម ឬ
+                            លុបបានតាមត្រូវការ។
                           </p>
                         </div>
                       </div>
                     </div>
                   )}
 
-                  {/* Step 4: Khmer Content */}
+                  {/* Step 4: Product Details (Khmer) */}
                   {currentStep === 4 && (
                     <div className="space-y-6">
                       <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4">
@@ -852,76 +1193,14 @@ export default function ProductDashboardPage() {
                           <div className="ml-3">
                             <p className="text-sm text-yellow-700">
                               <strong>Step 4:</strong> Add the same product
-                              information in Khmer language. This content will
-                              be shown to Khmer-speaking customers.
+                              information in Khmer language. Translate all the
+                              details from Step 3 into Khmer.
                             </p>
                           </div>
                         </div>
                       </div>
 
                       <div className="space-y-6">
-                        <div>
-                          <label
-                            htmlFor="name-km"
-                            className="block text-sm font-medium text-gray-700 mb-2"
-                          >
-                            Product Name (Khmer){" "}
-                            <span className="text-red-500">*</span>
-                          </label>
-                          <input
-                            id="name-km"
-                            required
-                            placeholder="ឈ្មោះផលិតផល..."
-                            value={form.translations.km.name}
-                            onChange={(e) =>
-                              setForm({
-                                ...form,
-                                translations: {
-                                  ...form.translations,
-                                  km: {
-                                    ...form.translations.km,
-                                    name: e.target.value,
-                                  },
-                                },
-                              })
-                            }
-                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none"
-                          />
-                          <p className="text-xs text-gray-500 mt-1">
-                            ឈ្មោះផលិតផលជាភាសាខ្មែរ
-                          </p>
-                        </div>
-
-                        <div>
-                          <label
-                            htmlFor="size-km"
-                            className="block text-sm font-medium text-gray-700 mb-2"
-                          >
-                            Product Size (Khmer)
-                          </label>
-                          <input
-                            id="size-km"
-                            placeholder="ឧ. ៧ក្រាម, ៨០មីលីលីត្រ"
-                            value={form.translations.km.size}
-                            onChange={(e) =>
-                              setForm({
-                                ...form,
-                                translations: {
-                                  ...form.translations,
-                                  km: {
-                                    ...form.translations.km,
-                                    size: e.target.value,
-                                  },
-                                },
-                              })
-                            }
-                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none"
-                          />
-                          <p className="text-xs text-gray-500 mt-1">
-                            ទំហំឬបរិមាណផលិតផល
-                          </p>
-                        </div>
-
                         <div>
                           <label
                             htmlFor="desc-km"
@@ -948,7 +1227,7 @@ export default function ProductDashboardPage() {
                               })
                             }
                             rows={5}
-                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none resize-none"
+                            className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none resize-none text-sm sm:text-base"
                           />
                           <p className="text-xs text-gray-500 mt-1">
                             សរសេរការពិពណ៌នាដែលបង្ហាញពីគុណប្រយោជន៍ផលិតផល
@@ -979,7 +1258,7 @@ export default function ProductDashboardPage() {
                               })
                             }
                             rows={4}
-                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none resize-none"
+                            className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none resize-none text-sm sm:text-base"
                           />
                           <p className="text-xs text-gray-500 mt-1">
                             រាយបញ្ជីសមាសធាតុសំខាន់ៗដែលធ្វើឱ្យផលិតផលនេះមានប្រសិទ្ធភាព
@@ -1012,7 +1291,7 @@ export default function ProductDashboardPage() {
                               })
                             }
                             rows={5}
-                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none resize-none"
+                            className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none resize-none text-sm sm:text-base"
                           />
                           <p className="text-xs text-gray-500 mt-1">
                             សរសេរការណែនាំការប្រើប្រាស់នីមួយៗនៅលើបន្ទាត់ថ្មី។ ចុច
@@ -1021,13 +1300,13 @@ export default function ProductDashboardPage() {
                         </div>
 
                         <div>
-                          <label
+                          {/* <label
                             htmlFor="tags-km"
                             className="block text-sm font-medium text-gray-700 mb-2"
                           >
                             Best For Tags (Khmer)
-                          </label>
-                          <input
+                          </label> */}
+                          {/* <input
                             id="tags-km"
                             placeholder="ឈឺសាច់ដុំ, ឈឺសន្លាក់, របួសសកម្មភាព, ឈឺក្បាល"
                             value={form.translations.km.bestForTags.join(", ")}
@@ -1046,12 +1325,12 @@ export default function ProductDashboardPage() {
                                 },
                               })
                             }
-                            className="w-full border-2 border-gray-200 rounded-lg px-4 py-3 focus:border-orange-500 focus:outline-none"
-                          />
-                          <p className="text-xs text-gray-500 mt-1">
+                            className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base"
+                          /> */}
+                          {/* <p className="text-xs text-gray-500 mt-1">
                             បំបែកស្លាកដោយសញ្ញាក្បៀស។
                             ស្លាកទាំងនេះជួយអតិថិជនរកឃើញផលិតផលរបស់អ្នក។
-                          </p>
+                          </p> */}
                         </div>
                       </div>
                     </div>
@@ -1073,13 +1352,36 @@ export default function ProductDashboardPage() {
 
                     <div className="flex space-x-3">
                       {currentStep < totalSteps ? (
-                        <button
-                          type="button"
-                          onClick={() => setCurrentStep(currentStep + 1)}
-                          className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600 font-medium"
-                        >
-                          Next →
-                        </button>
+                        <div className="flex flex-col items-end">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              if (isCurrentStepValid()) {
+                                setCurrentStep(currentStep + 1);
+                              }
+                            }}
+                            disabled={!isCurrentStepValid()}
+                            className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+                              isCurrentStepValid()
+                                ? "bg-orange-500 text-white hover:bg-orange-600"
+                                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                            }`}
+                          >
+                            Next →
+                          </button>
+                          {!isCurrentStepValid() && (
+                            <div className="mt-2 text-xs text-red-600 text-right max-w-xs">
+                              <p className="font-medium">
+                                Please complete required fields:
+                              </p>
+                              <ul className="list-disc list-inside mt-1">
+                                {getMissingFields().map((field, index) => (
+                                  <li key={index}>{field}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          )}
+                        </div>
                       ) : (
                         <div className="flex space-x-3">
                           <button

@@ -70,7 +70,7 @@ const WhyNagaBalmSection = () => {
                   {t(`cards.${card.key}.subtitle`)}
                 </div>md:block
                 <div
-                  className={`text-xs sm:text-sm sm:text-base leading-relaxed ${
+                  className={`text-xs sm:text-sm leading-relaxed ${
                     locale === "km" ? "font-hanuman" : ""
                   }`}
                 >

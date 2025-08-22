@@ -9,6 +9,7 @@ export interface TranslationFields {
   activeIngredient?: string;
   usage?: string[];
   bestForTags?: string[];
+  Slug?: string;
 }
 
 export interface ApiProduct {
