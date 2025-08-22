@@ -9,16 +9,15 @@ const DiscoverSolutionSection = () => {
 
   return (
     <section
-      className="w-full bg-[#F5F5F5] py-12 sm:py-16 lg:py-20 flex flex-col items-center relative overflow-hidden"
-      style={{
-        backgroundImage: "url('/images/about-grid/Mainposter.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
+      className="
+        w-full py-12 sm:py-16 lg:py-20 flex flex-col items-center relative overflow-hidden
+        bg-[url('/images/about-grid/mobile-poster.png')]
+        sm:bg-[url('/images/about-grid/Mainposter.png')]
+        bg-cover bg-center bg-no-repeat
+      "
     >
-      <div className="w-full flex flex-col items-center">
-        <div className="w-full max-w-7xl flex flex-col lg:flex-row items-start justify-between px-4 sm:px-6 lg:px-8 gap-8 sm:gap-12">
+      <div className="w-full flex flex-col sm:items-center justify-center ">
+        <div className="w-full max-w-4xl flex flex-col mr-52 lg:flex-row items-start justify-between px-4 sm:px-6 lg:px-8 gap-8 sm:gap-12 ">
           <div className="flex-1 flex flex-col gap-6 sm:gap-8">
             <h2
               className={`text-[#FF4500] text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold leading-tight text-center lg:text-left ${
@@ -35,9 +34,10 @@ const DiscoverSolutionSection = () => {
                 t("title")
               )}
             </h2>
-            <div className="flex flex-col gap-8 sm:gap-12 lg:gap-16">
+
+            <div className="lg:mr-52 flex flex-col gap-8 sm:gap-12 lg:gap-16 sm:justify-center">
               {/* Active Lifestyles Card */}
-              <div className="bg-[#00B4D8] card p-4 sm:p-6 text-white w-full max-w-3xl flex flex-col sm:flex-row items-center relative min-h-[280px] sm:h-56 overflow-visible rounded-xl">
+              <div className="bg-[#00B4D8] card p-4 sm:p-6 text-white w-full max-w-3xl flex flex-col sm:flex-row relative min-h-[280px] sm:h-56 overflow-visible rounded-xl">
                 <div className="flex-1 pr-32 pl-4">
                   <h3
                     className={`font-extrabold text-3xl mb-3 ${
@@ -54,15 +54,31 @@ const DiscoverSolutionSection = () => {
                   >
                     {t("activeLifestyles.subtitle")}
                   </p>
-                  <div className="absolute bottom-6 right-10 z-10">
+                  <div className="absolute bottom-2 right-5 z-10">
                     <Link href={`/${locale}/products`}>
                       <button
                         className={`bg-[#FF4500] text-white font-bold py-3 px-8 rounded-full text-sm flex items-center gap-2 hover:bg-[#ff5722] transition-colors ${
                           locale === "km" ? "font-hanuman" : ""
                         }`}
                       >
-                        {t("activeLifestyles.button")}
-                        <span className="text-xl">→</span>
+                        {t("activeLifestyles.title")}
+                        <span className="text-xl">
+                          <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-arrow-right"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+                        </span>
                       </button>
                     </Link>
                   </div>
@@ -74,13 +90,13 @@ const DiscoverSolutionSection = () => {
                     alt="Active Lifestyle"
                     width={400}
                     height={400}
-                    className="object-contain w-full max-w-[500px] sm:max-w-[250px]"
+                    className="object-contain w-full max-w-[200px] sm:max-w-[250px]"
                   />
                 </div>
               </div>
 
               {/* Everyday Relief Card */}
-              <div className="bg-[#00A67E] card p-4 sm:p-6 text-white w-full max-w-3xl flex flex-col sm:flex-row items-center relative min-h-[280px] sm:h-56 overflow-visible rounded-xl">
+              <div className="bg-[#00A67E] card p-4 sm:p-6 text-white w-full max-w-3xl flex flex-col sm:flex-row relative min-h-[280px] sm:h-56 overflow-visible rounded-xl">
                 <div className="flex-1 pr-32 pl-4">
                   <h3
                     className={`font-extrabold text-3xl mb-3  ${
@@ -97,7 +113,7 @@ const DiscoverSolutionSection = () => {
                   >
                     {t("everydayRelief.subtitle")}
                   </p>
-                  <div className="absolute bottom-6 right-10 z-10">
+                  <div className="absolute bottom-2 right-5 z-10">
                     <Link href={`/${locale}/products`}>
                       <button
                         className={`bg-[#FF4500] text-white font-bold py-3 px-8 rounded-full text-sm flex items-center gap-2 hover:bg-[#ff5722] transition-colors ${
@@ -105,7 +121,23 @@ const DiscoverSolutionSection = () => {
                         }`}
                       >
                         {t("activeLifestyles.title")}
-                        <span className="text-xl">→</span>
+                        <span className="text-xl">
+                          <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="lucide lucide-arrow-right"
+                >
+                  <path d="M5 12h14" />
+                  <path d="m12 5 7 7-7 7" />
+                </svg>
+                        </span>
                       </button>
                     </Link>
                   </div>
@@ -116,7 +148,7 @@ const DiscoverSolutionSection = () => {
                     alt="Daily Lifestyle"
                     width={400}
                     height={400}
-                    className="object-contain w-full max-w-[500px] sm:max-w-[270px]"
+                    className="object-contain w-full max-w-[200px] sm:max-w-[250px]"
                   />
                 </div>
               </div>

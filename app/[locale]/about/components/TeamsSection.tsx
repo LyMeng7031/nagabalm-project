@@ -33,7 +33,7 @@ const ourTeamMembers = [
   {
     name: "Chhen Vannak",
     role: "Visual Creative Specialist",
-    img: "/images/Team Photo/Individual/Facility Tam/Chhen Vannak.jpg",
+    img: "/images/Team Photo/Individual/6. Chhen Vannak - Visual Creative Specialist.jpg",
   },
 ];
 

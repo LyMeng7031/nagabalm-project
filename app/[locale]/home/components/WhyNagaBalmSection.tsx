@@ -40,21 +40,6 @@ const WhyNagaBalmSection = () => {
         />
       </div>
       <div className="w-full flex flex-col items-center relative z-10">
-        <h3
-          className={`text-[#FF4500] text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-2 text-center px-4 ${
-            locale === "km" ? "font-hanuman" : ""
-          }`}
-        >
-          {t("title")}
-        </h3>
-        {/* Added the paragraph text */}
-        <p
-          className={`text-gray-700 text-sm sm:text-base lg:text-lg mb-8 sm:mb-12 lg:mb-16 text-center max-w-2xl px-4 font-bold p-4${
-            locale === "km" ? "font-hanuman" : ""
-          }`}
-        >
-          {t("p")}
-        </p>
         <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 justify-center items-stretch w-full max-w-7xl px-4 sm:px-6 lg:px-8 mb-8 sm:mb-12">
           {cards.map((card, idx) => (
             <div
@@ -83,7 +68,7 @@ const WhyNagaBalmSection = () => {
                   }`}
                 >
                   {t(`cards.${card.key}.subtitle`)}
-                </div>
+                </div>md:block
                 <div
                   className={`text-xs sm:text-sm sm:text-base leading-relaxed ${
                     locale === "km" ? "font-hanuman" : ""
