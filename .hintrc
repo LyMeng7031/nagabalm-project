@@ -17,6 +17,7 @@
         "aria-required-parent": "off"
       }
     ],
-    "button-type": "off"
+    "button-type": "off",
+    "no-inline-styles": "off"
   }
 }

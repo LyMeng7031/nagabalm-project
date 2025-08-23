@@ -17,6 +17,7 @@ export interface ApiProduct {
   slug: string;
   images: string[];
   price: number;
+  isNew: boolean;
   isTopSell: boolean;
   translations: {
     en: TranslationFields;

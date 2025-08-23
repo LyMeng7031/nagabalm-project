@@ -120,7 +120,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
         >
           ×
         </button>
-        <div className="flex flex-col lg:flex-row p-8 gap-8 overflow-y-auto max-h-[90vh]">
+        <div className="flex flex-col lg:flex-row p-8 gap-8 overflow-y-auto lg:p-10 max-h-[90vh]">
           <div className="flex-1 flex justify-center items-center bg-gray-50 rounded-xl p-6">
             <div className="relative w-80 h-80">
               <Image
@@ -133,7 +133,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
               />
             </div>
           </div>
-          <div className="flex-1 flex flex-col gap-6">
+          <div className="flex-1 p-2 md:p-4 lg:p-6 flex flex-col gap-6">
             <h2 className="text-[#F9461C] text-3xl font-extrabold leading-tight">
               {modalDetails.name}
             </h2>
@@ -154,7 +154,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ product, onClose }) => {
                   : modalDetails.usage}
               </p>
             </div>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap p-2 md:p-4 gap-3">
               {Array.isArray(modalDetails.tags) &&
                 modalDetails.tags.map((tag, i) => (
                   <span
