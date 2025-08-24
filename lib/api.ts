@@ -39,6 +39,56 @@ export interface ApiCategory {
   updatedAt: string;
 }
 
+export interface ApiLocationCategory {
+  id: string;
+  slug: string;
+  translations: {
+    en: { name: string };
+    km: { name: string };
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ApiLocation {
+  id: string;
+  slug: string;
+  logo: string;
+  translations: {
+    en: { name: string };
+    km: { name: string };
+  };
+  categoryId: string;
+  category?: ApiLocationCategory;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ApiTeamCategory {
+  id: string;
+  slug: string;
+  translations: {
+    en: { name: string };
+    km: { name: string };
+  };
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ApiTeamMember {
+  id: string;
+  slug: string;
+  image: string;
+  translations: {
+    en: { name: string; role: string };
+    km: { name: string; role: string };
+  };
+  categoryId: string;
+  category?: ApiTeamCategory;
+  createdAt: string;
+  updatedAt: string;
+}
+
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
   const res = await fetch(url, {
     ...init,
@@ -163,6 +213,187 @@ export async function apiDeleteCategory(id: string) {
       method: "DELETE",
     }
   );
+}
+
+// Location Categories
+export async function apiGetLocationCategories() {
+  return request<{
+    success: boolean;
+    data: ApiLocationCategory[];
+    count: number;
+  }>(`/api/location-categories`);
+}
+
+export async function apiGetLocationCategory(id: string) {
+  return request<{ success: boolean; data: ApiLocationCategory }>(
+    `/api/location-categories/${id}`
+  );
+}
+
+export async function apiCreateLocationCategory(
+  payload: Omit<ApiLocationCategory, "id" | "createdAt" | "updatedAt">
+) {
+  return request<{ success: boolean; data: ApiLocationCategory }>(
+    `/api/location-categories`,
+    {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }
+  );
+}
+
+export async function apiUpdateLocationCategory(
+  id: string,
+  payload: Omit<ApiLocationCategory, "id" | "createdAt" | "updatedAt">
+) {
+  return request<{ success: boolean; data: ApiLocationCategory }>(
+    `/api/location-categories/${id}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    }
+  );
+}
+
+export async function apiDeleteLocationCategory(id: string) {
+  return request<{ success: boolean; message: string }>(
+    `/api/location-categories/${id}`,
+    {
+      method: "DELETE",
+    }
+  );
+}
+
+// Locations
+export async function apiGetLocations() {
+  return request<{ success: boolean; data: ApiLocation[]; count: number }>(
+    `/api/locations`
+  );
+}
+
+export async function apiGetLocation(id: string) {
+  return request<{ success: boolean; data: ApiLocation }>(
+    `/api/locations/${id}`
+  );
+}
+
+export async function apiCreateLocation(
+  payload: Omit<ApiLocation, "id" | "createdAt" | "updatedAt" | "category">
+) {
+  return request<{ success: boolean; data: ApiLocation }>(`/api/locations`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function apiUpdateLocation(
+  id: string,
+  payload: Omit<ApiLocation, "id" | "createdAt" | "updatedAt" | "category">
+) {
+  return request<{ success: boolean; data: ApiLocation }>(
+    `/api/locations/${id}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    }
+  );
+}
+
+export async function apiDeleteLocation(id: string) {
+  return request<{ success: boolean; message: string }>(
+    `/api/locations/${id}`,
+    {
+      method: "DELETE",
+    }
+  );
+}
+
+// Team Categories
+export async function apiGetTeamCategories() {
+  return request<{
+    success: boolean;
+    data: ApiTeamCategory[];
+    count: number;
+  }>(`/api/team-categories`);
+}
+
+export async function apiGetTeamCategory(id: string) {
+  return request<{ success: boolean; data: ApiTeamCategory }>(
+    `/api/team-categories/${id}`
+  );
+}
+
+export async function apiCreateTeamCategory(
+  payload: Omit<ApiTeamCategory, "id" | "createdAt" | "updatedAt">
+) {
+  return request<{ success: boolean; data: ApiTeamCategory }>(
+    `/api/team-categories`,
+    {
+      method: "POST",
+      body: JSON.stringify(payload),
+    }
+  );
+}
+
+export async function apiUpdateTeamCategory(
+  id: string,
+  payload: Omit<ApiTeamCategory, "id" | "createdAt" | "updatedAt">
+) {
+  return request<{ success: boolean; data: ApiTeamCategory }>(
+    `/api/team-categories/${id}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    }
+  );
+}
+
+export async function apiDeleteTeamCategory(id: string) {
+  return request<{ success: boolean; message: string }>(
+    `/api/team-categories/${id}`,
+    {
+      method: "DELETE",
+    }
+  );
+}
+
+// Team Members
+export async function apiGetTeamMembers() {
+  return request<{ success: boolean; data: ApiTeamMember[]; count: number }>(
+    `/api/teams`
+  );
+}
+
+export async function apiGetTeamMember(id: string) {
+  return request<{ success: boolean; data: ApiTeamMember }>(`/api/teams/${id}`);
+}
+
+export async function apiCreateTeamMember(
+  payload: Omit<ApiTeamMember, "id" | "createdAt" | "updatedAt" | "category">
+) {
+  return request<{ success: boolean; data: ApiTeamMember }>(`/api/teams`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function apiUpdateTeamMember(
+  id: string,
+  payload: Omit<ApiTeamMember, "id" | "createdAt" | "updatedAt" | "category">
+) {
+  return request<{ success: boolean; data: ApiTeamMember }>(
+    `/api/teams/${id}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(payload),
+    }
+  );
+}
+
+export async function apiDeleteTeamMember(id: string) {
+  return request<{ success: boolean; message: string }>(`/api/teams/${id}`, {
+    method: "DELETE",
+  });
 }
 
 // Upload

@@ -3,19 +3,17 @@
 import React, { useMemo, useState } from "react";
 import Sidebar from "@/app/components/Sidebar";
 import Navbar from "@/app/components/Navbar";
-import Pagination from "@/app/components/Pagination";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  apiCreateCategory,
-  apiDeleteCategory,
-  apiGetCategories,
-  apiUpdateCategory,
-  type ApiCategory,
+  apiCreateTeamCategory,
+  apiDeleteTeamCategory,
+  apiGetTeamCategories,
+  apiUpdateTeamCategory,
+  type ApiTeamCategory,
 } from "@/lib/api";
 import { postAppEvent } from "@/lib/events";
-import { usePagination } from "@/hooks/usePagination";
 
-interface CategoryFormState {
+interface TeamCategoryFormState {
   id?: string;
   slug: string;
   translations: {
@@ -28,7 +26,7 @@ interface CategoryFormState {
   };
 }
 
-function emptyForm(): CategoryFormState {
+function emptyForm(): TeamCategoryFormState {
   return {
     slug: "",
     translations: {
@@ -42,57 +40,52 @@ function emptyForm(): CategoryFormState {
   };
 }
 
-export default function CategoriesDashboardPage() {
+export default function TeamCategoriesDashboardPage() {
   const queryClient = useQueryClient();
   const [formOpen, setFormOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | undefined>(undefined);
-  const [form, setForm] = useState<CategoryFormState>(emptyForm());
+  const [form, setForm] = useState<TeamCategoryFormState>(emptyForm());
   const [search, setSearch] = useState("");
 
   const {
-    data: categoriesResp,
+    data: teamCategoriesResp,
     isLoading: loadingCategories,
     error: categoriesError,
   } = useQuery({
-    queryKey: ["categories"],
-    queryFn: apiGetCategories,
+    queryKey: ["team-categories"],
+    queryFn: apiGetTeamCategories,
   });
 
-  const categories = categoriesResp?.data ?? [];
+  const teamCategories = teamCategoriesResp?.data ?? [];
 
-  // Use pagination hook
-  const {
-    currentPage,
-    itemsPerPage,
-    totalPages,
-    paginatedData: paginatedCategories,
-    totalItems,
-    setCurrentPage,
-    setItemsPerPage,
-  } = usePagination({
-    data: categories,
-    initialItemsPerPage: 10,
-    searchQuery: search,
-    searchFields: ["slug", "translations"] as (keyof ApiCategory)[],
-  });
+  const filteredCategories = useMemo(() => {
+    if (!search.trim()) return teamCategories;
+    const q = search.toLowerCase();
+    return teamCategories.filter(
+      (c) =>
+        c.slug.toLowerCase().includes(q) ||
+        c.translations.en.name.toLowerCase().includes(q) ||
+        c.translations.km.name.toLowerCase().includes(q)
+    );
+  }, [teamCategories, search]);
 
   const createMutation = useMutation({
     mutationFn: async (
-      payload: Omit<ApiCategory, "id" | "createdAt" | "updatedAt">
+      payload: Omit<ApiTeamCategory, "id" | "createdAt" | "updatedAt">
     ) => {
-      const res = await apiCreateCategory(payload);
+      const res = await apiCreateTeamCategory(payload);
       return res.data;
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["categories"] });
-      postAppEvent({ type: "categories/changed" });
+      await queryClient.invalidateQueries({ queryKey: ["team-categories"] });
+      postAppEvent({ type: "team-categories/changed" });
       setFormOpen(false);
       setForm(emptyForm());
       setEditingId(undefined);
     },
     onError: (error) => {
-      console.error("Error creating category:", error);
-      alert("Failed to create category. Please try again.");
+      console.error("Error creating team category:", error);
+      alert("Failed to create team category. Please try again.");
     },
   });
 
@@ -102,35 +95,35 @@ export default function CategoriesDashboardPage() {
       payload,
     }: {
       id: string;
-      payload: Omit<ApiCategory, "id" | "createdAt" | "updatedAt">;
+      payload: Omit<ApiTeamCategory, "id" | "createdAt" | "updatedAt">;
     }) => {
-      const res = await apiUpdateCategory(id, payload);
+      const res = await apiUpdateTeamCategory(id, payload);
       return res.data;
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["categories"] });
-      postAppEvent({ type: "categories/changed" });
+      await queryClient.invalidateQueries({ queryKey: ["team-categories"] });
+      postAppEvent({ type: "team-categories/changed" });
       setFormOpen(false);
       setForm(emptyForm());
       setEditingId(undefined);
     },
     onError: (error) => {
-      console.error("Error updating category:", error);
-      alert("Failed to update category. Please try again.");
+      console.error("Error updating team category:", error);
+      alert("Failed to update team category. Please try again.");
     },
   });
 
   const deleteMutation = useMutation({
     mutationFn: async (id: string) => {
-      await apiDeleteCategory(id);
+      await apiDeleteTeamCategory(id);
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["categories"] });
-      postAppEvent({ type: "categories/changed" });
+      await queryClient.invalidateQueries({ queryKey: ["team-categories"] });
+      postAppEvent({ type: "team-categories/changed" });
     },
     onError: (error) => {
-      console.error("Error deleting category:", error);
-      alert("Failed to delete category. Please try again.");
+      console.error("Error deleting team category:", error);
+      alert("Failed to delete team category. Please try again.");
     },
   });
 
@@ -140,7 +133,7 @@ export default function CategoriesDashboardPage() {
     setFormOpen(true);
   }
 
-  function openEdit(c: ApiCategory) {
+  function openEdit(c: ApiTeamCategory) {
     setForm({
       id: c.id,
       slug: c.slug,
@@ -168,7 +161,7 @@ export default function CategoriesDashboardPage() {
         en: { name: form.translations.en.name },
         km: { name: form.translations.km.name },
       },
-    } as Omit<ApiCategory, "id" | "createdAt" | "updatedAt">;
+    } as Omit<ApiTeamCategory, "id" | "createdAt" | "updatedAt">;
 
     if (editingId) {
       updateMutation.mutate({ id: editingId, payload });
@@ -192,11 +185,11 @@ export default function CategoriesDashboardPage() {
     switch (field) {
       case "en.name":
         return form.translations.en.name.trim() === ""
-          ? "Category Name (English) is required"
+          ? "Team Category Name (English) is required"
           : "";
       case "km.name":
         return form.translations.km.name.trim() === ""
-          ? "Category Name (Khmer) is required"
+          ? "Team Category Name (Khmer) is required"
           : "";
       default:
         return "";
@@ -216,13 +209,13 @@ export default function CategoriesDashboardPage() {
       <Navbar />
       <main className="pt-20 px-6 md:ml-64">
         <div className="flex items-center justify-between mb-6">
-          <h1 className="text-2xl font-bold text-gray-800">Categories</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Team Categories</h1>
           <button
             type="button"
             onClick={openCreate}
             className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition-colors"
           >
-            New Category
+            New Team Category
           </button>
         </div>
 
@@ -230,7 +223,7 @@ export default function CategoriesDashboardPage() {
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by category name or slug..."
+            placeholder="Search by team category name or slug..."
             className="w-full md:w-96 border rounded-md px-3 py-2 focus:border-orange-500 focus:outline-none"
           />
         </div>
@@ -254,10 +247,11 @@ export default function CategoriesDashboardPage() {
                 </svg>
               </div>
               <h3 className="text-lg font-medium text-gray-900 mb-2">
-                Failed to load categories
+                Failed to load team categories
               </h3>
               <p className="text-gray-600 mb-4">
-                There was an error loading the categories. Please try again.
+                There was an error loading the team categories. Please try
+                again.
               </p>
               <button
                 onClick={() => window.location.reload()}
@@ -271,10 +265,10 @@ export default function CategoriesDashboardPage() {
               <thead className="bg-gray-100">
                 <tr>
                   <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700 border-b">
-                    Category Name (English)
+                    Team Category Name (English)
                   </th>
                   <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700 border-b">
-                    Category Name (Khmer)
+                    Team Category Name (Khmer)
                   </th>
                   <th className="px-4 py-2 text-left text-sm font-semibold text-gray-700 border-b">
                     Slug
@@ -296,7 +290,7 @@ export default function CategoriesDashboardPage() {
                       </td>
                     </tr>
                   ))
-                ) : paginatedCategories.length === 0 ? (
+                ) : filteredCategories.length === 0 ? (
                   <tr>
                     <td colSpan={5} className="px-4 py-12 text-center">
                       <div className="text-gray-500">
@@ -313,27 +307,19 @@ export default function CategoriesDashboardPage() {
                             d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
                           />
                         </svg>
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">
-                          No categories found
-                        </h3>
-                        <p className="text-gray-600 mb-4">
-                          {search.trim()
-                            ? "No categories match your search."
-                            : "Get started by creating your first category."}
+                        <p className="text-lg font-medium mb-2">
+                          No team categories found
                         </p>
-                        {!search.trim() && (
-                          <button
-                            onClick={openCreate}
-                            className="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600"
-                          >
-                            Create First Category
-                          </button>
-                        )}
+                        <p className="text-sm">
+                          {search
+                            ? "No team categories match your search criteria."
+                            : "Get started by creating your first team category."}
+                        </p>
                       </div>
                     </td>
                   </tr>
                 ) : (
-                  paginatedCategories.map((c) => (
+                  filteredCategories.map((c) => (
                     <tr key={c.id} className="hover:bg-gray-50">
                       <td className="px-4 py-2 text-sm text-gray-800">
                         {c.translations.en.name}
@@ -341,10 +327,8 @@ export default function CategoriesDashboardPage() {
                       <td className="px-4 py-2 text-sm text-gray-800">
                         {c.translations.km.name}
                       </td>
-                      <td className="px-4 py-2 text-sm text-gray-600">
-                        <code className="bg-gray-100 px-2 py-1 rounded text-xs">
-                          {c.slug}
-                        </code>
+                      <td className="px-4 py-2 text-sm text-gray-600 font-mono">
+                        {c.slug}
                       </td>
                       <td className="px-4 py-2 text-sm text-gray-600">
                         {new Date(c.createdAt).toLocaleDateString()}
@@ -363,7 +347,7 @@ export default function CategoriesDashboardPage() {
                           onClick={() => {
                             if (
                               confirm(
-                                "Delete this category? This action cannot be undone."
+                                "Delete this team category? This action cannot be undone."
                               )
                             )
                               deleteMutation.mutate(c.id);
@@ -380,18 +364,6 @@ export default function CategoriesDashboardPage() {
               </tbody>
             </table>
           )}
-
-          {/* Pagination */}
-          {!loadingCategories && totalPages > 1 && (
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-              itemsPerPage={itemsPerPage}
-              totalItems={totalItems}
-              onItemsPerPageChange={setItemsPerPage}
-            />
-          )}
         </div>
 
         {formOpen && (
@@ -406,7 +378,9 @@ export default function CategoriesDashboardPage() {
               <div className="p-3 sm:p-4 md:p-6 border-b bg-gray-50">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
-                    {editingId ? "Edit Category" : "Create New Category"}
+                    {editingId
+                      ? "Edit Team Category"
+                      : "Create New Team Category"}
                   </h2>
                   <button
                     type="button"
@@ -427,8 +401,8 @@ export default function CategoriesDashboardPage() {
                     <div className="flex">
                       <div className="ml-3">
                         <p className="text-sm text-blue-700">
-                          <strong>Category Information:</strong> Create a new
-                          category with names in both English and Khmer
+                          <strong>Team Category Information:</strong> Create a
+                          new team category with names in both English and Khmer
                           languages. The slug will be automatically generated
                           from the English name.
                         </p>
@@ -439,16 +413,16 @@ export default function CategoriesDashboardPage() {
                   <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     <div>
                       <label
-                        htmlFor="category-name-en"
+                        htmlFor="team-category-name-en"
                         className="block text-sm font-medium text-gray-700 mb-2"
                       >
-                        Category Name (English){" "}
+                        Team Category Name (English){" "}
                         <span className="text-red-500">*</span>
                       </label>
                       <input
-                        id="category-name-en"
+                        id="team-category-name-en"
                         required
-                        placeholder="e.g., Pain Relief, Skincare"
+                        placeholder="e.g., Our Team, Facility Team"
                         value={form.translations.en.name}
                         onChange={(e) =>
                           setForm({
@@ -474,22 +448,22 @@ export default function CategoriesDashboardPage() {
                         </p>
                       )}
                       <p className="text-xs text-gray-500 mt-1">
-                        This will be the main category name displayed to
+                        This will be the main team category name displayed to
                         customers
                       </p>
                     </div>
                     <div>
                       <label
-                        htmlFor="category-name-kh"
+                        htmlFor="team-category-name-kh"
                         className="block text-sm font-medium text-gray-700 mb-2"
                       >
-                        ឈ្មោះប្រភេទ (ភាសាខ្មែរ){" "}
+                        ឈ្មោះប្រភេទក្រុម (ភាសាខ្មែរ){" "}
                         <span className="text-red-500">*</span>
                       </label>
                       <input
-                        id="category-name-kh"
+                        id="team-category-name-kh"
                         required
-                        placeholder="ឧ. ថ្នាំបំបាត់ការឈឺចាប់, ថ្នាំថែរក្សាស្បែក"
+                        placeholder="ឧ. ក្រុមការងាររបស់យើង, ក្រុមការងារកន្លែងធ្វើការ"
                         value={form.translations.km.name}
                         onChange={(e) =>
                           setForm({
@@ -515,7 +489,7 @@ export default function CategoriesDashboardPage() {
                         </p>
                       )}
                       <p className="text-xs text-gray-500 mt-1">
-                        នេះនឹងជាឈ្មោះប្រភេទចម្បងដែលបង្ហាញដល់អតិថិជន
+                        នេះនឹងជាឈ្មោះប្រភេទក្រុមចម្បងដែលបង្ហាញដល់អតិថិជន
                       </p>
                     </div>
                   </div>
@@ -527,7 +501,7 @@ export default function CategoriesDashboardPage() {
                     <p className="text-sm text-gray-600 font-mono bg-white px-3 py-2 rounded border">
                       {form.translations.en.name
                         ? generateSlug(form.translations.en.name)
-                        : "category-slug-will-appear-here"}
+                        : "team-category-slug-will-appear-here"}
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
                       This slug will be used in URLs and for internal
@@ -552,8 +526,8 @@ export default function CategoriesDashboardPage() {
                       {saving
                         ? "Saving..."
                         : editingId
-                        ? "Update Category"
-                        : "Create Category"}
+                        ? "Update Team Category"
+                        : "Create Team Category"}
                     </button>
                   </div>
                 </form>

@@ -2,7 +2,11 @@
 
 export type AppEvent =
   | { type: "products/changed" }
-  | { type: "categories/changed" };
+  | { type: "categories/changed" }
+  | { type: "team-categories/changed" }
+  | { type: "team-members/changed" }
+  | { type: "location-categories/changed" }
+  | { type: "locations/changed" };
 
 const CHANNEL_NAME = "nagabalm-events";
 

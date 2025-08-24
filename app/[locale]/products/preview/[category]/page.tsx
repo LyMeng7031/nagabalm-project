@@ -197,8 +197,8 @@ export default function CategoryPreviewPage() {
       try {
         // Map preview route to API category IDs
         const CATEGORY_ID_BY_ROUTE: Record<"active" | "balms", string> = {
-          active: "68931345fa148b5bbeee179d", // Inhalers
-          balms: "68931345fa148b5bbeee179a", // Balms
+          active: "68ab42d961e47c81c1946498", // Inhalers
+          balms: "68ab34effe336d92f6207bd0", // Balms
         };
         const categoryId =
           CATEGORY_ID_BY_ROUTE[category] || CATEGORY_ID_BY_ROUTE.active;

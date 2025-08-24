@@ -2,6 +2,8 @@
 
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import Pagination from "@/app/components/Pagination";
+import { usePagination } from "@/hooks/usePagination";
 
 // Types
 type Translation = {
@@ -154,16 +156,21 @@ const DashboardProductsManager: React.FC = () => {
     fetchAll();
   }, [fetchAll]);
 
-  const filtered = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    if (!q) return products;
-    return products.filter(
-      (p) =>
-        p.slug.toLowerCase().includes(q) ||
-        p.translations.en.name.toLowerCase().includes(q) ||
-        p.translations.km.name.toLowerCase().includes(q)
-    );
-  }, [products, query]);
+  // Use pagination hook
+  const {
+    currentPage,
+    itemsPerPage,
+    totalPages,
+    paginatedData: paginatedProducts,
+    totalItems,
+    setCurrentPage,
+    setItemsPerPage,
+  } = usePagination({
+    data: products,
+    initialItemsPerPage: 12,
+    searchQuery: query,
+    searchFields: ["slug", "translations"] as (keyof Product)[],
+  });
 
   const openCreate = useCallback(() => {
     setEditingId(null);
@@ -290,7 +297,7 @@ const DashboardProductsManager: React.FC = () => {
         <div className="py-8 text-center text-red-600">{error}</div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((p) => (
+          {paginatedProducts.map((p) => (
             <div
               key={p.id}
               className="bg-white rounded-lg shadow p-4 flex flex-col"
@@ -335,6 +342,18 @@ const DashboardProductsManager: React.FC = () => {
             </div>
           ))}
         </div>
+      )}
+
+      {/* Pagination */}
+      {!loading && !error && totalPages > 1 && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          itemsPerPage={itemsPerPage}
+          totalItems={totalItems}
+          onItemsPerPageChange={setItemsPerPage}
+        />
       )}
 
       {/* Modal */}

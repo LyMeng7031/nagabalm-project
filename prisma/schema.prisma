@@ -91,3 +91,49 @@ model Product {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model LocationCategory {
+  id           String     @id @default(auto()) @map("_id") @db.ObjectId
+  slug         String     @unique
+  translations Json       // { en: { name }, km: { name } }
+  locations    Location[] // relation
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Location {
+  id           String           @id @default(auto()) @map("_id") @db.ObjectId
+  slug         String           @unique
+  logo         String           // Image URL for the logo
+  translations Json             // { en: { name }, km: { name } }
+
+  categoryId   String           @db.ObjectId
+  category     LocationCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TeamCategory {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  slug         String        @unique
+  translations Json          // { en: { name }, km: { name } }
+  teamMembers  TeamMember[]  // relation
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TeamMember {
+  id           String       @id @default(auto()) @map("_id") @db.ObjectId
+  slug         String       @unique
+  image        String       // Image URL for the team member photo
+  translations Json         // { en: { name, role }, km: { name, role } }
+
+  categoryId   String       @db.ObjectId
+  category     TeamCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
