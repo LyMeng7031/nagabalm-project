@@ -1,16 +1,16 @@
-'use client';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import { deleteCookie } from 'cookies-next'; // Make sure you've installed: npm i cookies-next
+"use client";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { deleteCookie } from "cookies-next"; // Make sure you've installed: npm i cookies-next
 
 const Sidebar = () => {
   const pathname = usePathname();
   const router = useRouter();
 
   const handleLogout = () => {
-    deleteCookie('token'); //delete token 
+    deleteCookie("token"); //delete token
     localStorage.clear(); //Clear localStorage if you're storing anything
-    router.push('/login');
+    router.push("/login");
   };
 
   return (
@@ -22,7 +22,7 @@ const Sidebar = () => {
             <Link
               href="/dashboard"
               className={`flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group ${
-                pathname === '/dashboard' ? 'bg-gray-100' : ''
+                pathname === "/dashboard" ? "bg-gray-100" : ""
               }`}
             >
               <svg
@@ -47,7 +47,7 @@ const Sidebar = () => {
             <Link
               href="/dashboard/product"
               className={`flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group ${
-                pathname === '/dashboard/product' ? 'bg-gray-100' : ''
+                pathname === "/dashboard/product" ? "bg-gray-100" : ""
               }`}
             >
               <svg
@@ -64,6 +64,31 @@ const Sidebar = () => {
                 />
               </svg>
               <span className="ml-3">Product</span>
+            </Link>
+          </li>
+
+          {/* Categories Link */}
+          <li>
+            <Link
+              href="/dashboard/categories"
+              className={`flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group ${
+                pathname === "/dashboard/categories" ? "bg-gray-100" : ""
+              }`}
+            >
+              <svg
+                className="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                />
+              </svg>
+              <span className="ml-3">Categories</span>
             </Link>
           </li>
 

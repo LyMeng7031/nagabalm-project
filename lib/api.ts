@@ -128,6 +128,12 @@ export async function apiGetCategories() {
   );
 }
 
+export async function apiGetCategory(id: string) {
+  return request<{ success: boolean; data: ApiCategory }>(
+    `/api/categories/${id}`
+  );
+}
+
 export async function apiCreateCategory(
   payload: Omit<ApiCategory, "id" | "createdAt" | "updatedAt">
 ) {
