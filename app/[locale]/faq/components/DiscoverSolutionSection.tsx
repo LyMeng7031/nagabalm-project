@@ -39,6 +39,9 @@ const DiscoverSolutionSection = () => {
             <p className="text-sm sm:text-base opacity-90 leading-relaxed mb-4 whitespace-pre-line">
               {t("activeLifestyles.subtitle")}
             </p>
+            <p className="text-sm sm:text-base opacity-90 leading-relaxed mb-4 whitespace-pre-line">
+              {t("activeLifestyles.description")}
+            </p>
 
             <div className="mt-4 md:absolute md:bottom-4 md:right-4 z-10">
               <button
@@ -66,6 +69,9 @@ const DiscoverSolutionSection = () => {
             <h2 className="text-2xl sm:text-3xl font-extrabold mb-2 leading-tight">
               {t("everydayRelief.title")}
             </h2>
+            <p className="text-sm sm:text-base opacity-90 leading-relaxed mb-4">
+              {t("everydayRelief.description")}
+            </p>
             <p className="text-sm sm:text-base opacity-90 leading-relaxed mb-4">
               {t("everydayRelief.subtitle")
                 .split("\n")
