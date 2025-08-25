@@ -6,11 +6,12 @@ const prisma = new PrismaClient();
 // GET /api/teams/[id] - Get single team member
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const teamMember = await prisma.teamMember.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         category: true,
       },
@@ -45,9 +46,10 @@ export async function GET(
 // PUT /api/teams/[id] - Update team member
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     const { translations, image, categoryId } = body;
 
@@ -58,7 +60,7 @@ export async function PUT(
       .replace(/(^-|-$)/g, "");
 
     const teamMember = await prisma.teamMember.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         slug,
         image,
@@ -89,11 +91,12 @@ export async function PUT(
 // DELETE /api/teams/[id] - Delete team member
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await prisma.teamMember.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({
