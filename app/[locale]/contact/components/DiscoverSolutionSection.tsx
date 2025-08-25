@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import React from "react";
@@ -40,6 +39,9 @@ const DiscoverSolutionSection = () => {
           {t('activeLifestyles.title')}
         </h3>
         <p className="text-sm sm:text-base opacity-90 mb-4">
+            {t('activeLifestyles.subtitle')}
+        </p>
+        <p className="text-sm sm:text-base opacity-90 mb-4">
           {t('activeLifestyles.description').split('\\n').map((line, index) => (
             <React.Fragment key={index}>
               {line}
@@ -76,6 +78,9 @@ const DiscoverSolutionSection = () => {
         <h3 className="text-xl sm:text-2xl font-extrabold mb-2">
           {t('everydayRelief.title')}
         </h3>
+        <p className="text-sm sm:text-base opacity-90 mb-4">
+          {t('everydayRelief.subtitle')}
+        </p>
         <p className="text-sm sm:text-base opacity-90 mb-4">
           {t('everydayRelief.description').split('\\n').map((line, index) => (
             <React.Fragment key={index}>

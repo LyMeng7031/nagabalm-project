@@ -63,14 +63,14 @@ const WhyNagaBalmSection = () => {
                   {t(`cards.${card.key}.title`)}
                 </div>
                 <div
-                  className={`font-semibold text-base sm:text-xs sm:mb-5 ${
+                  className={`font-semibold text-base sm:text-sm sm:mb-5 ${
                     locale === "km" ? "font-hanuman" : ""
                   }`}
                 >
                   {t(`cards.${card.key}.subtitle`)}
-                </div>md:block
+                </div>
                 <div
-                  className={`text-xs sm:text-sm leading-relaxed ${
+                  className={`text-xs sm:text-xs leading-relaxed ${
                     locale === "km" ? "font-hanuman" : ""
                   }`}
                 >
