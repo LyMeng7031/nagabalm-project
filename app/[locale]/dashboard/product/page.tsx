@@ -260,7 +260,7 @@ export default function ProductDashboardPage() {
     switch (field) {
       case "en.name":
         return form.translations.en.name.trim() === ""
-          ? "Product Name (English) is required"
+          ? "Product Name (English)  is required"
           : "";
       case "km.name":
         return form.translations.km.name.trim() === ""
@@ -510,15 +510,15 @@ export default function ProductDashboardPage() {
                             }
                             className={`w-full border-2 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base ${
                               getFieldError("en.name")
-                                ? "border-red-500"
+                                ? "border-black-500"
                                 : "border-gray-200"
                             }`}
                           />
-                          {getFieldError("en.name") && (
+                          {/* {getFieldError("en.name") && (
                             <p className="text-xs text-red-500 mt-1">
                               {getFieldError("en.name")}
                             </p>
-                          )}
+                          )} */}
                           <p className="text-xs text-gray-500 mt-1">
                             This will be the main product name displayed to
                             customers
@@ -551,15 +551,15 @@ export default function ProductDashboardPage() {
                             }
                             className={`w-full border-2 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base ${
                               getFieldError("km.name")
-                                ? "border-red-500"
+                                ? "border-black-500"
                                 : "border-gray-200"
                             }`}
                           />
-                          {getFieldError("km.name") && (
+                          {/* {getFieldError("km.name") && (
                             <p className="text-xs text-red-500 mt-1">
                               {getFieldError("km.name")}
                             </p>
-                          )}
+                          )} */}
                           <p className="text-xs text-gray-500 mt-1">
                             នេះនឹងជាឈ្មោះផលិតផលចម្បងដែលបង្ហាញដល់អតិថិជន
                           </p>
@@ -640,7 +640,7 @@ export default function ProductDashboardPage() {
                             }
                             className={`w-full border-2 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base ${
                               getFieldError("categoryId")
-                                ? "border-red-500"
+                                ? "border-black-500"
                                 : "border-gray-200"
                             }`}
                           >
@@ -651,11 +651,11 @@ export default function ProductDashboardPage() {
                               </option>
                             ))}
                           </select>
-                          {getFieldError("categoryId") && (
+                          {/* {getFieldError("categoryId") && (
                             <p className="text-xs text-red-500 mt-1">
                               {getFieldError("categoryId")}
                             </p>
-                          )}
+                          )} */}
                           <p className="text-xs text-gray-500 mt-1">
                             Select the category this product belongs to
                           </p>

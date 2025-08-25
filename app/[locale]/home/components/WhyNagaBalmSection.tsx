@@ -46,7 +46,7 @@ const WhyNagaBalmSection = () => {
               key={idx}
               className={`card p-4 sm:p-6 lg:p-8 flex-1 w-full lg:min-w-[280px] ${card.color} ${card.textColor} flex flex-col items-start relative overflow-hidden`}
             >
-              <div className="absolute right-[-50%] bottom-[-5%] w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 xl:w-[400px] xl:h-[400px] opacity-90">
+              <div className="absolute right-[-50%] bottom-[-5%] w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 xl:w-[400px] xl:h-[350px] opacity-90">
                 <Image
                   src={card.logo}
                   alt="Card Logo"

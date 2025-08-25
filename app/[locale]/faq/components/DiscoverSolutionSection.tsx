@@ -92,7 +92,7 @@ const DiscoverSolutionSection = () => {
               </button>
             </div>
           </div>
-          <div className="mt-6 md:mt-0 md:absolute md:right-[-20px] md:bottom-0 flex justify-center md:block">
+          <div className="mt-6 md:mt-0 md:absolute md:right-[-40px] md:bottom-0 flex justify-center md:block">
             <Image
               src="/images/History of CoCo Khmer 3/DailyLifeStyle@4x.png"
               alt="Daily Lifestyle"

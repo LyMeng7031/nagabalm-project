@@ -464,11 +464,11 @@ export default function LocationCategoriesDashboardPage() {
                       placeholder="Enter location category name in English"
                       required
                     />
-                    {getFieldError("en.name") && (
+                    {/* {getFieldError("en.name") && (
                       <p className="text-red-500 text-sm mt-1">
                         {getFieldError("en.name")}
                       </p>
-                    )}
+                    )} */}
                   </div>
 
                   {/* Khmer Name */}
@@ -492,11 +492,11 @@ export default function LocationCategoriesDashboardPage() {
                       placeholder="Enter location category name in Khmer"
                       required
                     />
-                    {getFieldError("km.name") && (
+                    {/* {getFieldError("km.name") && (
                       <p className="text-red-500 text-sm mt-1">
                         {getFieldError("km.name")}
                       </p>
-                    )}
+                    )} */}
                   </div>
 
                   {/* Auto-generated Slug Preview */}
