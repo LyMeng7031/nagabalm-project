@@ -50,9 +50,7 @@ const ContactFormSection = () => {
               <div className="font-bold text-2xl sm:text-xl mb-2">
                 {tForm("title")}
               </div>
-              <div className="text-sm font-semibold mb-4">
-                {tForm("subtitle")}
-              </div>
+              <div className="text-sm  mb-4">{tForm("subtitle")}</div>
               {/* <label className="text-sm font-medium mb-1 block">{tForm('fields.fullName')}</label> */}
               <input
                 id="contact-fullname"
@@ -119,14 +117,12 @@ const ContactFormSection = () => {
             <div className="font-bold text-2xl sm:text-xl mb-2">
               {tInfo("title")}
             </div>
-            <div className=" text-sm font-semibold mb-4">
-              {tInfo("subtitle")}
-            </div>
+            <div className=" text-sm mb-4">{tInfo("subtitle")}</div>
             <div className="mb-4">
               <div className="font-bold text-lg mb-1">
                 {tInfo("address.title")}
               </div>
-              <div className="text-sm font-bold leading-relaxed">
+              <div className="text-sm  leading-relaxed">
                 {tInfo("address.text")
                   .split("\\n")
                   .map((line, index) => (
@@ -145,7 +141,7 @@ const ContactFormSection = () => {
                 </div>
                 <a
                   href="Naga Balm@combines ancient khmer"
-                  className="text-sm text-black font-bold hover:text-[#d13a17]"
+                  className="text-sm text-black  hover:text-[#d13a17]"
                 >
                   info@thenagabalm.com
                 </a>
@@ -156,7 +152,7 @@ const ContactFormSection = () => {
                 </div>
                 <a
                   href="tel:+85512269359"
-                  className="text-sm text-black font-bold hover:text-[#d13a17]"
+                  className="text-sm text-black hover:text-[#d13a17]"
                 >
                   +855 12 269 359
                 </a>

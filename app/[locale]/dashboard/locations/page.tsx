@@ -504,11 +504,11 @@ export default function LocationsDashboardPage() {
                       placeholder="Enter location name in English"
                       required
                     />
-                    {getFieldError("en.name") && (
+                    {/* {getFieldError("en.name") && (
                       <p className="text-red-500 text-sm mt-1">
                         {getFieldError("en.name")}
                       </p>
-                    )}
+                    )} */}
                   </div>
 
                   {/* Khmer Name */}
@@ -532,11 +532,11 @@ export default function LocationsDashboardPage() {
                       placeholder="Enter location name in Khmer"
                       required
                     />
-                    {getFieldError("km.name") && (
+                    {/* {getFieldError("km.name") && (
                       <p className="text-red-500 text-sm mt-1">
                         {getFieldError("km.name")}
                       </p>
-                    )}
+                    )} */}
                   </div>
 
                   {/* Category */}
@@ -559,11 +559,11 @@ export default function LocationsDashboardPage() {
                         </option>
                       ))}
                     </select>
-                    {getFieldError("categoryId") && (
+                    {/* {getFieldError("categoryId") && (
                       <p className="text-red-500 text-sm mt-1">
                         {getFieldError("categoryId")}
                       </p>
-                    )}
+                    )} */}
                   </div>
 
                   {/* Logo Upload */}
@@ -595,11 +595,11 @@ export default function LocationsDashboardPage() {
                         </div>
                       )}
                     </div>
-                    {getFieldError("logo") && (
+                    {/* {getFieldError("logo") && (
                       <p className="text-red-500 text-sm mt-1">
                         {getFieldError("logo")}
                       </p>
-                    )}
+                    )} */}
                   </div>
 
                   {/* Auto-generated Slug Preview */}

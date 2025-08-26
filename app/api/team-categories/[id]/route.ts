@@ -6,11 +6,12 @@ const prisma = new PrismaClient();
 // GET /api/team-categories/[id] - Get single team category
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const teamCategory = await prisma.teamCategory.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         teamMembers: true,
       },
@@ -45,9 +46,10 @@ export async function GET(
 // PUT /api/team-categories/[id] - Update team category
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     const { translations } = body;
 
@@ -58,7 +60,7 @@ export async function PUT(
       .replace(/(^-|-$)/g, "");
 
     const teamCategory = await prisma.teamCategory.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         slug,
         translations,
@@ -84,12 +86,13 @@ export async function PUT(
 // DELETE /api/team-categories/[id] - Delete team category
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     // Check if team category has team members
     const teamMembersCount = await prisma.teamMember.count({
-      where: { categoryId: params.id },
+      where: { categoryId: id },
     });
 
     if (teamMembersCount > 0) {
@@ -103,7 +106,7 @@ export async function DELETE(
     }
 
     await prisma.teamCategory.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({
