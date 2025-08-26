@@ -24,7 +24,7 @@ const Dashboard = () => {
 
           <div className="bg-white rounded-lg shadow p-6">
             <h2 className="text-sm text-gray-500">New Orders</h2>
-            <p className="text-2xl font-bold text-orange-500">98</p>
+            <p className="text-2xl font-bold text-orange-500">99</p>
           </div>
         </div>
       </main>
