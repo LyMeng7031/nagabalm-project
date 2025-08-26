@@ -64,7 +64,7 @@ bg-cover bg-center bg-no-repeat
                   <div className="absolute bottom-2 right-5 z-10">
                     <Link href={`/${locale}/products`}>
                       <button
-                        className={`bg-[#FF4500] text-white font-bold py-3 px-8 rounded-full text-sm flex items-center gap-2 hover:bg-[#ff5722] transition-colors ${
+                        className={`bg-[#FF4500] text-white font-bold py-2 px-8 rounded-full text-sm flex items-center gap-2 hover:bg-[#ff5722] transition-colors ${
                           locale === "km" ? "font-hanuman" : ""
                         }`}
                       >
@@ -130,7 +130,7 @@ bg-cover bg-center bg-no-repeat
                   <div className="absolute bottom-2 right-5 z-10">
                     <Link href={`/${locale}/products`}>
                       <button
-                        className={`bg-[#FF4500] text-white font-bold py-3 px-8 rounded-full text-sm flex items-center gap-2 hover:bg-[#ff5722] transition-colors ${
+                        className={`bg-[#FF4500] text-white font-bold py-2  px-8  rounded-full text-sm flex items-center gap-2 hover:bg-[#ff5722] transition-colors ${
                           locale === "km" ? "font-hanuman" : ""
                         }`}
                       >
@@ -140,7 +140,7 @@ bg-cover bg-center bg-no-repeat
                             xmlns="http://www.w3.org/2000/svg"
                             width="20"
                             height="20"
-                            viewBox="0 0 24 24"
+                            viewBox="0 0 20 20"
                             fill="none"
                             stroke="currentColor"
                             strokeWidth="2"
