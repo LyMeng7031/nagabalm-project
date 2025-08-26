@@ -273,10 +273,6 @@ const Navbar = () => {
 
         {/* Footer */}
         <div className="mt-auto px-6 pb-6">
-          <div className="mb-4 mt-70">
-            <LanguageSwitcher isMobile className="text-sm font-semibold" />
-          </div>
-
           <div>
             <p className="text-xs text-gray-600 mb-2 font-semibold">
               FOLLOW US
@@ -328,16 +324,6 @@ const Navbar = () => {
                 </svg>
               </a>
             </div>
-          </div>
-
-          <div className="absolute bottom-0 right-0 w-40 opacity-20">
-            <Image
-              src="/images/Logo/Naga Balm__Brandmark_Fire.png"
-              alt="Decoration"
-              className="transform scale-200 mb-10 ml-19"
-              width={200}
-              height={200}
-            />
           </div>
         </div>
       </div>
