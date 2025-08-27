@@ -2,6 +2,29 @@
 
 import { getAccessToken } from "./auth";
 
+// Environment-based configuration
+const getApiBaseUrl = () => {
+  // In browser, use relative URL (handled by Next.js rewrites in development)
+  if (typeof window !== "undefined") return "";
+
+  // In production, use Vercel's environment variable or fallback
+  if (process.env.VERCEL_ENV === "production") {
+    return (
+      process.env.NEXT_PUBLIC_API_BASE_URL || "https://nagabalm.vercel.app"
+    );
+  }
+
+  // In preview/staging environments
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+
+  // Default to local development
+  return process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:3000";
+};
+
+const API_BASE_URL = getApiBaseUrl();
+
 export interface TranslationFields {
   name: string;
   description: string;
@@ -90,7 +113,11 @@ export interface ApiTeamMember {
 }
 
 async function request<T>(url: string, init?: RequestInit): Promise<T> {
-  const res = await fetch(url, {
+  // Prepend base URL if the URL is not absolute
+  const fullUrl = url.startsWith("http")
+    ? url
+    : `${API_BASE_URL}${url.startsWith("/") ? "" : "/"}${url}`;
+  const res = await fetch(fullUrl, {
     ...init,
     headers: {
       "Content-Type":
