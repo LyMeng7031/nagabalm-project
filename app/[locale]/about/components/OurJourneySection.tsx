@@ -5,9 +5,9 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 
 const OurJourneySection = () => {
-  const t = useTranslations('about.ourJourney');
+  const t = useTranslations("about.ourJourney");
   const carouselRef = useRef<HTMLDivElement>(null);
-  
+
   const journeySteps = [
     {
       year: "2013",
@@ -41,14 +41,19 @@ const OurJourneySection = () => {
 
   const scrollBy = (offset: number) => {
     if (carouselRef.current) {
-      carouselRef.current.scrollBy({ left: offset, behavior: 'smooth' });
+      carouselRef.current.scrollBy({ left: offset, behavior: "smooth" });
     }
   };
 
   return (
     <section className="w-full bg-[#FFE6B0] py-12 sm:py-16 md:py-20 flex flex-col items-center relative px-4 sm:px-6">
-      <h2 className="text-[#F9461C] text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2 text-center">{t('title')}</h2>
-      <p className="text-gray-700 text-base sm:text-lg mb-8 sm:mb-10 md:mb-12 text-center max-w-2xl">{t('subtitle')}</p>
+      <h2 className="text-[#F9461C] text-2xl sm:text-3xl md:text-4xl font-extrabold mb-2 text-center">
+        {t("title")}
+      </h2>
+      <p className="text-gray-700 text-base sm:text-lg mb-8 sm:mb-10 md:mb-12 text-center max-w-2xl">
+        {t("subtitle")}
+      </p>
+
       <div className="relative w-full max-w-7xl mx-auto">
         {/* Left Arrow */}
         <button
@@ -57,9 +62,16 @@ const OurJourneySection = () => {
           aria-label="Scroll left"
         >
           <svg width="32" height="32" fill="none" viewBox="0 0 24 24">
-            <path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path
+              d="M15 19l-7-7 7-7"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </button>
+
         {/* Right Arrow */}
         <button
           className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white text-[#F9461C] rounded-full shadow p-2 hidden md:block"
@@ -67,7 +79,13 @@ const OurJourneySection = () => {
           aria-label="Scroll right"
         >
           <svg width="32" height="32" fill="none" viewBox="0 0 24 24">
-            <path d="M9 5l7 7-7 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path
+              d="M9 5l7 7-7 7"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
           </svg>
         </button>
 
@@ -75,7 +93,7 @@ const OurJourneySection = () => {
           ref={carouselRef}
           className="flex flex-row overflow-x-auto gap-4 sm:gap-6 md:gap-8 w-full max-w-7xl justify-start items-stretch relative px-2 sm:px-4 scrollbar-hide pb-6 sm:pb-8 pt-12 sm:pt-14"
         >
-          {/* Timeline line - positioned behind the year badges */}
+          {/* Timeline line (behind) */}
           <div className="hidden md:block absolute left-0 right-0 top-[2.5rem] h-0.5 bg-gray-300 -z-10" />
 
           {journeySteps.map((step, idx) => (
@@ -85,11 +103,12 @@ const OurJourneySection = () => {
             >
               {/* Year badge */}
               <span className="absolute -top-12 sm:-top-14 left-1/2 -translate-x-1/2 bg-[#F9461C] text-white font-bold px-3 sm:px-4 md:px-6 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm z-10">
-                {step.year}
+                {t(`steps.${step.year}.displayYear`)}
               </span>
-              {/* Vertical connector from badge to timeline line */}
+
+              {/* Vertical connector */}
               <span className="absolute -top-6 left-1/2 -translate-x-1/2 w-[2px] h-6 bg-gray-300 z-0" />
-              
+
               {/* Image */}
               <div className="w-full h-28 sm:h-32 md:h-36 mb-3 sm:mb-4 rounded-xl overflow-hidden relative bg-gray-100">
                 <Image
@@ -107,7 +126,7 @@ const OurJourneySection = () => {
               </div>
 
               {/* Description */}
-              <div className="text-gray-700 text-xs sm:text-sm leading-tight">
+              <div className="text-gray-700 text-xs sm:text-sm leading-tight text-center">
                 {t(`steps.${step.year}.description`)}
               </div>
             </div>

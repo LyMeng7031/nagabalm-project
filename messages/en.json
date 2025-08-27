@@ -60,7 +60,7 @@
     "title": "WHY NAGA BALM",
     "p": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diamnonummy nibh euismod",
     "button": "Learn More",
-    "about": "ABOUT",
+    "about": "Learn More",
     "cards": {
       "petroleumFree": {
         "title": "PETROLEUM-FREE, SAFE, AND EFFECTIVE",
@@ -120,30 +120,37 @@
       "subtitle": "Coco Khmer, maker of Naga Balm, was founded in Phnom Penh as Cambodia's first commercial producer of virgin coconut oil. From the beginning, we’ve been a triple bottom line social enterprise with a clear mission: create ethical employment, protect the planet, and build a future through natural, coconut-based wellness.",
       "steps": {
         "2013": {
+          "displayYear": "2013",
           "title": "The Beginning",
           "description": "People deserved a choice—one that combined the wisdom of tradition with modern, cleaner ingredients. The first batch of cold-pressed virgin coconut oil was extracted."
         },
         "2014": {
+           "displayYear": "2014",
           "title": "The Birth of Naga Balm",
           "description": "Just six months after opening our doors, Naga Balm was born. Inspired by Cambodia's traditional herbal medicine and powered by virgin coconut oil, our first balm was handcrafted to relieve pain naturally—free from petroleum and full of purpose."
         },
         "2015": {
+           "displayYear": "2015",
           "title": "From Phnom Penh to the World",
           "description": "Thanks to word-of-mouth, travelers, and passionate supporters, Naga Balm journeyed far beyond Cambodia. By 2019, it had reached hands and hearts across Singapore, Canada, the United States, Australia, Europe, and Greater Asia—earning a loyal following through its clean ingredients and powerful results."
         },
         "2020": {
+           "displayYear": "2020",
           "title": "The Pandemic Pause",
           "description": "When COVID-19 hit, the global slowdown and Cambodia's lockdowns forced Coco Khmer into survival mode. Production halted. The team dispersed. For a time, it was the founder, a few faithful orders, and the enduring idea that this work still mattered."
         },
         "2023": {
+           "displayYear": "2023",
           "title": "The Rebirth",
           "description": "Out of crisis came clarity. In early 2023, Naga Balm was reborn—refreshed in brand, reimagined in design, and re-anchored in quality. We relocated to a cosmetics-grade production facility fully aligned with GMP and ISO standards. A new era had begun."
         },
         "2024": {
+           "displayYear": "2024",
           "title": "Growing Strong",
           "description": "Naga Balm now thrives across 250+ retail locations in Cambodia and boasts a growing portfolio of 19 SKUs (11 unique products) in topical wellness. What began as a single balm has grown into a full natural care line—from mosquito repellent and inhaler sticks to muscle rubs and modern liniments."
         },
         "BEYOND": {
+          "displayYear": "BEYOND",
           "title": "A Global Vision",
           "description": "In a world dominated by petroleum-based pain relief, Naga Balm offers something better: a safe, effective, and petroleum-free choice. Our vision is global—but our roots remain proudly Cambodian. Wherever pain travels, Naga Balm is there."
         },
@@ -454,7 +461,7 @@
       "everydayRelief": {
         "title": "FOR EVERYDAY RELIEF",
         "subtitle": "Soothe tension. Ease the day. Feel good again.",
-        "description": "From desk strain to daily discomfort, choose relief made for life's routines.",
+        "description": "From desk strain to daily discomfort, choose relief\n ..made for life's routines.",
         "button": "VIEW PRODUCTS"
       }
     }
