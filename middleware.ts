@@ -1,7 +1,7 @@
 import createIntlMiddleware from "next-intl/middleware";
 import { NextRequest, NextResponse } from "next/server";
 import { locales } from "./i18n";
-import jwt from "jsonwebtoken";
+import { jwtVerify } from "jose";
 
 const protectedApiRoutes = [
   "/api/products",
@@ -38,7 +38,10 @@ export default async function middleware(req: NextRequest) {
       }
 
       try {
-        jwt.verify(token, process.env.JWT_SECRET as string);
+        const secret = new TextEncoder().encode(
+          process.env.JWT_SECRET as string
+        );
+        await jwtVerify(token, secret);
       } catch (error) {
         return NextResponse.json(
           { success: false, error: "Invalid or expired token" },
