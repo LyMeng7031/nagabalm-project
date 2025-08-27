@@ -464,12 +464,12 @@ export default function CategoriesDashboardPage() {
                         }
                         className={`w-full border-2 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base ${
                           getFieldError("en.name")
-                            ? "border-red-500"
+                            ? "border-black-500"
                             : "border-gray-200"
                         }`}
                       />
                       {getFieldError("en.name") && (
-                        <p className="text-xs text-red-500 mt-1">
+                        <p className="text-xs text-black-500 mt-1">
                           {getFieldError("en.name")}
                         </p>
                       )}
@@ -505,12 +505,12 @@ export default function CategoriesDashboardPage() {
                         }
                         className={`w-full border-2 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base ${
                           getFieldError("km.name")
-                            ? "border-red-500"
+                            ? "border-black-500"
                             : "border-gray-200"
                         }`}
                       />
                       {getFieldError("km.name") && (
-                        <p className="text-xs text-red-500 mt-1">
+                        <p className="text-xs text-black-500 mt-1">
                           {getFieldError("km.name")}
                         </p>
                       )}

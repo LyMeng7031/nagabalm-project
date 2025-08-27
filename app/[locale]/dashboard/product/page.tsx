@@ -510,12 +510,12 @@ export default function ProductDashboardPage() {
                             }
                             className={`w-full border-2 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base ${
                               getFieldError("en.name")
-                                ? "border-red-500"
+                                ? "border-black-500"
                                 : "border-gray-200"
                             }`}
                           />
                           {getFieldError("en.name") && (
-                            <p className="text-xs text-red-500 mt-1">
+                            <p className="text-xs text-back-500 mt-1">
                               {getFieldError("en.name")}
                             </p>
                           )}
@@ -551,12 +551,12 @@ export default function ProductDashboardPage() {
                             }
                             className={`w-full border-2 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base ${
                               getFieldError("km.name")
-                                ? "border-red-500"
+                                ? "border-black-500"
                                 : "border-gray-200"
                             }`}
                           />
                           {getFieldError("km.name") && (
-                            <p className="text-xs text-red-500 mt-1">
+                            <p className="text-xs text-black-500 mt-1">
                               {getFieldError("km.name")}
                             </p>
                           )}
@@ -640,7 +640,7 @@ export default function ProductDashboardPage() {
                             }
                             className={`w-full border-2 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none text-sm sm:text-base ${
                               getFieldError("categoryId")
-                                ? "border-red-500"
+                                ? "border-black-500"
                                 : "border-gray-200"
                             }`}
                           >
@@ -652,7 +652,7 @@ export default function ProductDashboardPage() {
                             ))}
                           </select>
                           {getFieldError("categoryId") && (
-                            <p className="text-xs text-red-500 mt-1">
+                            <p className="text-xs text-vlack-500 mt-1">
                               {getFieldError("categoryId")}
                             </p>
                           )}
@@ -818,12 +818,12 @@ export default function ProductDashboardPage() {
                             rows={5}
                             className={`w-full border-2 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none resize-none text-sm sm:text-base ${
                               getFieldError("en.description")
-                                ? "border-red-500"
+                                ? "border-black-500"
                                 : "border-gray-200"
                             }`}
                           />
                           {getFieldError("en.description") && (
-                            <p className="text-xs text-red-500 mt-1">
+                            <p className="text-xs text-black-500 mt-1">
                               {getFieldError("en.description")}
                             </p>
                           )}
@@ -860,12 +860,12 @@ export default function ProductDashboardPage() {
                             rows={5}
                             className={`w-full border-2 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none resize-none text-sm sm:text-base ${
                               getFieldError("km.description")
-                                ? "border-red-500"
+                                ? "border-black-500"
                                 : "border-gray-200"
                             }`}
                           />
                           {getFieldError("km.description") && (
-                            <p className="text-xs text-red-500 mt-1">
+                            <p className="text-xs text-black-500 mt-1">
                               {getFieldError("km.description")}
                             </p>
                           )}
@@ -935,74 +935,6 @@ export default function ProductDashboardPage() {
                             រាយបញ្ជីសមាសធាតុសំខាន់ៗដែលធ្វើឱ្យផលិតផលនេះមានប្រសិទ្ធភាព
                           </p>
                         </div>
-
-                        {/* <div>
-                          <label
-                            htmlFor="usage-km"
-                            className="block text-sm font-medium text-gray-700 mb-2"
-                          >
-                            How to Use (Khmer)
-                          </label>
-                          <textarea
-                            id="usage-km"
-                            placeholder="ជំហានទី១: សម្អាតកន្លែងដែលមានបញ្ហា&#10;ជំហានទី២: លាបបរិមាណតិចតួច&#10;ជំហានទី៣: ម៉ាសាហទន់ៗ..."
-                            value={form.translations.km.usage.join("\n")}
-                            onChange={(e) =>
-                              setForm({
-                                ...form,
-                                translations: {
-                                  ...form.translations,
-                                  km: {
-                                    ...form.translations.km,
-                                    usage: e.target.value
-                                      .split("\n")
-                                      .filter(Boolean),
-                                  },
-                                },
-                              })
-                            }
-                            rows={5}
-                            className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none resize-none text-sm sm:text-base"
-                          />
-                          <p className="text-xs text-gray-500 mt-1">
-                            សរសេរការណែនាំការប្រើប្រាស់នីមួយៗនៅលើបន្ទាត់ថ្មី។ ចុច
-                            Enter ដើម្បីចាប់ផ្តើមបន្ទាត់ថ្មី។
-                          </p>
-                        </div>
-
-                        <div>
-                          <label
-                            htmlFor="usage-en"
-                            className="block text-sm font-medium text-gray-700 mb-2"
-                          >
-                            How to Use (English)
-                          </label>
-                          <textarea
-                            id="usage-en"
-                            placeholder="Step 1: Clean the affected area&#10;Step 2: Apply a small amount&#10;Step 3: Massage gently..."
-                            value={form.translations.en.usage.join("\n")}
-                            onChange={(e) =>
-                              setForm({
-                                ...form,
-                                translations: {
-                                  ...form.translations,
-                                  en: {
-                                    ...form.translations.en,
-                                    usage: e.target.value
-                                      .split("\n")
-                                      .filter(Boolean),
-                                  },
-                                },
-                              })
-                            }
-                            rows={5}
-                            className="w-full border-2 border-gray-200 rounded-lg px-3 sm:px-4 py-2 sm:py-3 focus:border-orange-500 focus:outline-none resize-none text-sm sm:text-base"
-                          />
-                          <p className="text-xs text-gray-500 mt-1">
-                            Write each usage instruction on a new line. Press
-                            Enter to start a new line.
-                          </p>
-                        </div> */}
 
                         <div>
                           <label

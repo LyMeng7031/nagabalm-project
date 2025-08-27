@@ -70,7 +70,7 @@ const TeamsSection = () => {
           img: member.image,
         })),
       };
-    }); // Show all categories, even empty ones
+    });
   }, [teamMembers, teamCategories, locale]);
 
   // Show loading state
@@ -103,91 +103,91 @@ const TeamsSection = () => {
     );
   }
 
- return (
-  <section className="w-full flex flex-col items-center py-12 sm:py-16 bg-white">
-    <h2 className="text-[#F9461C] text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-2 text-center px-4">
-      {t("title")}
-    </h2>
-    <p className="text-gray-700 text-base sm:text-lg mb-6 sm:mb-8 text-center max-w-2xl px-4">
-      {t("subtitle")}
-    </p>
+  return (
+    <section className="w-full flex flex-col items-center py-12 sm:py-16 bg-white">
+      <h2 className="text-[#F9461C] text-2xl sm:text-3xl lg:text-4xl font-extrabold mb-2 text-center px-4">
+        {t("title")}
+      </h2>
+      <p className="text-gray-700 text-base sm:text-lg mb-6 sm:mb-8 text-center max-w-2xl px-4">
+        {t("subtitle")}
+      </p>
 
-    {/* Tabs */}
-    <div className="flex flex-row flex-wrap justify-center gap-3 sm:gap-4 mb-6 sm:mb-8 px-4">
-      {teamGroups.map((group, idx) => (
-        <button
-          key={group.label}
-          className={`px-4 sm:px-6 py-2 rounded-full font-bold border-2 text-sm sm:text-base transition-colors duration-200 text-center ${
-            activeTab === idx
-              ? "bg-[#F9461C] text-white border-[#F9461C]"
-              : "bg-white text-[#F9461C] border-[#F9461C]"
-          }`}
-          onClick={() => setActiveTab(idx)}
-        >
-          {group.label}
-        </button>
-      ))}
-    </div>
+      {/* Tabs */}
+      <div className="flex flex-row flex-wrap justify-center gap-3 sm:gap-4 mb-6 sm:mb-8 px-4">
+        {teamGroups.map((group, idx) => (
+          <button
+            key={group.label}
+            className={`px-4 sm:px-6 py-2 rounded-full font-bold border-2 text-sm sm:text-base transition-colors duration-200 text-center ${
+              activeTab === idx
+                ? "bg-[#F9461C] text-white border-[#F9461C]"
+                : "bg-white text-[#F9461C] border-[#F9461C]"
+            }`}
+            onClick={() => setActiveTab(idx)}
+          >
+            {group.label}
+          </button>
+        ))}
+      </div>
 
-    {/* Grid */}
-    <div className="w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-      {teamGroups[activeTab]?.members.length === 0 ? (
-        <div className="text-center py-12">
-          <div className="text-gray-400 mb-4">
-            <svg
-              className="w-16 h-16 mx-auto"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1}
-                d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 0 014 0zM7 10a2 2 0 11-4 0 2 0 014 0z"
-              />
-            </svg>
+      {/* Grid */}
+      <div className="w-full max-w-6xl px-4 sm:px-6 lg:px-8">
+        {teamGroups[activeTab]?.members.length === 0 ? (
+          <div className="text-center py-12">
+            <div className="text-gray-400 mb-4">
+              <svg
+                className="w-16 h-16 mx-auto"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1}
+                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 0 014 0zM7 10a2 2 0 11-4 0 2 0 014 0z"
+                />
+              </svg>
+            </div>
+            <p className="text-gray-500 text-lg">
+              No team members in this category yet.
+            </p>
+            <p className="text-gray-400 text-sm mt-2">
+              Team members will appear here once they are added to this
+              category.
+            </p>
           </div>
-          <p className="text-gray-500 text-lg">
-            No team members in this category yet.
-          </p>
-          <p className="text-gray-400 text-sm mt-2">
-            Team members will appear here once they are added to this category.
-          </p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-3">
-  {teamGroups[activeTab]?.members.map((member, idx) => (
-    <div key={idx} className="flex flex-col items-center">
-      <div className="rounded-xl overflow-hidden mb-3 mx-auto shadow-md relative 
-        w-36 h-36   /* bigger on mobile */
-        sm:w-44 sm:h-55
-        md:w-44 md:h-44
-        lg:w-[180px] lg:h-[240px]">
-        <Image
-          src={member.img}
-          alt={member.name}
-          fill
-          className="object-cover object-center"
-          sizes="(max-width: 600px) 140px, (max-width: 768px) 160px, (max-width: 1024px) 176px, 180px"
-          loading="lazy"
-        />
-      </div>
-      <div className="text-[#F9461C] font-bold text-sm sm:text-base text-center">
-        {member.name}
-      </div>
-      <div className="text-gray-700 text-xs sm:text-sm text-center">
-        {member.role}
-      </div>
-    </div>
-  ))}
-</div>
+        ) : (
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+            {teamGroups[activeTab]?.members.map((member, idx) => (
+              <div key={idx} className="flex flex-col items-center">
+                {/* Image wrapper */}
+                <div className="relative w-full max-w-[160px] sm:max-w-[180px] lg:max-w-[200px] aspect-[3/4] rounded-xl overflow-hidden mb-3 shadow-md">
+                  <Image
+                    src={member.img}
+                    alt={member.name}
+                    fill
+                    className="object-cover object-center"
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 200px"
+                    loading="lazy"
+                  />
+                </div>
 
-      )}
-    </div>
-  </section>
-);
+                {/* Name */}
+                <div className="text-[#F9461C] font-bold text-sm sm:text-base text-center">
+                  {member.name}
+                </div>
 
+                {/* Role */}
+                <div className="text-gray-700 text-xs sm:text-sm text-center">
+                  {member.role}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
 };
 
 export default TeamsSection;

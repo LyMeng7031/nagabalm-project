@@ -465,7 +465,7 @@ export default function LocationCategoriesDashboardPage() {
                       required
                     />
                     {getFieldError("en.name") && (
-                      <p className="text-red-500 text-sm mt-1">
+                      <p className="text-black-500 text-sm mt-1">
                         {getFieldError("en.name")}
                       </p>
                     )}
@@ -493,7 +493,7 @@ export default function LocationCategoriesDashboardPage() {
                       required
                     />
                     {getFieldError("km.name") && (
-                      <p className="text-red-500 text-sm mt-1">
+                      <p className="text-black-500 text-sm mt-1">
                         {getFieldError("km.name")}
                       </p>
                     )}

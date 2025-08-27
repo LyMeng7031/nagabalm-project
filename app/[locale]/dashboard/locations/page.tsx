@@ -505,7 +505,7 @@ export default function LocationsDashboardPage() {
                       required
                     />
                     {getFieldError("en.name") && (
-                      <p className="text-red-500 text-sm mt-1">
+                      <p className="text-black-500 text-sm mt-1">
                         {getFieldError("en.name")}
                       </p>
                     )}
@@ -533,7 +533,7 @@ export default function LocationsDashboardPage() {
                       required
                     />
                     {getFieldError("km.name") && (
-                      <p className="text-red-500 text-sm mt-1">
+                      <p className="text-black-500 text-sm mt-1">
                         {getFieldError("km.name")}
                       </p>
                     )}
@@ -560,7 +560,7 @@ export default function LocationsDashboardPage() {
                       ))}
                     </select>
                     {getFieldError("categoryId") && (
-                      <p className="text-red-500 text-sm mt-1">
+                      <p className="text-black-500 text-sm mt-1">
                         {getFieldError("categoryId")}
                       </p>
                     )}
@@ -596,7 +596,7 @@ export default function LocationsDashboardPage() {
                       )}
                     </div>
                     {getFieldError("logo") && (
-                      <p className="text-red-500 text-sm mt-1">
+                      <p className="text-black-500 text-sm mt-1">
                         {getFieldError("logo")}
                       </p>
                     )}

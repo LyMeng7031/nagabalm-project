@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const router = useRouter();
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    router.push('/login');
+    localStorage.removeItem("token");
+    router.push("/login");
   };
 
   return (
@@ -38,9 +38,11 @@ const Navbar = () => {
               </svg>
             </button>
             <a href="/dashboard" className="flex ml-2 md:mr-24">
-              <span className="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap text-orange-500">
-                Dashboard
-              </span>
+              <img
+                src="/images/Logo/Logo-Landscape-Compact@4x.png"
+                className="h-8 mr-3"
+                alt="NagaBalm Logo"
+              />
             </a>
           </div>
           <div className="flex items-center">
@@ -52,11 +54,6 @@ const Navbar = () => {
                   aria-expanded="false"
                 >
                   <span className="sr-only">Open user menu</span>
-                  <img
-                    className="w-8 h-8 rounded-full"
-                    src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-                    alt="user photo"
-                  />
                 </button>
               </div>
               <div className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow">
