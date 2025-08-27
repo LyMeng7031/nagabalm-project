@@ -48,14 +48,14 @@ bg-cover bg-center bg-no-repeat
                   </h3>
 
                   <p
-                    className={`text-base mb-4 opacity-90 mf-5 sm:text-md ${
+                    className={`text-base mb-4 opacity-90 mf-5 sm:text-xl ${
                       locale === "km" ? "font-hanuman" : ""
                     }`}
                   >
                     {t("activeLifestyles.subtitle")}
                   </p>
                    <p
-                    className={`text-base mb-4 opacity-90 mf-5 sm:text-sm ${
+                    className={`text-base mb-4 opacity-90 mf-5 sm:text-md${
                       locale === "km" ? "font-hanuman" : ""
                     }`}
                   >
@@ -114,14 +114,14 @@ bg-cover bg-center bg-no-repeat
                   </h3>
 
                   <p
-                    className={`text-base mb-4 opacity-90  sm:text-md${
+                    className={`text-base mb-4 opacity-90  sm:text-xl${
                       locale === "km" ? "font-hanuman" : ""
                     }`}
                   >
                     {t("everydayRelief.subtitle")}
                   </p>
                   <p
-                    className={`text-base mb-4 opacity-90 sm:text-sm ${
+                    className={`text-base mb-4 opacity-90 sm:text-md ${
                       locale === "km" ? "font-hanuman" : ""
                     }`}
                   >

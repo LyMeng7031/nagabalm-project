@@ -40,14 +40,14 @@ const AboutHeroSection = () => {
         {/* Left side content */}
         <div className="flex-1 flex flex-col justify-center items-center lg:items-start lg:pr-8 xl:pr-12 text-center lg:text-left order-2 lg:order-1 mt-6 lg:mt-0">
           <div className="w-full max-w-2xl">
-            <h1 className="text-[#F9461C] text-[40px] sm:text-[38px] md:text-[50px] lg:text-[56px] xl:text-[62px] font-extrabold mb-4 sm:mb-6 md:mb-8 leading-tight whitespace-pre-line">
+            <h1 className="text-[#F9461C] text-[40px] sm:text-[38px] md:text-[50px] lg:text-[56px] xl:text-[62px] font-extrabold mb-4 sm:mb-6 md:mb-8 leading-tight whitespace-pre-line mt-4">
               {t('title')}
             </h1>
             <p className="text-gray-700 text-[18px] sm:text-[20px] mb-6 sm:mb-8 md:mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0">
               {t('description')}
             </p>
             <Link href="#our-story">
-              <button className="flex items-center justify-center gap-2 bg-[#F9461C] hover:bg-[#d13a17] text-white font-semibold py-3 px-6 sm:py-4 sm:px-10 rounded-full text-sm sm:text-base md:text-lg transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105">
+              <button className="flex items-center justify-center gap-2 bg-[#F9461C] hover:bg-[#d13a17] text-white font-semibold py-3 px-6 sm:py-4 sm:px-10 rounded-full text-sm sm:text-base md:text-lg transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105 ">
                 {t("continueToStory")}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
