@@ -1,10 +1,10 @@
-import axios from 'axios';
-import { getValidToken } from './auth';
+import axios from "axios";
+import { getValidToken } from "./auth";
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000/api',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "/api",
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
   withCredentials: true,
 });
@@ -13,15 +13,15 @@ const api = axios.create({
 api.interceptors.request.use(
   async (config) => {
     // Skip token check for auth-related endpoints
-    if (config.url?.includes('/auth/')) {
+    if (config.url?.includes("/auth/")) {
       return config;
     }
-    
+
     const token = await getValidToken();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-    
+
     return config;
   },
   (error) => {
@@ -35,7 +35,7 @@ api.interceptors.response.use(
   async (error) => {
     // If the error is 401, clear tokens and redirect will be handled by AuthWrapper
     if (error.response?.status === 401) {
-      console.error('Unauthorized - redirecting to login');
+      console.error("Unauthorized - redirecting to login");
     }
     return Promise.reject(error);
   }
