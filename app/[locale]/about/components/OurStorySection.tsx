@@ -13,14 +13,14 @@ const OurStorySection = () => {
       className="
         relative w-full bg-[#D6F2F2]
         flex flex-col md:flex-row
-        items-center justify-between
+        items-center justify-center md:justify-between
         py-10 sm:py-14 md:py-20 lg:py-24
         px-4 sm:px-6 md:px-8 lg:px-16
         gap-6 sm:gap-8 md:gap-12
         overflow-hidden
       "
     >
-      {/* Background Image */}
+      {/* Background Image (only desktop & up) */}
       <div className="absolute inset-0 z-0 hidden md:block">
         <Image
           src="/images/about-grid/Mainposter.png"
@@ -29,18 +29,6 @@ const OurStorySection = () => {
           className="object-cover"
           priority
         />
-      </div>
-
-      {/* Mobile / Tablet Background Image */}
-      <div className="absolute inset-0 z-0 block md:hidden">
-        <Image
-          src="/images/about-grid/Mainposter.png"
-          alt="Our Story Mobile Background"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-black/10" /> {/* subtle overlay for text contrast */}
       </div>
 
       {/* Content */}
